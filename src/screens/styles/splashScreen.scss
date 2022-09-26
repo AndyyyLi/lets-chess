@@ -1,0 +1,17 @@
+#splashScreen {
+    background-color: #c0bcb8;
+
+    .contents h1 {
+        font-family: "Bungee", sans-serif;
+        font-size: 50pt;
+        line-height: 1;
+    }
+
+    .controls #tutorialButton {
+        width: 50px;
+        height: 50px;
+
+        position: absolute;
+        left: 5%;
+    }
+}

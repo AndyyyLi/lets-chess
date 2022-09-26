@@ -1,0 +1,96 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!-- Use Runtime.adjustViewport() to adjust viewport width and height -->
+
+        <title>Let's Chess!</title>
+
+        <!-- Font pre-loading -->
+        <!-- <link rel="preload" href="./fonts/Ubuntu-Regular.ttf" as="font" type="font/ttf" crossorigin>
+        <link rel="preload" href="./fonts/Ubuntu-Bold.ttf" as="font" type="font/ttf" crossorigin>
+        <link rel="preload" href="./fonts/Bungee-Regular.ttf" as="font" type="font/ttf" crossorigin> -->
+    </head>
+
+    <body>
+        <div class="screens">
+
+            <div id="loading" class="screen">
+                <!-- Covers up the screen while things load in underneath -->
+                <!-- This is very important as heavy assets, like videos, should not be pre-cached -->
+                <!-- Only one screen will be shown at any given time -->
+            </div>
+
+            <div id="splashScreen" class="screen hidden">
+
+                <div class="contents">
+                    <h1 class="title popIn hidden">Let's <b>Chess</b></h1>
+                </div>
+
+                <div id="board1" style="width: 400px"></div>
+                <!-- <g-chess-board interactive fen="r6k/pp2r2p/4Rp1Q/3p4/8/1N1P2R1/PqP2bPP/7K b - - 0 24"></g-chess-board> -->
+
+                <div class="controls">
+                    <!-- <img id="tutorialButton" class="hidden" src="./images/icon_help.png"> -->
+                    <button>Tap to continue</button>
+                </div>
+            </div>
+            <div id="menuScreen" class="screen hidden">
+                <h3>Menu Screen</h3>
+
+                <!-- Tutorial text to describe the module starter to a developer (modules aren't this wordy!) -->
+                <div class="contents">
+                    <h4>What can creators do?</h4>
+                    <p>In this module starter, creators can write a message which is shown to their audience, and record a video of their camera.</p>
+                    <p>You'll see these output as assets in the SDK, with the name <b>fullScreenRecording</b> for the video, and <b>replay</b> for the data with the message.</p>
+                    <hr>
+                    <h4>What can audiences do?</h4>
+                    <p>Audiences can then see the message written by the creator, and record a video of their own to send back to the creator.</p>
+                    <p>You'll need to set the creator's output asset <b>replay</b> as an audience input asset with the same name.</p>
+                </div>
+
+                <div class="controls">
+                    <button>Next</button>
+                </div>
+            </div>
+            <div id="gameplayScreen" class="screen hidden">
+                <h3>Experience Screen</h3>
+
+                <div class="contents">
+                    <div class="creator">
+                        <p>Write a message to your community</p>
+                        <input type="text" id="message" placeholder="Enter a message">
+                        <div id="playPuzzle">
+                            
+                        </div>
+                    </div>
+                    <div class="audience">
+                        <p>Here's a message from <b id="creatorName"></b></p>
+                        <h2 class="message"></h2>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button>Play</button>
+                </div>
+            </div>
+            <div id="recordingScreen" class="screen hidden">
+                <h3 class="interface">Recording Screen</h3>
+                <div class="backButton interface"></div>
+
+                <div class="contents lower interface">
+                    <p><b>Tap the record button to start screen recording</b></p>
+                </div>
+            </div>
+            <div id="reviewScreen" class="screen hidden">
+                <h3>Review Screen</h3>
+                <div class="contents upper">
+                    <p>Here the player can watch back their recorded video, and then re-take it or post it to the creator.</p>
+                </div>
+                <div class="controls">
+                    <button id="review_retry">Retry</button>
+                    <button id="review_done">Done</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

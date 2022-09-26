@@ -1,0 +1,157 @@
+body {
+    margin: 0;
+
+    font-family: "Ubuntu", sans-serif;
+    color: #1F2933;
+
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+@font-face {
+    font-family: "Bungee";
+    src: url("./fonts/Bungee-Regular.ttf") format("truetype");
+    -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+    font-family: "Ubuntu";
+    src: url("./fonts/Ubuntu-Regular.ttf") format("truetype");
+    -webkit-font-smoothing: antialiased;
+}
+@font-face {
+    font-family: "Ubuntu";
+    src: url("./fonts/Ubuntu-Bold.ttf") format("truetype");
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+}
+
+// Utility class to hide a screen
+.hidden {
+    display: none;
+}
+
+// Container for screens
+.screens {
+    // Fixed positioning so screens can be placed absolute
+    position: fixed;
+
+    // Full-screen
+    width: 100%;
+    height: 100%;
+
+    // Class for module screens
+    .screen {
+        // Sticks to the edges of the screens container
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+
+        // O3H safe area padding
+        box-sizing: border-box;
+        padding: var(--o3h-safe-area-inset-top) var(--o3h-safe-area-inset-right) var(--o3h-safe-area-inset-bottom) var(--o3h-safe-area-inset-left);
+                    
+        text-align: center;
+
+        h3 {
+            width: 100%;
+            margin-top: 15%;
+        }
+    }
+}
+
+// Container for button controls
+.controls {
+    position: absolute;
+    left: 0;
+    bottom: 10%;
+    width: 100%;
+}
+
+// Center page contents in middle of the page
+.contents {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+
+    &.upper {
+        top: 20%;
+    }
+    &.lower {
+        top: 90%;
+    }
+}
+
+// Emulate Oooh platform buttons
+button {
+    display: inline-block;
+    z-index: 1000;
+    width: fit-content;
+    height: auto;
+    min-width: 120px;
+    min-height: 50px;
+    font-family: 'Ubuntu';
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px 20px;
+    color: #1F2933;
+    background: #FEFF00;
+    border-radius: 12px;
+    border: none;
+    margin: 0 10px;
+}
+
+// Loading screen styling
+.screen#loading {
+    background-color: #1F2933;
+    z-index: 5000;
+}
+
+// Add the interface class to any elements to hide in recording
+.screen.recording .interface {
+    display: none;
+}
+
+// Positions a back button to match Oooh's native UI
+.screen .backButton {
+    background-image: url("./images/icon_backArrow.png");
+    background-size: cover;
+
+    width: 7vw;
+    height: 7vw;
+
+    position: fixed;
+    top: calc(var(--o3h-safe-area-inset-top) + 6vw);
+    left: 5vw;
+}
+
+// Pulsing animation
+@keyframes pulsing {
+    0%   {transform: scale(0.9)}
+    50%  {transform: scale(1)}
+    100%  {transform: scale(0.9)}
+}
+.pulsing {
+    animation-name: pulsing;
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+// Pop-in animation
+@keyframes popIn {
+    0%   {transform: scale(0)}
+    50%  {transform: scale(1.4)}
+    80%  {transform: scale(0.9)}
+    100%  {transform: scale(1)}
+}
+.popIn {
+    animation-name: popIn;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}

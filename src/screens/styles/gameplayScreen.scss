@@ -1,0 +1,33 @@
+#gameplayScreen {
+    background-color: #DA1CB9;
+    color: #F5F7FA;
+
+    input#message {
+        font-family: "Ubuntu", sans-serif;
+        border: none;
+
+        width: 90%;
+        min-height: 20px;
+        background-color: #F530D3;
+
+        font-size: 20px;
+        text-align: center;
+        text-overflow: ellipsis;
+        color: #F5F7FA;
+        border-radius: 30px;
+        padding: 15px 50px 15px 50px;
+
+        &::placeholder {
+            color: #C819AA;
+        }
+        
+        &:focus {
+            outline: none !important;
+            &::placeholder {
+                color: #F530D3; /* Hide placeholder text when editing */
+            }
+        }
+    }
+
+
+}

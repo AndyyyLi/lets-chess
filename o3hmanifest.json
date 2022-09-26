@@ -1,0 +1,39 @@
+{
+    "title": "Module Starter",
+    "hasLevels": true,
+    "hasLeaderboard": false,
+    "permissions": {
+        "creator": {
+            "required": [
+                "usesCameraComponent",
+                "usesFullScreenRecording"
+            ],
+            "optional": []
+        },
+        "audience": {
+            "required": [
+                "usesCameraComponent",
+                "usesFullScreenRecording"
+            ],
+            "optional": []
+        }
+    },
+    "creatorInputs": {},
+    "creatorOutputs": {
+        "replay": "ReplayData",
+        "fullScreenRecording": "VideoAsset"
+    },
+    "creatorFeedVideo": "fullScreenRecording",
+    "creatorReplayData": "replay",
+    "audienceInputs": {
+        "replay": "ReplayData"
+    },
+    "audienceOutputs": {
+        "fullScreenRecording": "VideoAsset"
+    },
+    "creatorAudienceMappings": {
+        "replay": "replay"
+    },
+    "audienceFeedVideo": "fullScreenRecording",
+    "usesGlobalSettings": true
+}
