@@ -16,7 +16,7 @@ export const SOUNDS = {
 
 export const VIDEO_LENGTH = 30;
 
-export const getCreatorCameraLayout = () => ({
+export const getContentCameraLayout = () => ({
     childrenFlexDirection: o3h.Layout.Direction.Vertical,
     children: [
         {

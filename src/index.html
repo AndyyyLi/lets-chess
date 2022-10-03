@@ -1,96 +1,190 @@
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <!-- Use Runtime.adjustViewport() to adjust viewport width and height -->
 
-        <title>Let's Chess!</title>
+<head>
+    <meta charset="UTF-8">
+    <!-- Use Runtime.adjustViewport() to adjust viewport width and height -->
 
-        <!-- Font pre-loading -->
-        <!-- <link rel="preload" href="./fonts/Ubuntu-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <title>Let's Chess!</title>
+
+    <!-- Font pre-loading -->
+    <!-- <link rel="preload" href="./fonts/Ubuntu-Regular.ttf" as="font" type="font/ttf" crossorigin>
         <link rel="preload" href="./fonts/Ubuntu-Bold.ttf" as="font" type="font/ttf" crossorigin>
         <link rel="preload" href="./fonts/Bungee-Regular.ttf" as="font" type="font/ttf" crossorigin> -->
-    </head>
+</head>
 
-    <body>
-        <div class="screens">
+<body>
+    <div class="screens">
 
-            <div id="loading" class="screen">
-                <!-- Covers up the screen while things load in underneath -->
-                <!-- This is very important as heavy assets, like videos, should not be pre-cached -->
-                <!-- Only one screen will be shown at any given time -->
+        <div id="loading" class="screen hidden">
+            <!-- Covers up the screen while things load in underneath -->
+            <!-- This is very important as heavy assets, like videos, should not be pre-cached -->
+            <!-- Only one screen will be shown at any given time -->
+        </div>
+
+        <!-- Splash Screen -->
+        <div id="splashScreen" class="screen hidden">
+
+            <div class="contents">
+                <h1 class="title popIn hidden">Let's <b>Chess</b></h1>
             </div>
 
-            <div id="splashScreen" class="screen hidden">
+            <div class="controls">
+                <!-- <img id="tutorialButton" class="hidden" src="./images/icon_help.png"> -->
+                <button>Tap to continue</button>
+            </div>
+        </div>
 
-                <div class="contents">
-                    <h1 class="title popIn hidden">Let's <b>Chess</b></h1>
+        <!-- Menu Screen -->
+        <div id="menuScreen" class="screen hidden">
+            <h3>Let's Chess</h3>
+
+            <!-- Tutorial text to describe the module starter to a developer (modules aren't this wordy!) -->
+            <div class="contents">
+                <div class="options">
+                    <p>Choose a puzzle for your community to solve. No attempts counting. No pressure.</p>
+                    <button>Choose</button>
                 </div>
-
-                <div id="board1" style="width: 400px"></div>
-                <!-- <g-chess-board interactive fen="r6k/pp2r2p/4Rp1Q/3p4/8/1N1P2R1/PqP2bPP/7K b - - 0 24"></g-chess-board> -->
-
-                <div class="controls">
-                    <!-- <img id="tutorialButton" class="hidden" src="./images/icon_help.png"> -->
-                    <button>Tap to continue</button>
+                
+                <div class="options">
+                    <p>Compete against your community to solve a puzzle in as few attempts as possible.</p>
+                    <button>Compete</button>
                 </div>
             </div>
-            <div id="menuScreen" class="screen hidden">
-                <h3>Menu Screen</h3>
 
-                <!-- Tutorial text to describe the module starter to a developer (modules aren't this wordy!) -->
-                <div class="contents">
-                    <h4>What can creators do?</h4>
-                    <p>In this module starter, creators can write a message which is shown to their audience, and record a video of their camera.</p>
-                    <p>You'll see these output as assets in the SDK, with the name <b>fullScreenRecording</b> for the video, and <b>replay</b> for the data with the message.</p>
-                    <hr>
-                    <h4>What can audiences do?</h4>
-                    <p>Audiences can then see the message written by the creator, and record a video of their own to send back to the creator.</p>
-                    <p>You'll need to set the creator's output asset <b>replay</b> as an audience input asset with the same name.</p>
+            <!-- <div class="controls">
+                <button>Next</button>
+            </div> -->
+        </div>
+
+        <!-- Instructions Screen -->
+        <div id="instructionsScreen" class="screen hidden">
+            <h3>Welcome to Let's Chess</h3>
+
+            <div class="contents">
+                <div class="choose">
+                    <h1>Try to solve this puzzle chosen by</h1>
+                    <h1 class="creatorName"></h1>
                 </div>
 
-                <div class="controls">
-                    <button>Next</button>
-                </div>
-            </div>
-            <div id="gameplayScreen" class="screen hidden">
-                <h3>Experience Screen</h3>
+                <div class="compete">
+                    <h1 class="creatorName"></h1>
+                    <!-- We probably need something different if creator solves it in one attempt -->
+                    <h1>solved this puzzle in <b id="creatorAttempts"></b> attempts.</h1>
+                    <h1>Can you beat it?</h1>
 
-                <div class="contents">
-                    <div class="creator">
-                        <p>Write a message to your community</p>
-                        <input type="text" id="message" placeholder="Enter a message">
-                        <div id="playPuzzle">
-                            
-                        </div>
+                    <div id="leaderboard">
+                        <!-- Leaderboard goes here -->
                     </div>
-                    <div class="audience">
-                        <p>Here's a message from <b id="creatorName"></b></p>
-                        <h2 class="message"></h2>
-                    </div>
                 </div>
 
                 <div class="controls">
-                    <button>Play</button>
-                </div>
-            </div>
-            <div id="recordingScreen" class="screen hidden">
-                <h3 class="interface">Recording Screen</h3>
-                <div class="backButton interface"></div>
-
-                <div class="contents lower interface">
-                    <p><b>Tap the record button to start screen recording</b></p>
-                </div>
-            </div>
-            <div id="reviewScreen" class="screen hidden">
-                <h3>Review Screen</h3>
-                <div class="contents upper">
-                    <p>Here the player can watch back their recorded video, and then re-take it or post it to the creator.</p>
-                </div>
-                <div class="controls">
-                    <button id="review_retry">Retry</button>
-                    <button id="review_done">Done</button>
+                    <button>Play!</button>
                 </div>
             </div>
         </div>
-    </body>
+
+        <!-- Selection Screen -->
+        <div id="selectionScreen" class="screen hidden">
+            <h3>Choose a puzzle</h3>
+            
+            <div id="topBar">
+                <button id="randomPuzzleButton">I'm feeling lucky</button>
+                <button id="sortButton"></button>
+            </div>
+
+            <div id="puzzleList">
+                <!-- Puzzle list goes here -->
+            </div>
+        </div>
+
+        <!-- Confirm Screen -->
+        <div id="confirmScreen" class="screen hidden">
+            <h1 class="boardTitle"></h1>
+
+            <div class="board">
+                <div class="colourToMove">
+                    <div class="colourBox"></div>
+                    <p><b class="colour"></b> to move</p>
+                </div>
+
+                <!-- Puzzle goes here -->
+
+                <div class="controls">
+                    <button id="customizeButton">Edit board & background</button>
+                    <button id="skipToPlay">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customize Screen -->
+        <div id="customizeScreen" class="screen hidden">
+
+            <h1 class="puzzleName"></h1>
+
+            <!-- Puzzle goes here -->
+
+            <div id="colourOptions">
+                <!-- Colour options go here -->
+
+                <button>Board</button>
+                <button>Background</button>
+            </div>
+
+            <div class="controls">
+                <button id="recordButton">Next</button>
+            </div>
+        </div>
+
+        <!-- Gameplay Screen -->
+        <div id="gameplayScreen" class="screen">
+            <h3>Gameplay Screen</h3>
+
+            <div class="contents">
+                <div class="creator">
+                    <!-- <p>Write a message to your community</p> -->
+                    <input type="text" id="message" placeholder="Enter a message">
+                    <div id="playPuzzle">
+                        <h3>Attempt: <b id="attempts">1</b></h3>
+                        <div id="myBoard" style="width: 400px"></div>
+                        <button id="startPuzzleButton">Start puzzle</button>
+                        <button id="undoButton">Undo last move</button>
+                        <h1 id="notif"></h1>
+                    </div>
+                </div>
+                <div class="audience">
+                    <p>Here's a message from <b id="creatorName"></b></p>
+                    <h2 class="message"></h2>
+                </div>
+            </div>
+
+            <!-- <div class="controls">
+                <button>Play</button>
+            </div> -->
+        </div>
+
+        <!-- Recording Screen -->
+        <div id="recordingScreen" class="screen hidden">
+            <h3 class="interface">Recording Screen</h3>
+            <div class="backButton interface"></div>
+
+            <div class="contents lower interface">
+                <p><b>Tap the record button to start screen recording</b></p>
+            </div>
+        </div>
+
+        <!-- Review Screen -->
+        <div id="reviewScreen" class="screen hidden">
+            <h3>Review Screen</h3>
+            <div class="contents upper">
+                <p>Here the player can watch back their recorded video, and then re-take it or post it to the creator.
+                </p>
+            </div>
+            <div class="controls">
+                <button id="review_retry">Retry</button>
+                <button id="review_done">Done</button>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>

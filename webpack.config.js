@@ -77,7 +77,8 @@ module.exports = {
             patterns: [
                 { from: "o3hmanifest.json", to: "" },
                 { from: "src/images", to: "images" },
-                { from: "src/sounds", to: "sounds" }
+                { from: "src/sounds", to: "sounds" },
+                { from: "src/puzzles", to: "puzzles" }
             ],
         }),
         new HtmlWebpackPlugin({

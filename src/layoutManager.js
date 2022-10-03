@@ -1,4 +1,6 @@
 import {
+    getContentCameraLayout,
+    getCreatorCameraLayout,
     getFullScreenLayout, LAYOUTS
 } from "./const";
 
@@ -97,6 +99,18 @@ class LayoutManager {
      *      - ... and re-use them in new layouts by passing in a map of existingComponents to this.createLayout()
      */
 
+    // Creates a layout with top third of screen for camera and bottom two-thirds for chessboard
+    async createContentCameraLayout() {
+        const cameraConfig = new o3h.CameraComponentConfig();
+
+        const layout = await this.createLayout(
+            LAYOUTS.RECORDING_CAMERA,
+            getContentCameraLayout(),
+            { "main": cameraConfig }
+        );
+
+        return layout;
+    }
     
     /**
      * Creates a layout with one fullscreen camera element.

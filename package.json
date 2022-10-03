@@ -37,9 +37,10 @@
   },
   "dependencies": {
     "@chrisoakman/chessboardjs": "^1.0.0",
-    "chess.js": "^1.0.0-alpha.0",
-    "gchessboard": "^0.3.1",
+    "chess.js": "0.13.4",
+    "chessboardjs-vue": "^1.0.9",
     "howler": "^2.2.3",
+    "jquery": "^3.6.1",
     "sass": "^1.54.8",
     "sass-loader": "^13.0.2"
   }

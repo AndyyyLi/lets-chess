@@ -1,6 +1,5 @@
 import "./styles/splashScreen.scss";
 import ScreenBase from "./screenBase";
-// import { Chessboard } from "@chrisoakman/chessboardjs";
 
 import { LAYOUTS, SOUNDS } from "../const";
 import { isCreatorMode } from "../util";
@@ -18,15 +17,7 @@ export default class SplashScreen extends ScreenBase {
 
             // Checks the play mode
             const playMode = isCreatorMode() ? "creator" : "audience";
-            // var playPuzzle = document.getElementById("playPuzzle");
 
-            // const board = document.createElement("g-chess-board");
-            // board.id = "testBoard";
-            // board.interactive = "true";
-            // board.fen = "r6k/pp2r2p/4Rp1Q/3p4/8/1N1P2R1/PqP2bPP/7K b - - 0 24";
-            // playPuzzle.appendChild(board);
-
-            var board1 = Chessboard('board1', 'start');
             this.app.showGameplay();
             // If the player has already seen the tutorial for this play mode...
             // if (PersistentDataManagerInstance.getSettingsDataProperty(`${playMode}_tutorial`)) {

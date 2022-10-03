@@ -1,5 +1,7 @@
 import "./styles/gameplayScreen.scss";
+import "../css/style.css";
 import ScreenBase from "./screenBase";
+import { ChessEngine } from "../js/chessEngine";
 
 import { ASSETS, LAYOUTS, SOUNDS } from "../const";
 import { isAudienceMode, isCreatorMode } from "../util";
@@ -11,10 +13,20 @@ export default class GameplayScreen extends ScreenBase {
     constructor(app) {
         super("Gameplay", document.querySelector("#gameplayScreen"), LAYOUTS.EMPTY_LAYOUT, app);
 
-        document.querySelector("#gameplayScreen button").addEventListener("click", () => {
-            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            this.app.showRecording();
-        });
+        // document.querySelector("#gameplayScreen button").addEventListener("click", () => {
+        //     SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+        //     this.app.showRecording();
+        // });
+
+        
+
+        document.querySelector("#startPuzzleButton").addEventListener('click', () => {
+            ChessEngine.setPuzzle();
+        })
+
+        document.querySelector("#undoButton").addEventListener('click', () => {
+            ChessEngine.undoMove();
+        })
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
