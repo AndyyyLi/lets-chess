@@ -1,12 +1,18 @@
 import { Chess } from 'chess.js';
-import "../chessboard";
+import "./chessboard";
 
 // chess engine module, provides full functionality to chosen chess puzzle
 let ChessEngine = function () {
     let clickSource = null;
     let moves = [];
-    let solution = null;
+    // correctMoves and correctIdx track the indexes of the correct moves in moves
+    let correctMoves = [];
+    let correctIdx = 0;
     let attempts = 1;
+
+    let solution = null;
+    let solutionIdx = 0;
+    
     let game = null;
     let board = null;
     let config = {
@@ -18,8 +24,8 @@ let ChessEngine = function () {
     };
 
     // builds display chessboard from puzzle object at given div
-    function buildPuzzle(divId, puzzle) {
-        ChessBoard(divId, puzzle.FEN);
+    function buildPuzzle(divId, fen) {
+        ChessBoard(divId, fen);
     }
 
     // initializes puzzle for solving
@@ -119,6 +125,8 @@ let ChessEngine = function () {
         // check move correctness
         if (isCorrect()) {
             // opponent moves
+            correctMoves.push(moves.length - 1);
+            solutionIdx++;
             window.setTimeout(opponentMove, 250);
             document.querySelector("#notif").innerHTML = "";
             document.getElementById("undoButton").style.display = "none";
@@ -152,6 +160,8 @@ let ChessEngine = function () {
 
         // highlight black's move
         removeHighlights("black");
+        // white covers black highlights, so we'll remove white highlights as well
+        removeHighlights("white");
         document.querySelector('.square-' + source).classList.add('highlight-black');
         document.querySelector('.square-' + target).classList.add('highlight-black');
 
@@ -173,6 +183,8 @@ let ChessEngine = function () {
     // displays notification when user solves the puzzle
     function puzzleFinish() {
         document.querySelector("#notif").innerHTML = "Congratulations on solving the puzzle!";
+        document.querySelector("#startPuzzleButton").style.display = "none";
+        document.querySelector("#gameplayScreen .controls").classList.remove("hidden");
     }
 
     // adds move to moves, in notation 'sourcetarget' (e.g. 'g2h3'), and updates the last move
@@ -185,16 +197,18 @@ let ChessEngine = function () {
         document.querySelector("#attempts").innerHTML = ++attempts;
     }
 
+    // returns the index of the next correct move for skipping
+    function getNextCorrectMoveIdx() {
+        return correctMoves[correctIdx++];
+    }
+
     // returns the next move in the solution in notation 'sourcetarget' (e.g. g2h3)
-    // note: the next move is always at index i, where i = moves.length
-    // explanation: say the user just made their first (correct) move, so moves.length = 2
-    // getNextMove should return the third move in the solution (opponent's turn), or solution[2]
     function getNextMove() {
-        if (moves.length == solution.length) {
+        if (solutionIdx == solution.length) {
             // solved puzzle!
             return null;
         } else {
-            return solution[moves.length];
+            return solution[solutionIdx++];
         }
     }
 
@@ -202,7 +216,7 @@ let ChessEngine = function () {
     function undoMove() {
         if (moves.length) {
             // backend changes
-            moves.pop();
+            // moves.pop();
             game.undo();
 
             // visual changes
@@ -217,40 +231,25 @@ let ChessEngine = function () {
         }
     }
 
-    // returns true if the last move made matches solution, else return false
+    // returns true if the last move made matches next move in solution, else return false
     function isCorrect() {
         if (!solution) return false;
 
         let i = moves.length - 1;
 
-        if (i > solution.length) return false;
-
-        return moves[i] == solution[i];
+        return moves[i] == solution[solutionIdx];
     }
 
     // sets the puzzle and solution from json file
     async function setPuzzle() {
-        // reset moves and attempts for new puzzle
-        // moves = [];
-        // attempts = 0;
-        // addAttempt();
-
         try {
-            const response = await fetch('./puzzles/sample_puzzles.json');
+            const response = await fetch('./puzzles/puzzles.json');
             const puzzles = await response.json();
 
             let sampleSolution = puzzles[0];
 
             // set game and board to puzzle
             initPuzzle("myBoard", sampleSolution);
-            //   game.load(sampleSolution.FEN);
-            //   board.position(sampleSolution.FEN);
-
-            // set the solution moves list
-            //   solution = sampleSolution.Moves.split(" ");
-
-            // make opponent's move that starts puzzle
-            //   setTimeout(opponentMove, 300);
 
         } catch (err) {
             console.log(err);

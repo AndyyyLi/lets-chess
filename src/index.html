@@ -25,7 +25,7 @@
         <div id="splashScreen" class="screen hidden">
 
             <div class="contents">
-                <h1 class="title popIn hidden">Let's <b>Chess</b></h1>
+                <h1 class="title popIn hidden">Let's Chess</h1>
             </div>
 
             <div class="controls">
@@ -61,12 +61,12 @@
             <h3>Welcome to Let's Chess</h3>
 
             <div class="contents">
-                <div class="choose">
+                <div class="choose hidden">
                     <h1>Try to solve this puzzle chosen by</h1>
                     <h1 class="creatorName"></h1>
                 </div>
 
-                <div class="compete">
+                <div class="compete hidden">
                     <h1 class="creatorName"></h1>
                     <!-- We probably need something different if creator solves it in one attempt -->
                     <h1>solved this puzzle in <b id="creatorAttempts"></b> attempts.</h1>
@@ -84,65 +84,59 @@
         </div>
 
         <!-- Selection Screen -->
-        <div id="selectionScreen" class="screen hidden">
+        <div id="selectionScreen" class="screen">
             <h3>Choose a puzzle</h3>
             
             <div id="topBar">
                 <button id="randomPuzzleButton">I'm feeling lucky</button>
-                <button id="sortButton"></button>
+                <button id="sortButton">Sort</button>
             </div>
 
             <div id="puzzleList">
                 <!-- Puzzle list goes here -->
             </div>
+
+            <div class="controls">
+                <button>Next</button>
+            </div>
         </div>
 
-        <!-- Confirm Screen -->
-        <div id="confirmScreen" class="screen hidden">
-            <h1 class="boardTitle"></h1>
+        <!-- Details Screen (confirm and customize)-->
+        <div id="detailsScreen" class="screen hidden">
+            <h1 class="puzzleTitle"></h1>
 
-            <div class="board">
+            <div class="content">
                 <div class="colourToMove">
                     <div class="colourBox"></div>
                     <p><b class="colour"></b> to move</p>
                 </div>
 
-                <!-- Puzzle goes here -->
+                <div class="puzzle">
+                    <!-- Puzzle goes here -->
+                </div>
 
                 <div class="controls">
                     <button id="customizeButton">Edit board & background</button>
                     <button id="skipToPlay">Next</button>
                 </div>
-            </div>
-        </div>
 
-        <!-- Customize Screen -->
-        <div id="customizeScreen" class="screen hidden">
-
-            <h1 class="puzzleName"></h1>
-
-            <!-- Puzzle goes here -->
-
-            <div id="colourOptions">
-                <!-- Colour options go here -->
-
-                <button>Board</button>
-                <button>Background</button>
-            </div>
-
-            <div class="controls">
-                <button id="recordButton">Next</button>
+                <div id="colourOptions">
+                    <!-- Colour options go here -->
+    
+                    <button>Board</button>
+                    <button>Background</button>
+                </div>
             </div>
         </div>
 
         <!-- Gameplay Screen -->
-        <div id="gameplayScreen" class="screen">
+        <div id="gameplayScreen" class="screen hidden">
             <h3>Gameplay Screen</h3>
 
             <div class="contents">
                 <div class="creator">
                     <!-- <p>Write a message to your community</p> -->
-                    <input type="text" id="message" placeholder="Enter a message">
+                    <!-- <input type="text" id="message" placeholder="Enter a message"> -->
                     <div id="playPuzzle">
                         <h3>Attempt: <b id="attempts">1</b></h3>
                         <div id="myBoard" style="width: 400px"></div>
@@ -157,9 +151,9 @@
                 </div>
             </div>
 
-            <!-- <div class="controls">
-                <button>Play</button>
-            </div> -->
+            <div class="controls hidden">
+                <button>Next</button>
+            </div>
         </div>
 
         <!-- Recording Screen -->

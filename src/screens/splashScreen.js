@@ -16,13 +16,18 @@ export default class SplashScreen extends ScreenBase {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
             // Checks the play mode
-            const playMode = isCreatorMode() ? "creator" : "audience";
+            // const playMode = isCreatorMode() ? "creator" : "audience";
 
-            this.app.showGameplay();
+            if (isCreatorMode()) {
+                this.app.showMenu();
+            } else {
+                this.app.showInstructions();
+            }
+
             // If the player has already seen the tutorial for this play mode...
             // if (PersistentDataManagerInstance.getSettingsDataProperty(`${playMode}_tutorial`)) {
             //     // ... skip to showing the experience screen
-            //     this.app.showExperience();
+            //     this.app.showGameplay();
             // } else {
             //     // Otherwise, show the tutorial screen
             //     this.app.showMenu();
@@ -54,7 +59,7 @@ export default class SplashScreen extends ScreenBase {
 
         // This is an example of pre-loading an image.  You should pre-load any images or other web assets you are going
         // to use on a given screen so they can be shown immediately when the screen is visible.
-        this.preloadList.addHttpLoad("./images/icon_help.png");
+        // this.preloadList.addHttpLoad("./images/icon_help.png");
 
         // Do THIS to load sounds in Oooh! This will load a button sound using the Howler library with the HTML5 audio polyfill
         this.preloadList.addLoad(() => SoundManagerInstance.loadSound(SOUNDS.SFX_BUTTON_TAP));
@@ -66,15 +71,15 @@ export default class SplashScreen extends ScreenBase {
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
 
-        this.preloadList.addLoad(async () => {
-            // Checks the play mode
-            const playMode = isCreatorMode() ? "creator" : "audience";
+        // this.preloadList.addLoad(async () => {
+        //     // Checks the play mode
+        //     const playMode = isCreatorMode() ? "creator" : "audience";
 
-            // If the player has already seen the tutorial for this play mode...
-            if (PersistentDataManagerInstance.getSettingsDataProperty(`${playMode}_tutorial`)) {
-                // ... show the tutorial button on the splash screen
-                document.querySelector("#splashScreen #tutorialButton").classList.remove("hidden");
-            }
-        });
+        //     // If the player has already seen the tutorial for this play mode...
+        //     if (PersistentDataManagerInstance.getSettingsDataProperty(`${playMode}_tutorial`)) {
+        //         // ... show the tutorial button on the splash screen
+        //         document.querySelector("#splashScreen #tutorialButton").classList.remove("hidden");
+        //     }
+        // });
     }
 }

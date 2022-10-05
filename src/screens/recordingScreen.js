@@ -11,7 +11,7 @@ export default class RecordingScreen extends ScreenBase {
         super(null, document.querySelector("#recordingScreen"), LAYOUTS.RECORDING_CAMERA, app);
 
         document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
-            this.app.showExperience();
+            this.app.showGameplay();
         });
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createRecordingCameraLayout());

@@ -1,4 +1,4 @@
-import "./styles/menuScreen.scss";
+import "./styles/detailsScreen.scss";
 import ScreenBase from "./screenBase";
 
 import { LAYOUTS, SOUNDS } from "../const";
@@ -8,14 +8,14 @@ import LayoutManagerInstance from "../layoutManager";
 import PersistentDataManagerInstance from "../persistentDataManager";
 import SoundManagerInstance from "../soundManager";
 
-export default class MenuScreen extends ScreenBase {
+export default class DetailsScreen extends ScreenBase {
     constructor(app) {
-        super("Menu", document.querySelector("#menuScreen"), LAYOUTS.EMPTY_LAYOUT, app);
+        super("Details", document.querySelector("#detailsScreen"), LAYOUTS.EMPTY_LAYOUT, app);
 
-        document.querySelector("#menuScreen button").addEventListener("click", () => {
+        document.querySelector("#detailsScreen button").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
-            this.app.showSelection();
+            this.app.showGameplay();
         });
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());

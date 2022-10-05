@@ -1,7 +1,7 @@
 import "./styles/gameplayScreen.scss";
-import "../css/style.css";
+import "../chessEngine.css";
 import ScreenBase from "./screenBase";
-import { ChessEngine } from "../js/chessEngine";
+import { ChessEngine } from "../chessEngine";
 
 import { ASSETS, LAYOUTS, SOUNDS } from "../const";
 import { isAudienceMode, isCreatorMode } from "../util";
@@ -13,20 +13,20 @@ export default class GameplayScreen extends ScreenBase {
     constructor(app) {
         super("Gameplay", document.querySelector("#gameplayScreen"), LAYOUTS.EMPTY_LAYOUT, app);
 
-        // document.querySelector("#gameplayScreen button").addEventListener("click", () => {
-        //     SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-        //     this.app.showRecording();
-        // });
-
-        
+        document.querySelector("#gameplayScreen .controls button").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+            this.app.showRecording();
+        });
 
         document.querySelector("#startPuzzleButton").addEventListener('click', () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             ChessEngine.setPuzzle();
-        })
+        });
 
         document.querySelector("#undoButton").addEventListener('click', () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             ChessEngine.undoMove();
-        })
+        });
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
@@ -66,11 +66,11 @@ export default class GameplayScreen extends ScreenBase {
         // The camera and audio toggles should be hidden after the screen before gameplay
         this.app.systemSettingsService.hideSystemSettings();
         
-        if (isCreatorMode()) {
-            const creatorMessage = document.querySelector("#gameplayScreen input").value;
-            // Set the message written by the creator to a shared variable in App
-            this.app.message = creatorMessage;
-        }
+        // if (isCreatorMode()) {
+        //     const creatorMessage = document.querySelector("#gameplayScreen input").value;
+        //     // Set the message written by the creator to a shared variable in App
+        //     this.app.message = creatorMessage;
+        // }
 
         super.hide();
     }

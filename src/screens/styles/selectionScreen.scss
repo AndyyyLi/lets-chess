@@ -1,0 +1,26 @@
+#selectionScreen {
+    background-color: #52FF00;
+
+    #topbar {
+        position: absolute;
+    }
+
+    #puzzleList {
+        margin-top: 100px;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        height: 75%;
+        overflow: auto;
+    }
+
+    .contents h4 {
+        font-family: "Bungee", sans-serif;
+        margin-bottom: 0;
+    }
+
+    .puzzle {
+        width: 95%;
+        margin: auto;
+        margin-bottom: 10px;
+    }
+}

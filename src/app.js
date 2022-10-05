@@ -6,6 +6,9 @@ import PersistentDataManagerInstance from "./persistentDataManager";
 
 import SplashScreen from "./screens/splashScreen";
 import MenuScreen from "./screens/menuScreen";
+import InstructionsScreen from "./screens/instructionsScreen";
+import SelectionScreen from "./screens/selectionScreen";
+import DetailsScreen from "./screens/detailsScreen";
 import GameplayScreen from "./screens/gameplayScreen";
 import RecordingScreen from "./screens/recordingScreen";
 import ReviewScreen from "./screens/reviewScreen";
@@ -27,6 +30,9 @@ export default class App {
 
         this.splashScreen = new SplashScreen(this);
         this.menuScreen = new MenuScreen(this);
+        this.instructionsScreen = new InstructionsScreen(this);
+        this.selectionScreen = new SelectionScreen(this);
+        this.detailsScreen = new DetailsScreen(this);
         this.gameplayScreen = new GameplayScreen(this);
         this.recordingScreen = new RecordingScreen(this);
         this.reviewScreen = new ReviewScreen(this);
@@ -54,6 +60,9 @@ export default class App {
         const listPreloader = new PreloadListLoader();
         listPreloader.addPreloadList(this.splashScreen.getPreloadList());
         listPreloader.addPreloadList(this.menuScreen.getPreloadList());
+        listPreloader.addPreloadList(this.instructionsScreen.getPreloadList());
+        listPreloader.addPreloadList(this.selectionScreen.getPreloadList());
+        listPreloader.addPreloadList(this.detailsScreen.getPreloadList());
         listPreloader.addPreloadList(this.gameplayScreen.getPreloadList());
         listPreloader.addPreloadList(this.recordingScreen.getPreloadList());
         listPreloader.addPreloadList(this.reviewScreen.getPreloadList());
@@ -72,6 +81,18 @@ export default class App {
 
     async showMenu() {
         await ScreenManagerInstance.showScreen(this.menuScreen);
+    }
+
+    async showInstructions() {
+        await ScreenManagerInstance.showScreen(this.instructionsScreen);
+    }
+
+    async showSelection() {
+        await ScreenManagerInstance.showScreen(this.selectionScreen);
+    }
+
+    async showDetails() {
+        await ScreenManagerInstance.showScreen(this.detailsScreen);
     }
 
     async showGameplay() {
