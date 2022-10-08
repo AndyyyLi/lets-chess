@@ -12,8 +12,18 @@ export default class MenuScreen extends ScreenBase {
     constructor(app) {
         super("Menu", document.querySelector("#menuScreen"), LAYOUTS.EMPTY_LAYOUT, app);
 
-        document.querySelector("#menuScreen button").addEventListener("click", () => {
+        document.querySelector("#menuScreen .choose").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+            
+            this.app.setIsCompete(false);
+
+            this.app.showSelection();
+        });
+
+        document.querySelector("#menuScreen .compete").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
+            this.app.setIsCompete(true);
 
             this.app.showSelection();
         });

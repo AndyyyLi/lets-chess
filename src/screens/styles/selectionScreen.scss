@@ -19,8 +19,18 @@
     }
 
     .puzzle {
-        width: 95%;
         margin: auto;
         margin-bottom: 10px;
+    }
+    
+    .sortOptions {
+        position: fixed;
+        z-index: 1;
+        border: solid 1px black;
+        background-color: #00ff91;
+
+        .close {
+            text-align: right;
+        }
     }
 }

@@ -9,6 +9,8 @@ let ChessEngine = function () {
     let correctMoves = [];
     let correctIdx = 0;
     let attempts = 1;
+    let userColour;
+    let opponentColour;
 
     let solution = null;
     let solutionIdx = 0;
@@ -23,13 +25,29 @@ let ChessEngine = function () {
         onSnapEnd: onSnapEnd,
     };
 
+    // returns number of attempts made
+    function getAttempts() {
+        return attempts;
+    }
+
     // builds display chessboard from puzzle object at given div
-    function buildPuzzle(divId, fen) {
+    function buildPuzzle(divId, fen, isOnlyPuzzle) {
+        // if only puzzle on screen, set to fullscreen width
+        if (isOnlyPuzzle) document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
+        
         ChessBoard(divId, fen);
     }
 
     // initializes puzzle for solving
     function initPuzzle(divId, puzzle) {
+        // set title of gameplay screen
+        if (puzzle.OpeningFamily) {
+            let name = puzzle.OpeningVariation.replaceAll('_', ' ');
+            document.querySelector("#gameplayScreen .puzzleTitle").innerHTML = name;
+        } else {
+            document.querySelector("#gameplayScreen .puzzleTitle").innerHTML = "Puzzle " + puzzle.PuzzleId;
+        }
+
         // reset moves and attempts for new puzzle
         moves = [];
         attempts = 0;
@@ -38,10 +56,22 @@ let ChessEngine = function () {
         // sets up chess.js and chessboard
         game = new Chess(puzzle.FEN);
         config.position = puzzle.FEN;
+        document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
         board = ChessBoard(divId, config);
 
+        // determines which colour user plays as
+        // opponentMove can only be 'b' or 'w' (check FEN strings samples)
+        let opponentsMove = puzzle.FEN.split(" ")[1];
+        if (opponentsMove == 'b') {
+            opponentColour = "black";
+            userColour = "white";
+        } else {
+            opponentColour = "white";
+            userColour = "black";
+        }
+
         // add click listeners to make click to place work
-        document.querySelectorAll(".square-55d63").forEach(square => {
+        document.querySelectorAll("#gameplayScreen .square-55d63").forEach(square => {
             let target = square.getAttribute("data-square")
 
             square.onclick = function() {
@@ -58,7 +88,7 @@ let ChessEngine = function () {
 
     // removes highlights of the given category (black/white/options)
     function removeHighlights(category) {
-        document.querySelectorAll(".square-55d63").forEach(square => {
+        document.querySelectorAll("#gameplayScreen .square-55d63").forEach(square => {
             square.classList.remove("highlight-" + category);
         });
     }
@@ -68,8 +98,12 @@ let ChessEngine = function () {
         // do not pick up pieces if the game is over
         if (game.game_over()) return false;
 
-        // only pick up pieces for White
-        if (piece.search(/^b/) !== -1) return false;
+        // only pick up pieces for userColour
+        if (userColour == "white") {
+            if (piece.search(/^b/) !== -1) return false;
+        } else {
+            if (piece.search(/^w/) !== -1) return false;
+        }
 
         // they picked the piece up to drag
         clickSource = null;
@@ -84,12 +118,12 @@ let ChessEngine = function () {
         });
 
         // highlight selected piece regardless of whether it can move or not
-        document.querySelector(".square-" + source).classList.add("highlight-options");
+        document.querySelector("#gameplayScreen .square-" + source).classList.add("highlight-options");
 
         if (possibleMoves.length) {
             // highlight movement options
             possibleMoves.forEach(move => {
-                document.querySelector(".square-" + move.to).classList.add("highlight-options");
+                document.querySelector("#gameplayScreen .square-" + move.to).classList.add("highlight-options");
             })
         }
     }
@@ -112,10 +146,10 @@ let ChessEngine = function () {
         // illegal move
         if (move === null) return "snapback";
 
-        // highlight white's move
-        removeHighlights("white");
-        document.querySelector(".square-" + source).classList.add("highlight-white");
-        document.querySelector(".square-" + target).classList.add("highlight-white");
+        // highlight user's move
+        removeHighlights(userColour);
+        document.querySelector("#gameplayScreen .square-" + source).classList.add("highlight-" + userColour);
+        document.querySelector("#gameplayScreen .square-" + target).classList.add("highlight-" + userColour);
         removeHighlights("options");
 
         addMove(source, target);
@@ -125,6 +159,7 @@ let ChessEngine = function () {
         // check move correctness
         if (isCorrect()) {
             // opponent moves
+            removeHighlights(opponentColour);
             correctMoves.push(moves.length - 1);
             solutionIdx++;
             window.setTimeout(opponentMove, 250);
@@ -158,12 +193,11 @@ let ChessEngine = function () {
 
         game.move({ from: source, to: target }); // the game status updates
 
-        // highlight black's move
-        removeHighlights("black");
-        // white covers black highlights, so we'll remove white highlights as well
-        removeHighlights("white");
-        document.querySelector('.square-' + source).classList.add('highlight-black');
-        document.querySelector('.square-' + target).classList.add('highlight-black');
+        // highlight opponent's move
+        removeHighlights(opponentColour);
+        removeHighlights(userColour);
+        document.querySelector('#gameplayScreen .square-' + source).classList.add('highlight-' + opponentColour);
+        document.querySelector('#gameplayScreen .square-' + target).classList.add('highlight-' + opponentColour);
 
         board.position(game.fen()); // the physical board updates based on game current fen
 
@@ -183,7 +217,6 @@ let ChessEngine = function () {
     // displays notification when user solves the puzzle
     function puzzleFinish() {
         document.querySelector("#notif").innerHTML = "Congratulations on solving the puzzle!";
-        document.querySelector("#startPuzzleButton").style.display = "none";
         document.querySelector("#gameplayScreen .controls").classList.remove("hidden");
     }
 
@@ -216,11 +249,10 @@ let ChessEngine = function () {
     function undoMove() {
         if (moves.length) {
             // backend changes
-            // moves.pop();
             game.undo();
 
             // visual changes
-            removeHighlights("white");
+            removeHighlights(userColour);
             removeHighlights("options");
             document.querySelector("#notif").innerHTML = "";
             document.getElementById("undoButton").style.display = "none";
@@ -240,26 +272,11 @@ let ChessEngine = function () {
         return moves[i] == solution[solutionIdx];
     }
 
-    // sets the puzzle and solution from json file
-    async function setPuzzle() {
-        try {
-            const response = await fetch('./puzzles/puzzles.json');
-            const puzzles = await response.json();
-
-            let sampleSolution = puzzles[0];
-
-            // set game and board to puzzle
-            initPuzzle("myBoard", sampleSolution);
-
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
     return {
+        getAttempts: getAttempts,
         buildPuzzle: buildPuzzle,
         undoMove: undoMove,
-        setPuzzle: setPuzzle
+        initPuzzle: initPuzzle
     };
 
 }();

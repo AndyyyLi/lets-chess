@@ -1,6 +1,5 @@
 import {
     getContentCameraLayout,
-    getCreatorCameraLayout,
     getFullScreenLayout, LAYOUTS
 } from "./const";
 
@@ -106,7 +105,7 @@ class LayoutManager {
         const layout = await this.createLayout(
             LAYOUTS.RECORDING_CAMERA,
             getContentCameraLayout(),
-            { "main": cameraConfig }
+            { "creator": cameraConfig }
         );
 
         return layout;

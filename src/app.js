@@ -37,9 +37,27 @@ export default class App {
         this.recordingScreen = new RecordingScreen(this);
         this.reviewScreen = new ReviewScreen(this);
 
-        this.message = ""; // Variable used to store the creator's message to the audience
+        // this.message = ""; // Variable used to store the creator's message to the audience
+        this.chosenPuzzle;
+        this.isCompete;
 
         this.init();
+    }
+
+    setChosenPuzzle(puzzle) {
+        this.chosenPuzzle = puzzle;
+    }
+
+    getChosenPuzzle() {
+        return this.chosenPuzzle;
+    }
+
+    setIsCompete(isCompete) {
+        this.isCompete = isCompete;
+    }
+
+    getIsCompete() {
+        return this.isCompete;
     }
 
     async init() {

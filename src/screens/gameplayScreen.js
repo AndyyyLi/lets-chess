@@ -4,7 +4,7 @@ import ScreenBase from "./screenBase";
 import { ChessEngine } from "../chessEngine";
 
 import { ASSETS, LAYOUTS, SOUNDS } from "../const";
-import { isAudienceMode, isCreatorMode } from "../util";
+import { isAudienceMode, setupPuzzleDetails } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
 import SoundManagerInstance from "../soundManager";
@@ -15,12 +15,20 @@ export default class GameplayScreen extends ScreenBase {
 
         document.querySelector("#gameplayScreen .controls button").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            this.app.showRecording();
-        });
 
-        document.querySelector("#startPuzzleButton").addEventListener('click', () => {
-            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            ChessEngine.setPuzzle();
+            let puzzle = this.app.getChosenPuzzle();
+            ChessEngine.buildPuzzle("puzzleRecord", puzzle.FEN, true);
+            setupPuzzleDetails(puzzle, "#recordingScreen", "puzzleRecord");
+
+            if (this.app.getIsCompete()) {
+                const attempts = ChessEngine.getAttempts();
+                let msg = attempts == 1 ? "Flawless solve!" : "Solved in " + attempts + " attempts!"
+                
+                document.querySelector("#recordingScreen .attemptCount").innerHTML = msg;
+                document.querySelector("#recordingScreen .attempts").classList.remove("hidden");
+            }
+            
+            this.app.showRecording();
         });
 
         document.querySelector("#undoButton").addEventListener('click', () => {

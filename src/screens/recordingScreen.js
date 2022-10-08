@@ -10,11 +10,15 @@ export default class RecordingScreen extends ScreenBase {
     constructor(app) {
         super(null, document.querySelector("#recordingScreen"), LAYOUTS.RECORDING_CAMERA, app);
 
-        document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
-            this.app.showGameplay();
-        });
+        if (!this.app.getIsCompete()) {
+            document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
+                this.app.showDetails();
+            });
+        }
+        
+        document.getElementById("recordingScreen").style.marginTop = (screen.height / 3) + "px";
 
-        this.preloadList.addLoad(() => LayoutManagerInstance.createRecordingCameraLayout());
+        this.preloadList.addLoad(async () => await LayoutManagerInstance.createContentCameraLayout());
     }
 
     show() {

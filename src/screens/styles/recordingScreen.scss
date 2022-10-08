@@ -1,6 +1,42 @@
 #recordingScreen {
     // The recording screen has no background to show the camera behind the web view
-    background: none;
+    background: rgb(43, 136, 243);
 
     color: #F5F7FA;
+
+    #puzzleRecord {
+        margin: auto;
+        // margin-top: -50px;
+    }
+
+    .colourToMove {
+        display: grid;
+        grid-template-columns: 10% 80%;
+    }
+
+    .colourBox {
+        width: 25px;
+        height: 25px;
+        margin: auto;
+        margin-left: 10px;
+    }
+
+    .difficultyIndicator {
+        text-align: right;
+        margin-right: 10px;
+    }
+
+    .topBar {
+        columns: 2;
+    }
+
+    .attempts {
+        font-size: 35px;
+        -webkit-text-stroke: 1px black;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -18%;
+        z-index: 3;
+    }
 }

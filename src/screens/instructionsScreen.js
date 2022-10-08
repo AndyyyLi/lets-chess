@@ -2,7 +2,7 @@ import "./styles/instructionsScreen.scss";
 import ScreenBase from "./screenBase";
 
 import { LAYOUTS, SOUNDS } from "../const";
-import { isCreatorMode } from "../util";
+import { isCreatorMode, isAudienceMode } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
 import PersistentDataManagerInstance from "../persistentDataManager";
