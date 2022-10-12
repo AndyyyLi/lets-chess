@@ -17,7 +17,6 @@ export default class GameplayScreen extends ScreenBase {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
             let puzzle = this.app.getChosenPuzzle();
-            ChessEngine.buildPuzzle("puzzleRecord", puzzle.FEN, true);
             setupPuzzleDetails(puzzle, "#recordingScreen", "puzzleRecord");
 
             if (this.app.getIsCompete()) {
@@ -26,6 +25,34 @@ export default class GameplayScreen extends ScreenBase {
                 
                 document.querySelector("#recordingScreen .attemptCount").innerHTML = msg;
                 document.querySelector("#recordingScreen .attempts").classList.remove("hidden");
+
+                document.querySelector("#recordingScreen .prevMove").addEventListener("click", () => {
+                    SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+                    ChessEngine.prevMoveReplay();
+                });
+    
+                document.querySelector("#recordingScreen .nextMove").addEventListener("click", () => {
+                    SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+                    ChessEngine.nextMoveReplay();
+                });
+    
+                document.querySelector("#recordingScreen .skipMoves").addEventListener("click", () => {
+                    SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+                    ChessEngine.skipToNextCorrectMove();
+                });
+
+                document.querySelector("#recordingScreen .lower").classList.remove("hidden");
+
+                ChessEngine.initPuzzleReplay("puzzleRecord", puzzle.FEN);
+            } else {
+                document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
+                    SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+                    this.app.showDetails();
+                });
+
+                document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
+
+                ChessEngine.buildPuzzle("puzzleRecord", puzzle.FEN, true);
             }
             
             this.app.showRecording();

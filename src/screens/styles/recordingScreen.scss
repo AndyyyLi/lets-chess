@@ -39,4 +39,16 @@
         top: -18%;
         z-index: 3;
     }
+
+    .moveControls {
+        columns: 2;
+    }
+
+    .prevMove {
+        left: 0;
+    }
+
+    .nextMove {
+        right: 0;
+    }
 }

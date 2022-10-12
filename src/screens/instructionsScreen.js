@@ -18,11 +18,11 @@ export default class InstructionsScreen extends ScreenBase {
             this.app.showGameplay();
         });
 
-        // if (isCompete()) {
-        //     document.querySelector("#instructionsScreen .compete").classList.remove("hidden");
-        // } else {
-        //     document.querySelector("#instructionsScreen .choose").classList.remove("hidden");
-        // }
+        if (this.app.getIsCompete()) {
+            document.querySelector("#instructionsScreen .compete").classList.remove("hidden");
+        } else {
+            document.querySelector("#instructionsScreen .choose").classList.remove("hidden");
+        }
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 

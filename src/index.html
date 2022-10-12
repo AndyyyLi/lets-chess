@@ -164,7 +164,7 @@
         <!-- Recording Screen -->
         <div id="recordingScreen" class="screen hidden">
 
-            <div class="interface backButton"></div>
+            <div class="interface backButton hidden"></div>
             
             <div class="topBar">
                 <div class="colourToMove">
@@ -181,8 +181,13 @@
             
             <div id="puzzleRecord"></div>
 
-            <div class="contents lower interface">
-                <!-- <p><b>Tap the record button to start screen recording</b></p> -->
+            <div class="contents lower interface hidden">
+                <div class="moveControls">
+                    <button class="prevMove hidden">Prev</button>
+                    <button class="nextMove">Next</button>
+                </div>
+
+                <button class="skipMoves">Skip</button>
             </div>
         </div>
 

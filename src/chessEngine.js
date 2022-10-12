@@ -4,10 +4,12 @@ import "./chessboard";
 // chess engine module, provides full functionality to chosen chess puzzle
 let ChessEngine = function () {
     let clickSource = null;
-    let moves = [];
-    // correctMoves and correctIdx track the indexes of the correct moves in moves
-    let correctMoves = [];
-    let correctIdx = 0;
+    let fens = [];
+    // replayIdx tracks index of fens in the replay, starts at -1 for first call by initPuzzleReplay
+    let replayIdx = -1;
+    // correctIdxs tracks the indices of the correct moves in fens
+    let correctIdxs = [];
+    
     let attempts = 1;
     let userColour;
     let opponentColour;
@@ -48,8 +50,8 @@ let ChessEngine = function () {
             document.querySelector("#gameplayScreen .puzzleTitle").innerHTML = "Puzzle " + puzzle.PuzzleId;
         }
 
-        // reset moves and attempts for new puzzle
-        moves = [];
+        // reset fens and attempts for new puzzle
+        fens = [];
         attempts = 0;
         addAttempt();
 
@@ -84,6 +86,43 @@ let ChessEngine = function () {
 
         // make opponent's move that starts puzzle
         setTimeout(opponentMove, 300);
+    }
+
+    // initializes puzzle for solving
+    function initPuzzleReplay(divId, fen) {
+        // sets up chess.js and chessboard
+        game = new Chess(fen);
+        document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
+        board = ChessBoard(divId, fen);
+
+        // make opponent's move that starts puzzle
+        setTimeout(nextMoveReplay, 300);
+    }
+
+    // plays the next move in replay
+    function nextMoveReplay() {
+        // boundary checker
+        if (replayIdx == fens.length) return null;
+
+        board.position(fens[++replayIdx]);
+        if (replayIdx > 0) document.querySelector("#recordingScreen .prevMove").classList.remove("hidden");
+
+        if (replayIdx == fens.length - 1) {
+            document.querySelector("#recordingScreen .nextMove").classList.add("hidden");
+            document.querySelector("#recordingScreen .skipMoves").classList.add("hidden");
+        }
+    }
+
+    // plays the previous move in replay
+    function prevMoveReplay() {
+        // boundary checker
+        if (replayIdx == 0) return null;
+
+        board.position(fens[--replayIdx]);
+        document.querySelector("#recordingScreen .nextMove").classList.remove("hidden");
+        document.querySelector("#recordingScreen .skipMoves").classList.remove("hidden");
+
+        if (replayIdx == 0) document.querySelector("#recordingScreen .prevMove").classList.add("hidden");
     }
 
     // removes highlights of the given category (black/white/options)
@@ -144,7 +183,10 @@ let ChessEngine = function () {
         });
 
         // illegal move
-        if (move === null) return "snapback";
+        if (move === null) {
+            removeHighlights("options");
+            return "snapback";
+        } 
 
         // highlight user's move
         removeHighlights(userColour);
@@ -152,17 +194,18 @@ let ChessEngine = function () {
         document.querySelector("#gameplayScreen .square-" + target).classList.add("highlight-" + userColour);
         removeHighlights("options");
 
-        addMove(source, target);
+        addMove();
 
         if (clickSource) board.position(game.fen()); // the physical board updates based on game current fen only if clicked, not dragged
 
         // check move correctness
-        if (isCorrect()) {
+        if (isCorrect(source, target)) {
             // opponent moves
             removeHighlights(opponentColour);
-            correctMoves.push(moves.length - 1);
+            correctIdxs.push(fens.length - 1);
             solutionIdx++;
             window.setTimeout(opponentMove, 250);
+
             document.querySelector("#notif").innerHTML = "";
             document.getElementById("undoButton").style.display = "none";
         } else {
@@ -170,6 +213,8 @@ let ChessEngine = function () {
             document.querySelector("#notif").innerHTML = "There is a better move."
             document.getElementById("undoButton").style.display = "inline";
         }
+
+        clickSource = null;
     }
 
     // update the board position after the piece snap
@@ -201,7 +246,7 @@ let ChessEngine = function () {
 
         board.position(game.fen()); // the physical board updates based on game current fen
 
-        addMove(source, target);
+        addMove();
     }
 
 
@@ -210,7 +255,6 @@ let ChessEngine = function () {
         if (clickSource) {
             if (clickSource != target) onDrop(clickSource, target);
             removeHighlights("options");
-            clickSource = null;
         }
     }
 
@@ -220,9 +264,9 @@ let ChessEngine = function () {
         document.querySelector("#gameplayScreen .controls").classList.remove("hidden");
     }
 
-    // adds move to moves, in notation 'sourcetarget' (e.g. 'g2h3'), and updates the last move
-    function addMove(source, target) {
-        moves.push(source + target);
+    // adds current fen to fens with move update
+    function addMove() {
+        fens.push(game.fen());
     }
 
     // updates display of attempts
@@ -230,9 +274,37 @@ let ChessEngine = function () {
         document.querySelector("#attempts").innerHTML = ++attempts;
     }
 
-    // returns the index of the next correct move for skipping
+    // "fast-forwards" game to skip consecutive blunders and stops at the next correct move
+    // returns immediately if no more correct moves to move to
+    function skipToNextCorrectMove() {
+        let targetIdx = getNextCorrectMoveIdx();
+        if (targetIdx == 0) return;
+
+        skipMoves(targetIdx);
+    }
+
+    // recursively plays the next move until reached next correct move or until game over
+    function skipMoves(targetIdx) {
+        if (replayIdx == fens.length || replayIdx == targetIdx) return;
+
+        nextMoveReplay();
+
+        setTimeout(skipMoves, 200, targetIdx);
+    }
+
+    // returns the index of the next correct move from current replayIdx
+    // return 0 if there's no next correct move
     function getNextCorrectMoveIdx() {
-        return correctMoves[correctIdx++];
+        let nextIdx = 0;
+
+        for (let i = 0; i < correctIdxs.length; i++) {
+            if (replayIdx < correctIdxs[i]) {
+                nextIdx = correctIdxs[i];
+                break;
+            }
+        }
+
+        return nextIdx;
     }
 
     // returns the next move in the solution in notation 'sourcetarget' (e.g. g2h3)
@@ -247,9 +319,11 @@ let ChessEngine = function () {
 
     // removes the last move made
     function undoMove() {
-        if (moves.length) {
-            // backend changes
+        if (fens.length) {
             game.undo();
+
+            // add the undone move for recording
+            addMove();
 
             // visual changes
             removeHighlights(userColour);
@@ -264,19 +338,21 @@ let ChessEngine = function () {
     }
 
     // returns true if the last move made matches next move in solution, else return false
-    function isCorrect() {
+    function isCorrect(source, target) {
         if (!solution) return false;
 
-        let i = moves.length - 1;
-
-        return moves[i] == solution[solutionIdx];
+        return (source + target) == solution[solutionIdx];
     }
 
     return {
         getAttempts: getAttempts,
         buildPuzzle: buildPuzzle,
         undoMove: undoMove,
-        initPuzzle: initPuzzle
+        initPuzzle: initPuzzle,
+        initPuzzleReplay: initPuzzleReplay,
+        nextMoveReplay: nextMoveReplay,
+        prevMoveReplay: prevMoveReplay,
+        skipToNextCorrectMove: skipToNextCorrectMove
     };
 
 }();

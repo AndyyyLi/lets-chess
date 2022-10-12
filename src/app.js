@@ -40,6 +40,7 @@ export default class App {
         // this.message = ""; // Variable used to store the creator's message to the audience
         this.chosenPuzzle;
         this.isCompete;
+        this.attempts;
 
         this.init();
     }
@@ -58,6 +59,14 @@ export default class App {
 
     getIsCompete() {
         return this.isCompete;
+    }
+
+    setAttempts(num) {
+        this.attempts = num;
+    }
+
+    getAttempts() {
+        return this.attempts;
     }
 
     async init() {
