@@ -143,4 +143,6 @@ export function setupPuzzleDetails(puzzle, screen, boardId) {
     }
     
     ChessEngine.buildPuzzle(boardId, puzzle.FEN, true);
+
+    document.querySelector(".body").lastElementChild.remove();
 }

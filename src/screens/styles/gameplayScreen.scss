@@ -6,6 +6,26 @@
         margin: auto;
     }
 
+    .highlight-black {
+        box-shadow: inset 0 0 3px 3px #000;
+    }
+
+    .highlight-white {
+        box-shadow: inset 0 0 3px 3px white;
+    }
+
+    .highlight-options {
+        box-shadow: inset 0 0 3px 3px yellow;
+    }
+
+    #undoButton {
+        transform: scale(0);
+    }
+
+    .next {
+        transform: scale(0);
+    }
+
     // input#message {
     //     font-family: "Ubuntu", sans-serif;
     //     border: none;
@@ -24,7 +44,7 @@
     //     &::placeholder {
     //         color: #C819AA;
     //     }
-        
+
     //     &:focus {
     //         outline: none !important;
     //         &::placeholder {

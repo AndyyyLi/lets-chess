@@ -17,12 +17,13 @@ export default class DetailsScreen extends ScreenBase {
 
             if (this.app.getIsCompete()) {
                 ChessEngine.initPuzzle("myBoard", this.app.getChosenPuzzle());
-                
+
                 this.app.showGameplay();
             } else {
                 let puzzle = this.app.getChosenPuzzle();
                 ChessEngine.buildPuzzle("puzzleRecord", puzzle.FEN, true);
                 setupPuzzleDetails(puzzle, "#recordingScreen", "puzzleRecord");
+                
                 this.app.showRecording();
             }
             

@@ -67,20 +67,19 @@
                 </div>
 
                 <div class="compete hidden">
-                    <h1 class="creatorName"></h1>
-                    <!-- We probably need something different if creator solves it in one attempt -->
-                    <h1>solved this puzzle in <b id="creatorAttempts"></b> attempts.</h1>
-                    <h1>Can you beat it?</h1>
+                    <h1><b class="creatorName"></b> solved this puzzle in <b id="creatorAttempts"></b></h1>
+                    <h1 class="question">How about you?</h1>
 
                     <div id="leaderboard">
                         <!-- Leaderboard goes here -->
                     </div>
                 </div>
-
-                <div class="controls">
-                    <button>Play!</button>
-                </div>
             </div>
+
+            <div class="controls">
+                <button>Play!</button>
+            </div>
+            
         </div>
 
         <!-- Selection Screen -->
@@ -143,27 +142,18 @@
         <div id="gameplayScreen" class="screen hidden">
             <h1 class="puzzleTitle"></h1>
 
-            <div class="creator">
-                <div id="playPuzzle">
-                    <h3>Attempt: <b id="attempts">1</b></h3>
-                    <div id="myBoard"></div>
-                    <h1 id="notif"></h1>
-                    <button id="undoButton">Undo last move</button>
-                </div>
-            </div>
-            <div class="audience">
-                <p>Here's a message from <b id="creatorName"></b></p>
-                <h2 class="message"></h2>
+            <div id="playPuzzle">
+                <h3>Attempt: <b id="attempts">1</b></h3>
+                <div id="myBoard"></div>
+                <h1 id="notif">Start!</h1>
+                <button id="undoButton">Undo</button>
             </div>
 
-            <div class="controls hidden">
-                <button>Next</button>
-            </div>
+            <button class="next lower">Next</button>
         </div>
 
         <!-- Recording Screen -->
         <div id="recordingScreen" class="screen hidden">
-
             <div class="interface backButton hidden"></div>
             
             <div class="topBar">
@@ -181,7 +171,7 @@
             
             <div id="puzzleRecord"></div>
 
-            <div class="contents lower interface hidden">
+            <div class="contents lower hidden">
                 <div class="moveControls">
                     <button class="prevMove hidden">Prev</button>
                     <button class="nextMove">Next</button>

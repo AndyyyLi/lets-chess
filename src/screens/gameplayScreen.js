@@ -1,10 +1,9 @@
 import "./styles/gameplayScreen.scss";
-import "../chessEngine.css";
 import ScreenBase from "./screenBase";
 import { ChessEngine } from "../chessEngine";
 
 import { ASSETS, LAYOUTS, SOUNDS } from "../const";
-import { isAudienceMode, setupPuzzleDetails } from "../util";
+import { isCreatorMode, isAudienceMode, setupPuzzleDetails } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
 import SoundManagerInstance from "../soundManager";
@@ -13,7 +12,7 @@ export default class GameplayScreen extends ScreenBase {
     constructor(app) {
         super("Gameplay", document.querySelector("#gameplayScreen"), LAYOUTS.EMPTY_LAYOUT, app);
 
-        document.querySelector("#gameplayScreen .controls button").addEventListener("click", () => {
+        document.querySelector("#gameplayScreen .next").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
             let puzzle = this.app.getChosenPuzzle();
@@ -22,20 +21,23 @@ export default class GameplayScreen extends ScreenBase {
             if (this.app.getIsCompete()) {
                 const attempts = ChessEngine.getAttempts();
                 let msg = attempts == 1 ? "Flawless solve!" : "Solved in " + attempts + " attempts!"
-                
+
                 document.querySelector("#recordingScreen .attemptCount").innerHTML = msg;
                 document.querySelector("#recordingScreen .attempts").classList.remove("hidden");
+            }
 
+            // audience will always have the replay stepper
+            if (isAudienceMode()) {
                 document.querySelector("#recordingScreen .prevMove").addEventListener("click", () => {
                     SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
                     ChessEngine.prevMoveReplay();
                 });
-    
+
                 document.querySelector("#recordingScreen .nextMove").addEventListener("click", () => {
                     SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
                     ChessEngine.nextMoveReplay();
                 });
-    
+
                 document.querySelector("#recordingScreen .skipMoves").addEventListener("click", () => {
                     SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
                     ChessEngine.skipToNextCorrectMove();
@@ -45,16 +47,21 @@ export default class GameplayScreen extends ScreenBase {
 
                 ChessEngine.initPuzzleReplay("puzzleRecord", puzzle.FEN);
             } else {
-                document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
-                    SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-                    this.app.showDetails();
-                });
+                // creators can only go back if they are not competing
+                if (!this.app.getIsCompete()) {
+                    document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
+                        SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+                        this.app.showDetails();
+                    });
+                    document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
+                }
 
-                document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
-
+                // otherwise they record with their chosen puzzle at its initial position
                 ChessEngine.buildPuzzle("puzzleRecord", puzzle.FEN, true);
             }
-            
+
+            document.querySelector(".body").lastElementChild.remove();
+
             this.app.showRecording();
         });
 
@@ -73,23 +80,13 @@ export default class GameplayScreen extends ScreenBase {
                 const replayPlayer = await replayData.createReplayPlayer();
 
                 const replayProperties = await replayPlayer.getProperties();
-                const creatorMessage = replayProperties.message;
+                const creatorPuzzle = replayProperties.puzzle;
 
-                document.querySelector("#gameplayScreen h2.message").innerText = creatorMessage;
+                this.app.setChosenPuzzle(creatorPuzzle);
+
+                ChessEngine.initPuzzle("myBoard", creatorPuzzle);
             }
         });
-
-        this.preloadList.addLoad(async () => {
-            if (isAudienceMode()) {
-                const userDataService = o3h.Instance.getUserDataService();
-                const creatorUserInfo = await userDataService.getCreatorUserInformation();
-
-                document.querySelector("#gameplayScreen #creatorName").innerText = creatorUserInfo.Name;
-            }
-        });
-
-        const hiddenMode = isAudienceMode() ? "creator" : "audience";
-        document.querySelector(`#gameplayScreen .${hiddenMode}`).classList.add("hidden");
     }
 
     show() {
@@ -100,12 +97,11 @@ export default class GameplayScreen extends ScreenBase {
     hide() {
         // The camera and audio toggles should be hidden after the screen before gameplay
         this.app.systemSettingsService.hideSystemSettings();
-        
-        // if (isCreatorMode()) {
-        //     const creatorMessage = document.querySelector("#gameplayScreen input").value;
-        //     // Set the message written by the creator to a shared variable in App
-        //     this.app.message = creatorMessage;
-        // }
+
+        if (isCreatorMode()) {
+            // Set attempts to shared variable in App
+            this.app.setAttempts(ChessEngine.getAttempts());
+        }
 
         super.hide();
     }

@@ -73,8 +73,16 @@ export default class SelectionScreen extends ScreenBase {
 
                 this.app.setChosenPuzzle(puzzle);
 
-                setupPuzzleDetails(puzzle);
-    
+                // show title
+                if (puzzle.OpeningFamily) {
+                    let name = puzzle.OpeningVariation.replaceAll('_', ' ');
+                    document.querySelector("#detailsScreen .puzzleTitle").innerHTML = name;
+                } else {
+                    document.querySelector("#detailsScreen .puzzleTitle").innerHTML = "Puzzle " + puzzle.PuzzleId;
+                }
+                
+                setupPuzzleDetails(puzzle, "#detailsScreen", "puzzleDetails");
+
                 this.app.showDetails();
             }
         });
@@ -86,7 +94,7 @@ export default class SelectionScreen extends ScreenBase {
         this.app.systemSettingsService.showSystemSettings();
     }
 
-    hide() {        
+    hide() {
         super.hide();
 
         // Set that the tutorial has been seen for this play mode

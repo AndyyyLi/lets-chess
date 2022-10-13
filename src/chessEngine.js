@@ -3,13 +3,13 @@ import "./chessboard";
 
 // chess engine module, provides full functionality to chosen chess puzzle
 let ChessEngine = function () {
-    let clickSource = null;
     let fens = [];
     // replayIdx tracks index of fens in the replay, starts at -1 for first call by initPuzzleReplay
     let replayIdx = -1;
     // correctIdxs tracks the indices of the correct moves in fens
     let correctIdxs = [];
     
+    let clickSource = null;
     let attempts = 1;
     let userColour;
     let opponentColour;
@@ -204,14 +204,12 @@ let ChessEngine = function () {
             removeHighlights(opponentColour);
             correctIdxs.push(fens.length - 1);
             solutionIdx++;
+            document.querySelector("#notif").innerHTML = "Nice!"
             window.setTimeout(opponentMove, 250);
-
-            document.querySelector("#notif").innerHTML = "";
-            document.getElementById("undoButton").style.display = "none";
         } else {
             // wrong move, must try again
             document.querySelector("#notif").innerHTML = "There is a better move."
-            document.getElementById("undoButton").style.display = "inline";
+            document.getElementById("undoButton").style.transform = "scale(1)";
         }
 
         clickSource = null;
@@ -254,14 +252,14 @@ let ChessEngine = function () {
     function clickToPlace(target) {
         if (clickSource) {
             if (clickSource != target) onDrop(clickSource, target);
-            removeHighlights("options");
         }
     }
 
     // displays notification when user solves the puzzle
     function puzzleFinish() {
-        document.querySelector("#notif").innerHTML = "Congratulations on solving the puzzle!";
-        document.querySelector("#gameplayScreen .controls").classList.remove("hidden");
+        document.getElementById("undoButton").style.display = "none";
+        document.querySelector("#notif").innerHTML = "You solved it!";
+        document.querySelector("#gameplayScreen .next").style.transform = "scale(1)";
     }
 
     // adds current fen to fens with move update
@@ -328,8 +326,11 @@ let ChessEngine = function () {
             // visual changes
             removeHighlights(userColour);
             removeHighlights("options");
-            document.querySelector("#notif").innerHTML = "";
-            document.getElementById("undoButton").style.display = "none";
+            document.querySelector("#notif").innerHTML = "Try again";
+            // document.getElementById("undoButton").disabled = true;
+            // document.getElementById("undoButton").style.opacity = "0.5";
+            document.getElementById("undoButton").style.transform = "scale(0)";
+
             addAttempt();
 
             // update board

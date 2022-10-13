@@ -2,7 +2,6 @@ import "./styles/menuScreen.scss";
 import ScreenBase from "./screenBase";
 
 import { LAYOUTS, SOUNDS } from "../const";
-import { isCreatorMode } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
 import PersistentDataManagerInstance from "../persistentDataManager";
@@ -39,9 +38,5 @@ export default class MenuScreen extends ScreenBase {
 
     hide() {        
         super.hide();
-
-        // Set that the tutorial has been seen for this play mode
-        const playMode = isCreatorMode() ? "creator" : "audience";
-        PersistentDataManagerInstance.setSettingsDataProperty(`${playMode}_tutorial`, true);
     }
 }

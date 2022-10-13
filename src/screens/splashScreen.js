@@ -1,8 +1,8 @@
 import "./styles/splashScreen.scss";
 import ScreenBase from "./screenBase";
 
-import { LAYOUTS, SOUNDS } from "../const";
-import { isCreatorMode } from "../util";
+import { LAYOUTS, SOUNDS, ASSETS } from "../const";
+import { isCreatorMode, isAudienceMode } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
 import PersistentDataManagerInstance from "../persistentDataManager";
@@ -21,6 +21,12 @@ export default class SplashScreen extends ScreenBase {
             if (isCreatorMode()) {
                 this.app.showMenu();
             } else {
+                if (this.app.getIsCompete()) {
+                    document.querySelector("#instructionsScreen .compete").classList.remove("hidden");
+                } else {
+                    document.querySelector("#instructionsScreen .choose").classList.remove("hidden");
+                }
+
                 this.app.showInstructions();
             }
 
@@ -33,10 +39,6 @@ export default class SplashScreen extends ScreenBase {
             //     this.app.showMenu();
             // }
         });
-
-        // document.querySelector("#splashScreen #tutorialButton").addEventListener("click", () => {
-        //     this.app.showMenu();
-        // });
 
 
         /**
@@ -70,6 +72,19 @@ export default class SplashScreen extends ScreenBase {
         // complete, such as creating layouts and loading creator assets.
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
+        this.preloadList.addLoad(async () => {
+            if (isAudienceMode()) {
+                const assetManager = o3h.Instance.getAssetManager();
+
+                const replayData = assetManager.getInputAsset(ASSETS.REPLAY_DATA);
+                const replayPlayer = await replayData.createReplayPlayer();
+
+                const replayProperties = await replayPlayer.getProperties();
+                const isCompete = replayProperties.isCompete;
+
+                this.app.setIsCompete(isCompete);
+            }
+        });
 
         // this.preloadList.addLoad(async () => {
         //     // Checks the play mode

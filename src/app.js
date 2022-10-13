@@ -152,7 +152,10 @@ export default class App {
 
             const replayRecorder = await this.runtime.createReplayRecorder();
             // Add the creator message as a replay data property
-            replayRecorder.addProperty("message", this.message);
+            // replayRecorder.addProperty("message", this.message);
+            replayRecorder.addProperty("puzzle", this.chosenPuzzle);
+            replayRecorder.addProperty("isCompete", this.isCompete);
+            replayRecorder.addProperty("attempts", this.attempts);
 
             // Get the replay data from the replay recorder and add it as an output asset
             const replayData = await replayRecorder.getReplayData();
