@@ -124,16 +124,40 @@
                 <!-- Puzzle goes here -->
             </div>
 
-            <div class="controls">
+            <div class="detailsOptions">
                 <button id="customizeButton">Edit board & background</button>
                 <button id="skipCustomization">Next</button>
             </div>
 
-            <div class="colourOptions hidden">
-                <!-- Colour options go here -->
+            <div class="customOptions hidden">
+                <div class="boardColours colours">
+                    <div id="b58863f0d9b5" class="colour default"></div>
+                    <div id="ea2929fdb5b5" class="colour red"></div>
+                    <div id="dd0fa6f79edf" class="colour pink"></div>
+                    <div id="6708c6cea2fb" class="colour purple"></div>
+                    <div id="4654f280e1fc" class="colour blue"></div>
+                    <div id="089ea66eecec" class="colour cyan"></div>
+                    <div id="0c882168ee7f" class="colour green"></div>
+                    <div id="696969e2e2e2" class="colour grey"></div>
+                </div>
 
-                <button>Board</button>
-                <button>Background</button>
+                <div class="bgColours colours hidden">
+                    <div id="bebebe" class="colour bgDefault"></div>
+                    <div id="fa7575" class="colour bgRed"></div>
+                    <div id="f1d293" class="colour bgYellow"></div>
+                    <div id="e39ef6" class="colour bgPurple"></div>
+                    <div id="a0c6f9" class="colour bgBlue"></div>
+                    <div id="6ff1d7" class="colour bgCyan"></div>
+                    <div id="7ff6a9" class="colour bgGreen"></div>
+                </div>
+
+                <div class="customTarget">
+                    <button class="board">Board</button>
+                    <button class="background">Background</button>
+                </div>
+
+                <button class="finishCustomization">Next</button>
+                
             </div>
             
         </div>
@@ -144,12 +168,24 @@
 
             <div id="playPuzzle">
                 <h3>Attempt: <b id="attempts">1</b></h3>
+
                 <div id="myBoard"></div>
+                
                 <h1 id="notif">Start!</h1>
                 <button id="undoButton">Undo</button>
+                <button id="giveUpButton">Give up</button>
+                <button class="next lower">Next</button>
             </div>
 
-            <button class="next lower">Next</button>
+            <div class="giveUpConfirmation">
+                <h3>Are you sure you're giving up?</h3>
+                <p>You will go to the recording screen where you can ask the Host for help, but you cannot come back.</p>
+                <div class="giveUpOptions">
+                    <button class="cancel">Go back</button>
+                    <button class="confirm">Give up</button>
+                </div>
+            </div>
+            
         </div>
 
         <!-- Recording Screen -->

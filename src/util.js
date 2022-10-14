@@ -146,3 +146,11 @@ export function setupPuzzleDetails(puzzle, screen, boardId) {
 
     document.querySelector(".body").lastElementChild.remove();
 }
+
+// iterates over all squares of queried board and changes their colours
+export function changeBoardColours(query, bgColour, colour) {{
+    document.querySelectorAll(query).forEach(e => {
+        e.style.backgroundColor = bgColour;
+        e.style.color = colour;
+    });
+}}

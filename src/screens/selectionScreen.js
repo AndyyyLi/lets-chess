@@ -91,12 +91,12 @@ export default class SelectionScreen extends ScreenBase {
     show() {
         super.show();
         // Shows the camera and audio on/off toggles to the user
-        this.app.systemSettingsService.showSystemSettings();
+        // this.app.systemSettingsService.showSystemSettings();
     }
 
     hide() {
         super.hide();
-
+        this.app.systemSettingsService.hideSystemSettings();
         // Set that the tutorial has been seen for this play mode
         // const playMode = isCreatorMode() ? "creator" : "audience";
         // PersistentDataManagerInstance.setSettingsDataProperty(`${playMode}_tutorial`, true);

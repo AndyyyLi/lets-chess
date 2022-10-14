@@ -204,12 +204,14 @@ let ChessEngine = function () {
             removeHighlights(opponentColour);
             correctIdxs.push(fens.length - 1);
             solutionIdx++;
-            document.querySelector("#notif").innerHTML = "Nice!"
+            document.querySelector("#notif").innerHTML = "Nice!";
             window.setTimeout(opponentMove, 250);
         } else {
             // wrong move, must try again
-            document.querySelector("#notif").innerHTML = "There is a better move."
+            document.querySelector("#notif").innerHTML = "There is a better move.";
             document.getElementById("undoButton").style.transform = "scale(1)";
+
+            if (attempts >= 5) document.getElementById("giveUpButton").style.transform = "scale(1)";
         }
 
         clickSource = null;
@@ -258,7 +260,7 @@ let ChessEngine = function () {
     // displays notification when user solves the puzzle
     function puzzleFinish() {
         document.getElementById("undoButton").style.display = "none";
-        document.querySelector("#notif").innerHTML = "You solved it!";
+        document.querySelector("#notif").innerHTML = "Solved!";
         document.querySelector("#gameplayScreen .next").style.transform = "scale(1)";
     }
 
@@ -276,12 +278,11 @@ let ChessEngine = function () {
     // returns immediately if no more correct moves to move to
     function skipToNextCorrectMove() {
         let targetIdx = getNextCorrectMoveIdx();
-        if (targetIdx == 0) return;
 
         skipMoves(targetIdx);
     }
 
-    // recursively plays the next move until reached next correct move or until game over
+    // recursively plays the next move until reached next correct move or until end of fens
     function skipMoves(targetIdx) {
         if (replayIdx == fens.length || replayIdx == targetIdx) return;
 
@@ -293,7 +294,7 @@ let ChessEngine = function () {
     // returns the index of the next correct move from current replayIdx
     // return 0 if there's no next correct move
     function getNextCorrectMoveIdx() {
-        let nextIdx = 0;
+        let nextIdx = fens.length - 1;
 
         for (let i = 0; i < correctIdxs.length; i++) {
             if (replayIdx < correctIdxs[i]) {
@@ -327,8 +328,6 @@ let ChessEngine = function () {
             removeHighlights(userColour);
             removeHighlights("options");
             document.querySelector("#notif").innerHTML = "Try again";
-            // document.getElementById("undoButton").disabled = true;
-            // document.getElementById("undoButton").style.opacity = "0.5";
             document.getElementById("undoButton").style.transform = "scale(0)";
 
             addAttempt();

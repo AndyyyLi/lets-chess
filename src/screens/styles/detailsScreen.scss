@@ -1,14 +1,27 @@
 #detailsScreen {
-    background-color: #52FF00;
+    background-color: #bebebe;
 
     .contents h4 {
         font-family: "Bungee", sans-serif;
         margin-bottom: 0;
     }
 
+    button {
+        transform: scale(0.8);
+    }
+
+    .backButton {
+        transform: scale(0.7);
+        left: -20px;
+    }
+
     hr {
         border: 0.75px solid #1F2933;
         width: 80%;
+    }
+
+    .puzzleTitle {
+        margin-bottom: 15px;
     }
 
     #puzzleDetails {
@@ -36,7 +49,95 @@
         columns: 2;
     }
 
-    .controls {
-        margin: 10px;
+    .detailsOptions {
+        margin-top: 10px;
+
+        button {
+            margin: 5px;
+        }
+    }
+
+    .colours {
+        background-color: #93939383;
+        margin: 10px 0px 5px 0px;
+    }
+
+    .customOptions {
+        margin: auto;
+
+        // greys out background button by default
+        .background {
+            opacity: 0.5;
+        }
+
+        .colour {
+            display: inline-block;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+        }
+
+        .default {
+            background-color: #b58863;
+            border: solid 3px white;
+        }
+
+        .red {
+            background-color: #ea2929;
+        }
+
+        .pink {
+            background-color: #dd0fa6;
+        }
+
+        .purple {
+            background-color: #6708c6;
+        }
+
+        .blue {
+            background-color: #4654f2;
+        }
+
+        .cyan {
+            background-color: #089ea6;
+        }        
+
+        .green {
+            background-color: #0c8821;
+        }
+
+        .grey {
+            background-color: #696969;
+        }
+
+        .bgDefault {
+            background-color: #bebebe;
+            border: solid 3px white;
+        }
+
+        .bgRed {
+            background-color: #fa7575;
+        }
+
+        .bgYellow {
+            background-color: #f1d293;
+        }
+
+        .bgPurple {
+            background-color: #e39ef6;
+        }
+
+        .bgBlue {
+            background-color: #a0c6f9;
+        }
+
+        .bgCyan {
+            background-color: #6ff1d7;
+        }
+
+        .bgGreen {
+            background-color: #7ff6a9;
+        }
     }
 }
