@@ -30,13 +30,9 @@ export default class MenuScreen extends ScreenBase {
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
     }
 
-    show() {
-        super.show();
-        // Shows the camera and audio on/off toggles to the user
-        this.app.systemSettingsService.showSystemSettings();
-    }
-
     hide() {        
         super.hide();
+        // Shows the camera and audio on/off toggles to the user
+        this.app.systemSettingsService.hideSystemSettings();
     }
 }

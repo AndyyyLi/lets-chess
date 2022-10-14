@@ -36,6 +36,7 @@ export default class DetailsScreen extends ScreenBase {
         this.onBoard = true;
 
         document.querySelector("#detailsScreen #customizeButton").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             
             document.querySelectorAll("#detailsScreen .boardColours .colour").forEach(colour => {
                 let darkColour = "#" + colour.id.substring(0,6);
@@ -75,6 +76,8 @@ export default class DetailsScreen extends ScreenBase {
         document.querySelector("#detailsScreen .board").addEventListener("click", () => {
             if (this.onBoard) return;
 
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
             document.querySelector("#detailsScreen .bgColours").classList.add("hidden");
             document.querySelector("#detailsScreen .background").style.opacity = "0.5";
             document.querySelector("#detailsScreen .boardColours").classList.remove("hidden");
@@ -86,6 +89,8 @@ export default class DetailsScreen extends ScreenBase {
         document.querySelector("#detailsScreen .background").addEventListener("click", () => {
             if (!this.onBoard) return;
 
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
             document.querySelector("#detailsScreen .boardColours").classList.add("hidden");
             document.querySelector("#detailsScreen .board").style.opacity = "0.5";
             document.querySelector("#detailsScreen .bgColours").classList.remove("hidden");
@@ -95,6 +100,8 @@ export default class DetailsScreen extends ScreenBase {
         });
 
         document.querySelector("#detailsScreen .finishCustomization").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
             this.app.setColour(this.colour);
             this.app.setBgColour(this.bgColour);
 
@@ -118,6 +125,14 @@ export default class DetailsScreen extends ScreenBase {
                 changeBoardColours("#puzzleRecord .black-3c85d", darkColour, lightColour);
                 document.getElementById("recordingScreen").style.backgroundColor = "#" + this.bgColour;
 
+                // creators can only go back if they are not competing
+                document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
+
+                document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
+                    SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+                    this.app.showDetails();
+                });
+
                 this.app.showRecording();
             }
         });
@@ -133,6 +148,7 @@ export default class DetailsScreen extends ScreenBase {
             // reset highlighted default bg colour
             document.getElementById(this.bgColour).style.border = "none";
             this.bgColour = "bebebe";
+            document.getElementById("recordingScreen").style.backgroundColor = "#" + this.bgColour;
             document.getElementById(this.bgColour).style.border = "solid 3px white";
 
             // reset selected customization target
@@ -153,13 +169,5 @@ export default class DetailsScreen extends ScreenBase {
         })
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
-    }
-
-    show() {
-        super.show();
-    }
-
-    hide() {        
-        super.hide();
     }
 }

@@ -97,4 +97,10 @@ export default class SplashScreen extends ScreenBase {
         //     }
         // });
     }
+
+    show() {
+        super.show();
+
+        this.app.systemSettingsService.showSystemSettings();
+    }
 }

@@ -1,5 +1,6 @@
 import { Chess } from 'chess.js';
 import "./chessboard";
+import { isAudienceMode } from './util';
 
 // chess engine module, provides full functionality to chosen chess puzzle
 let ChessEngine = function () {
@@ -211,7 +212,7 @@ let ChessEngine = function () {
             document.querySelector("#notif").innerHTML = "There is a better move.";
             document.getElementById("undoButton").style.transform = "scale(1)";
 
-            if (attempts >= 5) document.getElementById("giveUpButton").style.transform = "scale(1)";
+            if (attempts >= 5 && isAudienceMode()) document.getElementById("giveUpButton").style.transform = "scale(1)";
         }
 
         clickSource = null;

@@ -5,7 +5,8 @@ import { LAYOUTS, SOUNDS } from "../const";
 import { sortAndDisplayPuzzles, setupPuzzleDetails } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
-import PersistentDataManagerInstance from "../persistentDataManager";
+import SoundManagerInstance from "../soundManager";
+// import PersistentDataManagerInstance from "../persistentDataManager";
 
 export default class SelectionScreen extends ScreenBase {
     constructor(app) {
@@ -26,39 +27,52 @@ export default class SelectionScreen extends ScreenBase {
             sortAndDisplayPuzzles(this.puzzles, this.currentSort, null);
         });
 
+        document.querySelector("#selectionScreen .backButton").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+            this.app.showMenu();
+        })
+
         document.querySelector("#sortButton").addEventListener('click', () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             document.querySelector(".sortOptions").classList.remove("hidden");
         });
 
         document.querySelector(".sortOptions .moves").addEventListener('click', () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             sortAndDisplayPuzzles(this.puzzles, "moves", this.currentSort);
             this.currentSort = "moves";
             document.querySelector(".sortOptions").classList.add("hidden");
         });
 
         document.querySelector(".sortOptions .difficulty").addEventListener('click', () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             sortAndDisplayPuzzles(this.puzzles, "difficulty", this.currentSort);
             this.currentSort = "difficulty";
             document.querySelector(".sortOptions").classList.add("hidden");
         });
 
         document.querySelector(".sortOptions .gameState").addEventListener('click', () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             sortAndDisplayPuzzles(this.puzzles, "gameState", this.currentSort);
             this.currentSort = "gameState";
             document.querySelector(".sortOptions").classList.add("hidden");
         });
 
         document.querySelector(".sortOptions .opening").addEventListener('click', () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             sortAndDisplayPuzzles(this.puzzles, "opening", this.currentSort);
             this.currentSort = "opening";
             document.querySelector(".sortOptions").classList.add("hidden");
         });
 
         document.querySelector(".sortOptions .close").addEventListener('click', () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             document.querySelector(".sortOptions").classList.add("hidden");
         });
 
         document.querySelector("#randomPuzzleButton").addEventListener('click', () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
             if (this.puzzles) {
                 let randomIdx = Math.floor(Math.random() * this.puzzles.length);
                 let puzzle = this.puzzles[randomIdx];
@@ -80,17 +94,4 @@ export default class SelectionScreen extends ScreenBase {
         });
     }
 
-    show() {
-        super.show();
-        // Shows the camera and audio on/off toggles to the user
-        // this.app.systemSettingsService.showSystemSettings();
-    }
-
-    hide() {
-        super.hide();
-        this.app.systemSettingsService.hideSystemSettings();
-        // Set that the tutorial has been seen for this play mode
-        // const playMode = isCreatorMode() ? "creator" : "audience";
-        // PersistentDataManagerInstance.setSettingsDataProperty(`${playMode}_tutorial`, true);
-    }
 }

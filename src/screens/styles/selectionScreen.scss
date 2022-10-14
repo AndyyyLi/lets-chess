@@ -3,6 +3,7 @@
 
     #topbar {
         position: absolute;
+        width: 100%;
     }
 
     #puzzleList {
@@ -27,10 +28,23 @@
         position: fixed;
         z-index: 1;
         border: solid 1px black;
-        background-color: #00ff91;
+        background-color: #6d6d6d;
+        padding-top: 25px;
+        padding-bottom: 25px;
+
+        button {
+            margin: 10px;
+            font-size: 16px;
+        }
 
         .close {
-            text-align: right;
+            font-size: 20px;
+            position: absolute;
+            min-width: 55px;
+            background-color: white;
+            top: 0;
+            right: 0;
+            border-radius: 50%;
         }
     }
 }

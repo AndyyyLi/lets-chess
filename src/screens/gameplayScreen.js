@@ -47,16 +47,7 @@ export default class GameplayScreen extends ScreenBase {
 
                 ChessEngine.initPuzzleReplay("puzzleRecord", puzzle.FEN);
             } else {
-                // creators can only go back if they are not competing
-                if (!this.app.getIsCompete()) {
-                    document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
-                        SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-                        this.app.showDetails();
-                    });
-                    document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
-                }
-
-                // otherwise they record with their chosen puzzle at its initial position
+                // while hosts record with their chosen puzzle at its initial position
                 ChessEngine.buildPuzzle("puzzleRecord", puzzle.FEN, true);
             }
 
@@ -164,11 +155,12 @@ export default class GameplayScreen extends ScreenBase {
 
     show() {
         super.show();
+
+        // The camera and audio toggles should be hidden after the screen before gameplay
         this.app.systemSettingsService.showSystemSettings();
     }
 
     hide() {
-        // The camera and audio toggles should be hidden after the screen before gameplay
         this.app.systemSettingsService.hideSystemSettings();
 
         if (isCreatorMode()) {
