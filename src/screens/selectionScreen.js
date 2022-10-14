@@ -16,17 +16,9 @@ export default class SelectionScreen extends ScreenBase {
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
-        // fetch('../puzzles/puzzles.json')
-        // .then(res => res.json())
-        // .then(puzzles => {
-        //     this.puzzles = puzzles;
-        //     sortAndDisplayPuzzles(this.puzzles, "none", null);
-        //     this.currentSort = "none";
-        // });
-
         // imports the puzzles.json file then displays them without sorting
         this.preloadList.addLoad(async () => {
-            const response = await fetch('../puzzles/puzzles.json');
+            const response = await fetch('./puzzles/puzzles.json');
             this.puzzles = await response.json();
 
             this.currentSort = "none";
