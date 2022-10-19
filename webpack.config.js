@@ -76,7 +76,7 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 { from: "o3hmanifest.json", to: "" },
-                { from: "src/images", to: "images" },
+                { from: "src/img", to: "img" },
                 { from: "src/sounds", to: "sounds" },
                 { from: "src/puzzles", to: "puzzles" }
             ],

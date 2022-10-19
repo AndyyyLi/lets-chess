@@ -8,7 +8,8 @@ export const sleep = function(milliseconds) {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
-export function sortAndDisplayPuzzles(puzzles, sortBy, currentSort, screenApp) {
+// clears current puzzles then sorts them
+export function sortPuzzles(puzzles, sortBy, currentSort) {
     // will not sort the same sorting type twice
     if (currentSort == sortBy) return;
 
@@ -21,7 +22,7 @@ export function sortAndDisplayPuzzles(puzzles, sortBy, currentSort, screenApp) {
         child = puzzleList.lastElementChild;
     }
 
-    // sort puzzles
+    // sort puzzles by:
     if (sortBy == "moves") {
 
         puzzles.sort(function(a,b) {
@@ -75,13 +76,19 @@ export function sortAndDisplayPuzzles(puzzles, sortBy, currentSort, screenApp) {
         });
 
     }
-    // NOTE: initial display of puzzles has sortBy = "none", which skips all sorting options
+}
 
-    // display puzzles
-    // !!! CAN BE OPTIMIZED
+// displays 8 puzzles at a time, returns updated index for puzzlesList
+export function displayPuzzles(puzzles, currIdx) {
+    // displayed all puzzles already
+    if (currIdx == puzzles.length) return;
+
+    let puzzleList = document.getElementById("puzzleList");
     let width = (screen.width / 2) - 10;
 
-    puzzles.forEach(puzzle => {
+    for (let i = 0; i < 8 && currIdx < puzzles.length; i++) {
+        let puzzle = puzzles[currIdx++];
+
         var board = document.createElement("div");
         board.id = puzzle.PuzzleId;
         board.className = "puzzle";
@@ -108,7 +115,39 @@ export function sortAndDisplayPuzzles(puzzles, sortBy, currentSort, screenApp) {
         ChessEngine.buildPuzzle(board.id, puzzle.FEN, false);
 
         document.querySelector(".body").lastElementChild.remove();
-    });
+
+    }
+    
+    return currIdx;
+
+    // puzzles.forEach(puzzle => {
+    //     var board = document.createElement("div");
+    //     board.id = puzzle.PuzzleId;
+    //     board.className = "puzzle";
+    //     board.style.width = width + "px";
+
+    //     // when clicked, takes user to confirm screen
+    //     board.onclick = function() {
+    //         window.app.setChosenPuzzle(puzzle);
+
+    //         // show title
+    //         if (puzzle.OpeningFamily) {
+    //             let name = puzzle.OpeningVariation.replaceAll('_', ' ');
+    //             document.querySelector("#detailsScreen .puzzleTitle").innerHTML = name;
+    //         } else {
+    //             document.querySelector("#detailsScreen .puzzleTitle").innerHTML = "Puzzle " + puzzle.PuzzleId;
+    //         }
+    //         setupPuzzleDetails(puzzle, "#detailsScreen", "puzzleDetails");
+
+    //         window.app.showDetails();
+    //     };
+
+    //     puzzleList.appendChild(board);
+
+    //     ChessEngine.buildPuzzle(board.id, puzzle.FEN, false);
+
+    //     document.querySelector(".body").lastElementChild.remove();
+    // });
 }
 
 // setups up the details screen with the given puzzle

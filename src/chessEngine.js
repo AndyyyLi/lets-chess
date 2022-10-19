@@ -17,6 +17,8 @@ let ChessEngine = function () {
 
     let solution = null;
     let solutionIdx = 0;
+
+    let touches = 0;
     
     let game = null;
     let board = null;
@@ -25,7 +27,7 @@ let ChessEngine = function () {
         position: 'start',
         onDragStart: onDragStart,
         onDrop: onDrop,
-        onSnapEnd: onSnapEnd,
+        onSnapEnd: onSnapEnd
     };
 
     // returns number of attempts made
@@ -59,8 +61,16 @@ let ChessEngine = function () {
         // sets up chess.js and chessboard
         game = new Chess(puzzle.FEN);
         config.position = puzzle.FEN;
-        document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
+        document.querySelector("#" + divId).style.width = (screen.width - 20) + "px";
         board = ChessBoard(divId, config);
+
+        document.getElementById(divId).addEventListener("touchstart", (e) => {
+            touches = e.touches.length;
+        });
+
+        document.getElementById(divId).addEventListener("touchend", (e) => {
+            touches = e.touches.length;
+        });
 
         // determines which colour user plays as
         // opponentMove can only be 'b' or 'w' (check FEN strings samples)
@@ -135,6 +145,8 @@ let ChessEngine = function () {
 
     // fires when user clicks on a piece
     function onDragStart(source, piece, position, orientation) {
+        // do not pick up more than 1 piece at a time
+        if (touches) return false;
         // do not pick up pieces if the game is over
         if (game.game_over()) return false;
 
@@ -184,8 +196,10 @@ let ChessEngine = function () {
         });
 
         // illegal move
+        // resets touches because touchend event listener is inconsistent
         if (move === null) {
             removeHighlights("options");
+            touches = 0;
             return "snapback";
         } 
 
@@ -212,7 +226,10 @@ let ChessEngine = function () {
             document.querySelector("#notif").innerHTML = "There is a better move.";
             document.getElementById("undoButton").style.transform = "scale(1)";
 
-            if (attempts >= 5 && isAudienceMode()) document.getElementById("giveUpButton").style.transform = "scale(1)";
+            document.getElementById("hintButton").style.opacity = "0.5";
+            document.getElementById("hintButton").disabled = true;
+
+            if (attempts >= 10 && isAudienceMode()) document.getElementById("giveUpButton").style.transform = "scale(1)";
         }
 
         clickSource = null;
@@ -261,6 +278,10 @@ let ChessEngine = function () {
     // displays notification when user solves the puzzle
     function puzzleFinish() {
         document.getElementById("undoButton").style.display = "none";
+        document.getElementById("giveUpButton").style.display = "none";
+        document.getElementById("hintButton").style.opacity = "0.5";
+        document.getElementById("hintButton").disabled = true;
+
         document.querySelector("#notif").innerHTML = "Solved!";
         document.querySelector("#gameplayScreen .next").style.transform = "scale(1)";
     }
@@ -331,6 +352,9 @@ let ChessEngine = function () {
             document.querySelector("#notif").innerHTML = "Try again";
             document.getElementById("undoButton").style.transform = "scale(0)";
 
+            document.getElementById("hintButton").style.opacity = "1";
+            document.getElementById("hintButton").disabled = false;
+
             addAttempt();
 
             // update board
@@ -345,6 +369,13 @@ let ChessEngine = function () {
         return (source + target) == solution[solutionIdx];
     }
 
+    // highlights the piece that needs to move next
+    function showHint() {
+        let source = solution[solutionIdx].substring(0, 2);
+
+        document.querySelector("#gameplayScreen .square-" + source).classList.add("highlight-options");
+    }
+
     return {
         getAttempts: getAttempts,
         buildPuzzle: buildPuzzle,
@@ -353,7 +384,8 @@ let ChessEngine = function () {
         initPuzzleReplay: initPuzzleReplay,
         nextMoveReplay: nextMoveReplay,
         prevMoveReplay: prevMoveReplay,
-        skipToNextCorrectMove: skipToNextCorrectMove
+        skipToNextCorrectMove: skipToNextCorrectMove,
+        showHint: showHint
     };
 
 }();

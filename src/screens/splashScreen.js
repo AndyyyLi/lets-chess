@@ -61,7 +61,6 @@ export default class SplashScreen extends ScreenBase {
 
         // This is an example of pre-loading an image.  You should pre-load any images or other web assets you are going
         // to use on a given screen so they can be shown immediately when the screen is visible.
-        // this.preloadList.addHttpLoad("./images/icon_help.png");
 
         // Do THIS to load sounds in Oooh! This will load a button sound using the Howler library with the HTML5 audio polyfill
         this.preloadList.addLoad(() => SoundManagerInstance.loadSound(SOUNDS.SFX_BUTTON_TAP));

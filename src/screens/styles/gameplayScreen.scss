@@ -1,9 +1,19 @@
 #gameplayScreen {
-    background-color: #DA1CB9;
-    color: #F5F7FA;
+    background-color: #bebebe;
+    touch-action: none;
+    
 
     #myBoard {
         margin: auto;
+    }
+
+    #hintButton {
+        transform: scale(0.6);
+        display: none;
+    }
+
+    h3 {
+        margin-top: 5;
     }
 
     .giveUpConfirmation {
@@ -22,6 +32,10 @@
 
         p {
             padding: 10px;
+        }
+
+        h3 {
+            margin-top: 40px;
         }
     }
 

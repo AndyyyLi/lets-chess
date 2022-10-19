@@ -149,6 +149,15 @@ export default class GameplayScreen extends ScreenBase {
                 changeBoardColours("#myBoard .white-1e1d7", lightColour, darkColour);
                 changeBoardColours("#myBoard .black-3c85d", darkColour, lightColour);
                 document.getElementById("gameplayScreen").style.backgroundColor = "#" + bgColour;
+
+                if (!this.app.getIsCompete()) {
+                    // activates hint button
+                    document.getElementById("hintButton").addEventListener("click", () => {
+                        ChessEngine.showHint();
+                    });
+                    // shows hint button
+                    document.getElementById("hintButton").style.display = "inline";
+                }
             }
         });
     }

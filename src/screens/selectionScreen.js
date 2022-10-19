@@ -2,7 +2,7 @@ import "./styles/selectionScreen.scss";
 import ScreenBase from "./screenBase";
 
 import { LAYOUTS, SOUNDS } from "../const";
-import { sortAndDisplayPuzzles, setupPuzzleDetails } from "../util";
+import { sortPuzzles, setupPuzzleDetails, displayPuzzles, isCreatorMode } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
 import SoundManagerInstance from "../soundManager";
@@ -14,23 +14,42 @@ export default class SelectionScreen extends ScreenBase {
 
         this.puzzles;
         this.currentSort;
+        this.listDisplayIdx = 0;
+        this.scroll = document.getElementById("puzzleList").scrollTop;
+        this.scrollToLoad = screen.width / 2;
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
         // imports the puzzles.json file then displays them without sorting
         this.preloadList.addLoad(async () => {
-            const response = await fetch('./puzzles/puzzles.json');
-            this.puzzles = await response.json();
+            if (isCreatorMode()) {
+                const response = await fetch('../puzzles/puzzles.json');
+                this.puzzles = await response.json();
+    
+                this.currentSort = "none";
+    
+                this.listDisplayIdx = displayPuzzles(this.puzzles, this.listDisplayIdx);
+            }
+        });
 
-            this.currentSort = "none";
+        document.getElementById("puzzleList").addEventListener("scroll", () => {
+            var newScroll = document.getElementById("puzzleList").scrollTop;
+            // check downward scroll
+            if (newScroll > this.scroll) {
+                // check scroll past scrollToLoad and that there are still puzzles to display
+                if (newScroll > this.scrollToLoad && this.listDisplayIdx < this.puzzles.length) {
+                    this.listDisplayIdx = displayPuzzles(this.puzzles, this.listDisplayIdx);
+                    this.scrollToLoad += screen.width * 2;
+                }
+            }
 
-            sortAndDisplayPuzzles(this.puzzles, this.currentSort, null);
+            this.scroll = newScroll;
         });
 
         document.querySelector("#selectionScreen .backButton").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             this.app.showMenu();
-        })
+        });
 
         document.querySelector("#sortButton").addEventListener('click', () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
@@ -39,28 +58,36 @@ export default class SelectionScreen extends ScreenBase {
 
         document.querySelector(".sortOptions .moves").addEventListener('click', () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            sortAndDisplayPuzzles(this.puzzles, "moves", this.currentSort);
+            sortPuzzles(this.puzzles, "moves", this.currentSort);
+            this.listDisplayIdx = displayPuzzles(this.puzzles, 0);
+            this.scrollToLoad = screen.width / 2;
             this.currentSort = "moves";
             document.querySelector(".sortOptions").classList.add("hidden");
         });
 
         document.querySelector(".sortOptions .difficulty").addEventListener('click', () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            sortAndDisplayPuzzles(this.puzzles, "difficulty", this.currentSort);
+            sortPuzzles(this.puzzles, "difficulty", this.currentSort);
+            this.listDisplayIdx = displayPuzzles(this.puzzles, 0);
+            this.scrollToLoad = screen.width / 2;
             this.currentSort = "difficulty";
             document.querySelector(".sortOptions").classList.add("hidden");
         });
 
         document.querySelector(".sortOptions .gameState").addEventListener('click', () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            sortAndDisplayPuzzles(this.puzzles, "gameState", this.currentSort);
+            sortPuzzles(this.puzzles, "gameState", this.currentSort);
+            this.listDisplayIdx = displayPuzzles(this.puzzles, 0);
+            this.scrollToLoad = screen.width / 2;
             this.currentSort = "gameState";
             document.querySelector(".sortOptions").classList.add("hidden");
         });
 
         document.querySelector(".sortOptions .opening").addEventListener('click', () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            sortAndDisplayPuzzles(this.puzzles, "opening", this.currentSort);
+            sortPuzzles(this.puzzles, "opening", this.currentSort);
+            this.listDisplayIdx = displayPuzzles(this.puzzles, 0);
+            this.scrollToLoad = screen.width / 2;
             this.currentSort = "opening";
             document.querySelector(".sortOptions").classList.add("hidden");
         });
