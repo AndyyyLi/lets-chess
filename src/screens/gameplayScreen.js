@@ -73,12 +73,12 @@ export default class GameplayScreen extends ScreenBase {
         if (isAudienceMode()) {
             document.querySelector("#giveUpButton").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-                document.querySelector("#gameplayScreen .giveUpConfirmation").style.transform = "scale(1)";
+                document.querySelector("#gameplayScreen .backdrop").style.transform = "scale(1)";
             });
             
             document.querySelector("#gameplayScreen .cancel").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-                document.querySelector("#gameplayScreen .giveUpConfirmation").style.transform = "scale(0)";
+                document.querySelector("#gameplayScreen .backdrop").style.transform = "scale(0)";
             });
 
             document.querySelector("#gameplayScreen .confirm").addEventListener('click', () => {
@@ -119,7 +119,16 @@ export default class GameplayScreen extends ScreenBase {
 
                 this.app.showRecording();
             });
+        } else {
+            document.querySelector("#gameplayScreen .backButton").addEventListener("click", () => {
+                SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
+                document.getElementById("notif").innerHTML = "Your turn!";
+                document.getElementById("giveUpButton").style.transform = "scale(0)";
+                document.getElementById("undoButton").style.transform = "scale(0)";
+
+                this.app.showDetails();
+            });
         }
         
 

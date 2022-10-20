@@ -53,7 +53,7 @@ export default class SelectionScreen extends ScreenBase {
 
         document.querySelector("#sortButton").addEventListener('click', () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            document.querySelector(".sortOptions").classList.remove("hidden");
+            document.querySelector("#selectionScreen .backdrop").style.transform = "scale(1)";
         });
 
         document.querySelector(".sortOptions .moves").addEventListener('click', () => {
@@ -62,7 +62,7 @@ export default class SelectionScreen extends ScreenBase {
             this.listDisplayIdx = displayPuzzles(this.puzzles, 0);
             this.scrollToLoad = screen.width / 2;
             this.currentSort = "moves";
-            document.querySelector(".sortOptions").classList.add("hidden");
+            document.querySelector("#selectionScreen .backdrop").style.transform = "scale(0)";
         });
 
         document.querySelector(".sortOptions .difficulty").addEventListener('click', () => {
@@ -71,7 +71,7 @@ export default class SelectionScreen extends ScreenBase {
             this.listDisplayIdx = displayPuzzles(this.puzzles, 0);
             this.scrollToLoad = screen.width / 2;
             this.currentSort = "difficulty";
-            document.querySelector(".sortOptions").classList.add("hidden");
+            document.querySelector("#selectionScreen .backdrop").style.transform = "scale(0)";
         });
 
         document.querySelector(".sortOptions .gameState").addEventListener('click', () => {
@@ -80,7 +80,7 @@ export default class SelectionScreen extends ScreenBase {
             this.listDisplayIdx = displayPuzzles(this.puzzles, 0);
             this.scrollToLoad = screen.width / 2;
             this.currentSort = "gameState";
-            document.querySelector(".sortOptions").classList.add("hidden");
+            document.querySelector("#selectionScreen .backdrop").style.transform = "scale(0)";
         });
 
         document.querySelector(".sortOptions .opening").addEventListener('click', () => {
@@ -89,12 +89,12 @@ export default class SelectionScreen extends ScreenBase {
             this.listDisplayIdx = displayPuzzles(this.puzzles, 0);
             this.scrollToLoad = screen.width / 2;
             this.currentSort = "opening";
-            document.querySelector(".sortOptions").classList.add("hidden");
+            document.querySelector("#selectionScreen .backdrop").style.transform = "scale(0)";
         });
 
         document.querySelector(".sortOptions .close").addEventListener('click', () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            document.querySelector(".sortOptions").classList.add("hidden");
+            document.querySelector("#selectionScreen .backdrop").style.transform = "scale(0)";
         });
 
         document.querySelector("#randomPuzzleButton").addEventListener('click', () => {

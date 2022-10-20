@@ -61,7 +61,7 @@ let ChessEngine = function () {
         // sets up chess.js and chessboard
         game = new Chess(puzzle.FEN);
         config.position = puzzle.FEN;
-        document.querySelector("#" + divId).style.width = (screen.width - 20) + "px";
+        document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
         board = ChessBoard(divId, config);
 
         document.getElementById(divId).addEventListener("touchstart", (e) => {
@@ -71,6 +71,24 @@ let ChessEngine = function () {
         document.getElementById(divId).addEventListener("touchend", (e) => {
             touches = e.touches.length;
         });
+
+        // show difficulty
+        let rating = puzzle.Rating;
+        let difficulty;
+        switch (true) {
+            case (rating >= 2750):
+                difficulty = "Extreme";
+                break;
+            case (rating >= 2000):
+                difficulty = "Hard";
+                break;
+            case (rating >= 1000):
+                difficulty = "Medium";
+                break;
+            default:
+                difficulty = "Easy";
+        }
+        document.querySelector("#gameplayScreen .difficultyIndicator").innerHTML = difficulty;
 
         // determines which colour user plays as
         // opponentMove can only be 'b' or 'w' (check FEN strings samples)
@@ -92,8 +110,9 @@ let ChessEngine = function () {
             }
         });
 
-        // set the solution moves list
+        // set the solution moves list and reset index
         solution = puzzle.Moves.split(" ");
+        solutionIdx = 0;
 
         // make opponent's move that starts puzzle
         setTimeout(opponentMove, 300);
@@ -229,7 +248,8 @@ let ChessEngine = function () {
             document.getElementById("hintButton").style.opacity = "0.5";
             document.getElementById("hintButton").disabled = true;
 
-            if (attempts >= 10 && isAudienceMode()) document.getElementById("giveUpButton").style.transform = "scale(1)";
+            // threshold for give up button to appear
+            if (attempts >= 1 && isAudienceMode()) document.getElementById("giveUpButton").style.transform = "scale(1)";
         }
 
         clickSource = null;
@@ -243,6 +263,7 @@ let ChessEngine = function () {
 
     // makes opponent's next move, returns if puzzle is done
     function opponentMove() {
+        console.log("opponent moving");
         let nextMove = getNextMove();
 
         // puzzle complete!

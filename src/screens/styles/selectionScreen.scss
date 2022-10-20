@@ -1,7 +1,7 @@
 #selectionScreen {
-    background-color: #52FF00;
+    background-color: #82c9f9;
 
-    #topbar {
+    #selectTopBar {
         position: absolute;
         width: 100%;
     }
@@ -25,12 +25,14 @@
     }
     
     .sortOptions {
-        position: fixed;
-        z-index: 1;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
         border: solid 1px black;
-        background-color: #6d6d6d;
-        padding-top: 25px;
-        padding-bottom: 25px;
+        background-color: #848484;
+        width: 80%;
 
         button {
             margin: 10px;
@@ -39,6 +41,7 @@
 
         .close {
             font-size: 20px;
+            margin: 5px;
             position: absolute;
             min-width: 55px;
             background-color: white;

@@ -86,18 +86,22 @@
             <div class="backButton"></div>
             <h3>Choose a puzzle</h3>
             
-            <div id="topBar">
+            <div id="selectTopBar">
                 <button id="randomPuzzleButton">I'm feeling lucky</button>
                 <button id="sortButton">Sort</button>
             </div>
 
-            <div class="sortOptions popup hidden">
-                <button class="close">X</button>
-                <button class="moves">Moves to solve (Ascending)</button>
-                <button class="difficulty">Difficulty (Ascending)</button>
-                <button class="gameState">Game State (Endgame to Midgame)</button>
-                <button class="opening">Opening Family (Alphabetical to None)</button>
+            <div class="backdrop">
+                <div class="sortOptions">
+                    <h1>Sort by:</h1>
+                    <button class="close">X</button>
+                    <button class="moves">Moves to solve (Ascending)</button>
+                    <button class="difficulty">Difficulty (Ascending)</button>
+                    <button class="gameState">Game State (Endgame to Midgame)</button>
+                    <button class="opening">Opening Family (Alphabetical to None)</button>
+                </div>
             </div>
+            
 
             <div id="puzzleList">
                 <!-- Puzzle list goes here -->
@@ -125,7 +129,7 @@
             </div>
 
             <div class="detailsOptions">
-                <button id="customizeButton">Edit board & background</button>
+                <button id="chooseButton">Edit board & background</button>
                 <button id="skipCustomization">Next</button>
             </div>
 
@@ -164,11 +168,17 @@
 
         <!-- Gameplay Screen -->
         <div id="gameplayScreen" class="screen hidden">
+            <div class="backButton"></div>
             <h1 class="puzzleTitle"></h1>
 
             <div id="playPuzzle">
-                <button id="hintButton">Hint</button>
                 <h3>Attempt: <b id="attempts">1</b></h3>
+
+                <div class="topBar">
+                    <button id="hintButton">Hint</button>
+                    <p class="difficultyIndicator"></p>
+                </div>
+                
 
                 <div id="myBoard"></div>
                 
@@ -178,14 +188,17 @@
                 <button class="next lower">Next</button>
             </div>
 
-            <div class="giveUpConfirmation">
-                <h3>Are you sure you're giving up?</h3>
-                <p>You will go to the recording screen where you can ask the Host for help, but you cannot come back.</p>
-                <div class="giveUpOptions">
-                    <button class="cancel">Go back</button>
-                    <button class="confirm">Give up</button>
+            <div class="backdrop">
+                <div class="giveUpConfirmation">
+                    <h3>Are you sure you're giving up?</h3>
+                    <p>You will go to the recording screen where you can ask the Host for help, but you cannot come back.</p>
+                    <div class="giveUpOptions">
+                        <button class="cancel">Go back</button>
+                        <button class="confirm">Give up</button>
+                    </div>
                 </div>
             </div>
+            
             
         </div>
 

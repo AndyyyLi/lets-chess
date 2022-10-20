@@ -23,6 +23,13 @@ export default class DetailsScreen extends ScreenBase {
                 let puzzle = this.app.getChosenPuzzle();
                 ChessEngine.buildPuzzle("puzzleRecord", puzzle.FEN, true);
                 setupPuzzleDetails(puzzle, "#recordingScreen", "puzzleRecord");
+                
+                // creators can only go back if they are not competing
+                document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
+                document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
+                    SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+                    this.app.showDetails();
+                });
 
                 this.app.showRecording();
             }
@@ -35,7 +42,7 @@ export default class DetailsScreen extends ScreenBase {
 
         this.onBoard = true;
 
-        document.querySelector("#detailsScreen #customizeButton").addEventListener("click", () => {
+        document.querySelector("#detailsScreen #chooseButton").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             
             document.querySelectorAll("#detailsScreen .boardColours .colour").forEach(colour => {
@@ -127,7 +134,6 @@ export default class DetailsScreen extends ScreenBase {
 
                 // creators can only go back if they are not competing
                 document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
-
                 document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
                     SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
                     this.app.showDetails();

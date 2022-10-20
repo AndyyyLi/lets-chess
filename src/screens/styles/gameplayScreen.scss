@@ -8,8 +8,13 @@
     }
 
     #hintButton {
-        transform: scale(0.6);
+        transform: scale(0.75);
         display: none;
+        margin: 0 100px 0 0;
+    }
+
+    .difficultyIndicator {
+        margin-bottom: 0px;
     }
 
     h3 {
@@ -18,8 +23,7 @@
 
     .giveUpConfirmation {
         position: absolute;
-        transform: scale(0);
-        background-color: blue;
+        background-color: rgb(234, 65, 65);
         border-radius: 5px;
         top: 0;
         bottom: 0;

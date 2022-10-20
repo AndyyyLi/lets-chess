@@ -95,6 +95,7 @@ export function displayPuzzles(puzzles, currIdx) {
         board.style.width = width + "px";
 
         // when clicked, takes user to confirm screen
+        // !!! include popup confirmation
         board.onclick = function() {
             window.app.setChosenPuzzle(puzzle);
 
@@ -119,35 +120,6 @@ export function displayPuzzles(puzzles, currIdx) {
     }
     
     return currIdx;
-
-    // puzzles.forEach(puzzle => {
-    //     var board = document.createElement("div");
-    //     board.id = puzzle.PuzzleId;
-    //     board.className = "puzzle";
-    //     board.style.width = width + "px";
-
-    //     // when clicked, takes user to confirm screen
-    //     board.onclick = function() {
-    //         window.app.setChosenPuzzle(puzzle);
-
-    //         // show title
-    //         if (puzzle.OpeningFamily) {
-    //             let name = puzzle.OpeningVariation.replaceAll('_', ' ');
-    //             document.querySelector("#detailsScreen .puzzleTitle").innerHTML = name;
-    //         } else {
-    //             document.querySelector("#detailsScreen .puzzleTitle").innerHTML = "Puzzle " + puzzle.PuzzleId;
-    //         }
-    //         setupPuzzleDetails(puzzle, "#detailsScreen", "puzzleDetails");
-
-    //         window.app.showDetails();
-    //     };
-
-    //     puzzleList.appendChild(board);
-
-    //     ChessEngine.buildPuzzle(board.id, puzzle.FEN, false);
-
-    //     document.querySelector(".body").lastElementChild.remove();
-    // });
 }
 
 // setups up the details screen with the given puzzle
