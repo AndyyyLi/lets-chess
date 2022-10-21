@@ -36,11 +36,14 @@ let ChessEngine = function () {
     }
 
     // builds display chessboard from puzzle object at given div
-    function buildPuzzle(divId, fen, isOnlyPuzzle) {
+    function buildPuzzle(divId, fen, isFocusPuzzle) {
         // if only puzzle on screen, set to fullscreen width
-        if (isOnlyPuzzle) document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
+        if (isFocusPuzzle) document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
         
         ChessBoard(divId, fen);
+
+        // remove the element added to make dragging functionality work since it's not needed
+        document.querySelector(".body").lastElementChild.remove();
     }
 
     // initializes puzzle for solving
@@ -124,6 +127,9 @@ let ChessEngine = function () {
         game = new Chess(fen);
         document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
         board = ChessBoard(divId, fen);
+
+        // remove the element added to make dragging functionality work since it's not needed
+        document.querySelector(".body").lastElementChild.remove();
 
         // make opponent's move that starts puzzle
         setTimeout(nextMoveReplay, 300);
@@ -249,6 +255,7 @@ let ChessEngine = function () {
             document.getElementById("hintButton").disabled = true;
 
             // threshold for give up button to appear
+            // !!! CHANGE ATTEMPTS THRESHOLD FOR FINAL COPY
             if (attempts >= 1 && isAudienceMode()) document.getElementById("giveUpButton").style.transform = "scale(1)";
         }
 
@@ -263,7 +270,6 @@ let ChessEngine = function () {
 
     // makes opponent's next move, returns if puzzle is done
     function opponentMove() {
-        console.log("opponent moving");
         let nextMove = getNextMove();
 
         // puzzle complete!

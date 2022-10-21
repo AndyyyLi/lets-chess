@@ -14,6 +14,50 @@
         overflow: auto;
     }
 
+    .detailsWindow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #707070;
+        border-radius: 5%;
+        color: white;
+        padding: 10px;
+        border: solid 2px black;
+        width: 90%;
+    }
+
+    #puzzleInfo {
+        margin: auto;
+        margin-left: -1;
+    }
+
+    .mainContent {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        column-gap: 10px;
+        margin: 50px 0 20px 0;
+    }
+
+    .details {
+        margin-top: 5px;
+    }
+
+    .info {
+        text-align: left;
+        margin-bottom: 5px;
+        
+        p {
+            margin: 0;
+            font-size: 10px;
+        }
+
+        h4 {
+            margin: 0;
+            font-size: 15px;
+        }
+    }
+
     .contents h4 {
         font-family: "Bungee", sans-serif;
         margin-bottom: 0;
@@ -34,20 +78,21 @@
         background-color: #848484;
         width: 80%;
 
-        button {
+        button:not(.close) {
             margin: 10px;
             font-size: 16px;
         }
+    }
 
-        .close {
-            font-size: 20px;
-            margin: 5px;
-            position: absolute;
-            min-width: 55px;
-            background-color: white;
-            top: 0;
-            right: 0;
-            border-radius: 50%;
-        }
+    .close {
+        font-size: 20px;
+        color: white;
+        margin: 5px;
+        position: absolute;
+        min-width: 55px;
+        background: none;
+        top: -5;
+        right: -5;
+        border-radius: 50%;
     }
 }

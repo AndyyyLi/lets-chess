@@ -60,8 +60,6 @@ export default class GameplayScreen extends ScreenBase {
             changeBoardColours("#puzzleRecord .black-3c85d", darkColour, lightColour);
             document.getElementById("recordingScreen").style.backgroundColor = "#" + bgColour;
 
-            document.querySelector(".body").lastElementChild.remove();
-
             this.app.showRecording();
         });
 

@@ -2,7 +2,7 @@ import "./styles/selectionScreen.scss";
 import ScreenBase from "./screenBase";
 
 import { LAYOUTS, SOUNDS } from "../const";
-import { sortPuzzles, setupPuzzleDetails, displayPuzzles, isCreatorMode } from "../util";
+import { sortPuzzles, setupPuzzleDetails, displayPuzzles, isCreatorMode, getPuzzleTitle, changeBoardColours } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
 import SoundManagerInstance from "../soundManager";
@@ -23,11 +23,12 @@ export default class SelectionScreen extends ScreenBase {
         // imports the puzzles.json file then displays them without sorting
         this.preloadList.addLoad(async () => {
             if (isCreatorMode()) {
+                // only needs one "." for SDK, needs two for local webpack
                 const response = await fetch('../puzzles/puzzles.json');
                 this.puzzles = await response.json();
-    
+
                 this.currentSort = "none";
-    
+
                 this.listDisplayIdx = displayPuzzles(this.puzzles, this.listDisplayIdx);
             }
         });
@@ -94,7 +95,7 @@ export default class SelectionScreen extends ScreenBase {
 
         document.querySelector(".sortOptions .close").addEventListener('click', () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            document.querySelector("#selectionScreen .backdrop").style.transform = "scale(0)";
+            document.querySelector("#selectionScreen .sorting").style.transform = "scale(0)";
         });
 
         document.querySelector("#randomPuzzleButton").addEventListener('click', () => {
@@ -106,18 +107,66 @@ export default class SelectionScreen extends ScreenBase {
 
                 this.app.setChosenPuzzle(puzzle);
 
-                // show title
-                if (puzzle.OpeningFamily) {
-                    let name = puzzle.OpeningVariation.replaceAll('_', ' ');
-                    document.querySelector("#detailsScreen .puzzleTitle").innerHTML = name;
-                } else {
-                    document.querySelector("#detailsScreen .puzzleTitle").innerHTML = "Puzzle " + puzzle.PuzzleId;
-                }
-                
-                setupPuzzleDetails(puzzle, "#detailsScreen", "puzzleDetails");
+                document.querySelector("#customizeScreen .puzzleTitle").innerHTML = getPuzzleTitle(puzzle);
+                setupPuzzleDetails(puzzle, "#customizeScreen", "puzzleDetails");
 
                 this.app.showDetails();
             }
+        });
+
+        document.querySelector("#selectionScreen .chooseButton").addEventListener('click', () => {
+            let puzzle = this.app.getChosenPuzzle();
+
+            document.querySelector("#customizeScreen .puzzleTitle").innerHTML = getPuzzleTitle(puzzle);
+            setupPuzzleDetails(puzzle, "#customizeScreen", "puzzleDetails");
+
+            // set board colour options
+            document.querySelectorAll("#customizeScreen .boardColours .colour").forEach(colour => {
+                let darkColour = "#" + colour.id.substring(0,6);
+                let lightColour = "#" + colour.id.substring(6,12);
+
+                colour.addEventListener("click", () => {
+                    let thisColour = this.app.getColour();
+
+                    if (colour.id == thisColour) return;
+
+                    // highlight selected colour
+                    document.getElementById(thisColour).style.border = "none";
+                    colour.style.border = "solid 3px white";
+                    this.app.setColour(colour.id);
+
+                    changeBoardColours("#puzzleDetails .white-1e1d7", lightColour, darkColour);
+                    changeBoardColours("#puzzleDetails .black-3c85d", darkColour, lightColour);
+                });
+            });
+
+            // set background colour options
+            document.querySelectorAll("#customizeScreen .bgColours .colour").forEach(bgColour => {
+
+                bgColour.addEventListener("click", () => {
+                    let thisBgColour = this.app.getBgColour();
+
+                    if (bgColour.id == thisBgColour) return;
+
+                    // highlight selected colour
+                    document.getElementById(thisBgColour).style.border = "none";
+                    bgColour.style.border = "solid 3px white";
+                    this.app.setBgColour(bgColour.id);
+
+                    document.getElementById("customizeScreen").style.backgroundColor = "#" + bgColour.id;
+                });
+            });
+
+            // !!! add photo selector event listener here
+
+            document.querySelector("#selectionScreen .showInfo").style.transform = "scale(0)";
+
+            this.app.showDetails();
+        });
+
+        document.querySelector(".detailsWindow .close").addEventListener('click', () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+            document.querySelector("#selectionScreen .showInfo").style.transform = "scale(0)";
         });
     }
 

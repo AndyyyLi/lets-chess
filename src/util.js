@@ -94,54 +94,77 @@ export function displayPuzzles(puzzles, currIdx) {
         board.className = "puzzle";
         board.style.width = width + "px";
 
-        // when clicked, takes user to confirm screen
-        // !!! include popup confirmation
+        // when clicked, shows user the details popup
         board.onclick = function() {
             window.app.setChosenPuzzle(puzzle);
 
-            // show title
-            if (puzzle.OpeningFamily) {
-                let name = puzzle.OpeningVariation.replaceAll('_', ' ');
-                document.querySelector("#detailsScreen .puzzleTitle").innerHTML = name;
-            } else {
-                document.querySelector("#detailsScreen .puzzleTitle").innerHTML = "Puzzle " + puzzle.PuzzleId;
-            }
-            setupPuzzleDetails(puzzle, "#detailsScreen", "puzzleDetails");
+            // set info
+            document.querySelector(".details .puzzleTitle").innerHTML = getPuzzleTitle(puzzle);
+            document.querySelector(".details .puzzleDifficulty").innerHTML = getPuzzleDifficulty(puzzle.Rating);
+            document.querySelector(".details .puzzleUserColour").innerHTML = (puzzle.FEN.split(" ")[1] == "b") ? "White" : "Black";
+            document.querySelector(".details .puzzleMoves").innerHTML = puzzle.Moves.split(" ").length / 2;
+            document.querySelector(".details .puzzleObjective").innerHTML = getPuzzleObjective(puzzle.Themes);
 
-            window.app.showDetails();
+            document.getElementById("puzzleInfo").style.width = (screen.width / 2 - 20) + "px";
+
+            ChessEngine.buildPuzzle("puzzleInfo", puzzle.FEN, false);
+
+            document.querySelector("#selectionScreen .showInfo").style.transform = "scale(1)";
         };
 
         puzzleList.appendChild(board);
 
         ChessEngine.buildPuzzle(board.id, puzzle.FEN, false);
-
-        document.querySelector(".body").lastElementChild.remove();
-
     }
     
     return currIdx;
 }
 
-// setups up the details screen with the given puzzle
-export function setupPuzzleDetails(puzzle, screen, boardId) {
-    // show difficulty
-    let rating = puzzle.Rating;
-    let difficulty;
+// returns puzzle title based on opening family and variation
+export function getPuzzleTitle(puzzle) {
+    if (puzzle.OpeningFamily) {
+        return puzzle.OpeningVariation.replaceAll('_', ' ');
+    } else {
+        return "Puzzle " + puzzle.PuzzleId;
+    }
+}
+
+// returns puzzle difficulty based on rating
+function getPuzzleDifficulty(rating) {
     switch (true) {
         case (rating >= 2750):
-            difficulty = "Extreme";
-            break;
+            return "Extreme";
         case (rating >= 2000):
-            difficulty = "Hard";
-            break;
+            return "Hard";
         case (rating >= 1000):
-            difficulty = "Medium";
-            break;
+            return "Medium";
         default:
-            difficulty = "Easy";
+            return "Easy";
     }
+}
 
-    document.querySelector(screen + " .difficultyIndicator").innerHTML = difficulty;
+// returns puzzle objective based on themes
+function getPuzzleObjective(themes) {
+    let themesList = themes.split(" ");
+
+    switch (true) {
+        case (themesList.includes("mate")):
+            return "Checkmate";
+        case (themesList.includes("advantage")):
+            return "Gain decisive advantage";
+        case (themesList.includes("crushing")):
+            return "Exploit opponent's blunder";
+        case (themesList.includes("equality")):
+            return "Recover from disadvantage";
+        default:
+            return "Identify best moves";
+    }
+}
+
+// sets up the details for the given focus puzzle
+export function setupPuzzleDetails(puzzle, screen, boardId) {
+
+    document.querySelector(screen + " .difficultyIndicator").innerHTML = getPuzzleDifficulty(puzzle.Rating);
 
     // show what colour user will play as
     let opponentsMove = puzzle.FEN.split(" ")[1];
@@ -154,8 +177,6 @@ export function setupPuzzleDetails(puzzle, screen, boardId) {
     }
     
     ChessEngine.buildPuzzle(boardId, puzzle.FEN, true);
-
-    document.querySelector(".body").lastElementChild.remove();
 }
 
 // iterates over all squares of queried board and changes their colours

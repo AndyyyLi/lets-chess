@@ -1,4 +1,4 @@
-#detailsScreen {
+#customizeScreen {
     background-color: #bebebe;
 
     .contents h4 {
@@ -17,6 +17,7 @@
 
     .puzzleTitle {
         margin-bottom: 15px;
+        font-size: 25px;
     }
 
     #puzzleDetails {
@@ -62,6 +63,15 @@
             width: 30px;
             height: 30px;
             margin: 5px;
+        }
+
+        #photo {
+            display: inline-block;
+            border-radius: 20%;
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            background-color: rgb(75, 75, 75);
         }
 
         .default {

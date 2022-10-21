@@ -8,7 +8,7 @@ import SplashScreen from "./screens/splashScreen";
 import MenuScreen from "./screens/menuScreen";
 import InstructionsScreen from "./screens/instructionsScreen";
 import SelectionScreen from "./screens/selectionScreen";
-import DetailsScreen from "./screens/detailsScreen";
+import CustomizeScreen from "./screens/customizeScreen";
 import GameplayScreen from "./screens/gameplayScreen";
 import RecordingScreen from "./screens/recordingScreen";
 import ReviewScreen from "./screens/reviewScreen";
@@ -32,7 +32,7 @@ export default class App {
         this.menuScreen = new MenuScreen(this);
         this.instructionsScreen = new InstructionsScreen(this);
         this.selectionScreen = new SelectionScreen(this);
-        this.detailsScreen = new DetailsScreen(this);
+        this.customizeScreen = new CustomizeScreen(this);
         this.gameplayScreen = new GameplayScreen(this);
         this.recordingScreen = new RecordingScreen(this);
         this.reviewScreen = new ReviewScreen(this);
@@ -107,7 +107,7 @@ export default class App {
         listPreloader.addPreloadList(this.menuScreen.getPreloadList());
         listPreloader.addPreloadList(this.instructionsScreen.getPreloadList());
         listPreloader.addPreloadList(this.selectionScreen.getPreloadList());
-        listPreloader.addPreloadList(this.detailsScreen.getPreloadList());
+        listPreloader.addPreloadList(this.customizeScreen.getPreloadList());
         listPreloader.addPreloadList(this.gameplayScreen.getPreloadList());
         listPreloader.addPreloadList(this.recordingScreen.getPreloadList());
         listPreloader.addPreloadList(this.reviewScreen.getPreloadList());
@@ -137,7 +137,7 @@ export default class App {
     }
 
     async showDetails() {
-        await ScreenManagerInstance.showScreen(this.detailsScreen);
+        await ScreenManagerInstance.showScreen(this.customizeScreen);
     }
 
     async showGameplay() {

@@ -43,7 +43,7 @@
                     <p>Choose a puzzle for your community to solve. No attempts counting. No pressure.</p>
                     <button class="choose">Choose</button>
                 </div>
-                
+
                 <div class="options">
                     <p>Compete against your community to solve a puzzle in as few attempts as possible.</p>
                     <button class="compete">Compete</button>
@@ -78,20 +78,20 @@
             <div class="controls">
                 <button>Play!</button>
             </div>
-            
+
         </div>
 
         <!-- Selection Screen -->
         <div id="selectionScreen" class="screen hidden">
             <div class="backButton"></div>
             <h3>Choose a puzzle</h3>
-            
+
             <div id="selectTopBar">
                 <button id="randomPuzzleButton">I'm feeling lucky</button>
                 <button id="sortButton">Sort</button>
             </div>
 
-            <div class="backdrop">
+            <div class="backdrop sorting">
                 <div class="sortOptions">
                     <h1>Sort by:</h1>
                     <button class="close">X</button>
@@ -101,7 +101,46 @@
                     <button class="opening">Opening Family (Alphabetical to None)</button>
                 </div>
             </div>
-            
+
+            <div class="backdrop showInfo">
+                <div class="detailsWindow">
+                    <button class="close">X</button>
+
+                    <div class="mainContent">
+                        <div id="puzzleInfo"></div>
+
+                        <div class="details">
+                            <div class="info">
+                                <p>Title</p>
+                                <h4 class="puzzleTitle"></h4>
+                            </div>
+
+                            <div class="info">
+                                <p>Difficulty</p>
+                                <h4 class="puzzleDifficulty"></h4>
+                            </div>
+
+                            <div class="info">
+                                <p>Play as</p>
+                                <h4 class="puzzleUserColour"></h4>
+                            </div>
+
+                            <div class="info">
+                                <p>Moves to solve</p>
+                                <h4 class="puzzleMoves"></h4>
+                            </div>
+
+                            <div class="info">
+                                <p>Objective</p>
+                                <h4 class="puzzleObjective"></h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="chooseButton">Choose</button>
+                </div>
+            </div>
+
 
             <div id="puzzleList">
                 <!-- Puzzle list goes here -->
@@ -109,8 +148,8 @@
 
         </div>
 
-        <!-- Details Screen (confirm and customize)-->
-        <div id="detailsScreen" class="screen hidden">
+        <!-- Customize Screen-->
+        <div id="customizeScreen" class="screen hidden">
             <h1 class="puzzleTitle"></h1>
 
             <div class="backButton"></div>
@@ -128,12 +167,7 @@
                 <!-- Puzzle goes here -->
             </div>
 
-            <div class="detailsOptions">
-                <button id="chooseButton">Edit board & background</button>
-                <button id="skipCustomization">Next</button>
-            </div>
-
-            <div class="customOptions hidden">
+            <div class="customOptions">
                 <div class="boardColours colours">
                     <div id="b58863f0d9b5" class="colour default"></div>
                     <div id="ea2929fdb5b5" class="colour red"></div>
@@ -153,6 +187,7 @@
                     <div id="a0c6f9" class="colour bgBlue"></div>
                     <div id="6ff1d7" class="colour bgCyan"></div>
                     <div id="7ff6a9" class="colour bgGreen"></div>
+                    <div id="photo" class="bgPhoto"></div>
                 </div>
 
                 <div class="customTarget">
@@ -161,9 +196,9 @@
                 </div>
 
                 <button class="finishCustomization">Next</button>
-                
+
             </div>
-            
+
         </div>
 
         <!-- Gameplay Screen -->
@@ -178,10 +213,10 @@
                     <button id="hintButton">Hint</button>
                     <p class="difficultyIndicator"></p>
                 </div>
-                
+
 
                 <div id="myBoard"></div>
-                
+
                 <h1 id="notif">Your turn!</h1>
                 <button id="undoButton">Undo</button>
                 <button id="giveUpButton">Give up</button>
@@ -191,21 +226,22 @@
             <div class="backdrop">
                 <div class="giveUpConfirmation">
                     <h3>Are you sure you're giving up?</h3>
-                    <p>You will go to the recording screen where you can ask the Host for help, but you cannot come back.</p>
+                    <p>You will go to the recording screen where you can ask the Host for help, but you cannot come
+                        back.</p>
                     <div class="giveUpOptions">
                         <button class="cancel">Go back</button>
                         <button class="confirm">Give up</button>
                     </div>
                 </div>
             </div>
-            
-            
+
+
         </div>
 
         <!-- Recording Screen -->
         <div id="recordingScreen" class="screen hidden">
             <div class="interface backButton hidden"></div>
-            
+
             <div class="topBar">
                 <div class="colourToMove">
                     <div class="colourBox"></div>
@@ -218,7 +254,7 @@
             <div class="attempts hidden">
                 <h5 class="attemptCount"></h5>
             </div>
-            
+
             <div id="puzzleRecord"></div>
 
             <div class="contents lower hidden">
