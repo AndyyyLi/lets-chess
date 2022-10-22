@@ -14,7 +14,7 @@ export default class CustomizeScreen extends ScreenBase {
 
         // default colours of board
         this.app.setColour(document.querySelector("#customizeScreen .default").id);
-        this.app.setBgColour(document.querySelector("#customizeScreen .bgDefault").id);
+        this.app.setBackground(document.querySelector("#customizeScreen .bgDefault").id);
 
         this.onBoard = true;
 
@@ -49,13 +49,18 @@ export default class CustomizeScreen extends ScreenBase {
 
             let darkColour = "#" + this.app.getColour().substring(0,6);
             let lightColour = "#" + this.app.getColour().substring(6,12);
+            let background = this.app.getBackground();
 
             if (this.app.getIsCompete()) {
                 ChessEngine.initPuzzle("myBoard", this.app.getChosenPuzzle());
 
                 changeBoardColours("#myBoard .white-1e1d7", lightColour, darkColour);
                 changeBoardColours("#myBoard .black-3c85d", darkColour, lightColour);
-                document.getElementById("gameplayScreen").style.backgroundColor = "#" + this.app.getBgColour();
+                if (background.includes("blob")) {
+                    document.getElementById("gameplayScreen").style.backgroundImage = "url(" + background + ")";
+                } else {
+                    document.getElementById("gameplayScreen").style.backgroundColor = "#" + background;
+                }
 
                 this.app.showGameplay();
             } else {
@@ -65,7 +70,11 @@ export default class CustomizeScreen extends ScreenBase {
                 setupPuzzleDetails(puzzle, "#recordingScreen", "puzzleRecord");
                 changeBoardColours("#puzzleRecord .white-1e1d7", lightColour, darkColour);
                 changeBoardColours("#puzzleRecord .black-3c85d", darkColour, lightColour);
-                document.getElementById("recordingScreen").style.backgroundColor = "#" + this.app.getBgColour();
+                if (background.includes("blob")) {
+                    document.getElementById("recordingScreen").style.backgroundImage = "url(" + background + ")";
+                } else {
+                    document.getElementById("recordingScreen").style.backgroundColor = "#" + background;
+                }
 
                 // creators can only go back if they are not competing
                 document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
@@ -82,18 +91,23 @@ export default class CustomizeScreen extends ScreenBase {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
             let thisColour = this.app.getColour();
-            let thisBgColour = this.app.getBgColour();
+            let thisBackground = this.app.getBackground();
 
             // reset highlighted to default colour
-            document.getElementById(thisColour).style.border = "none";
-            document.getElementById("b58863f0d9b5").style.border = "solid 3px white";
+            document.getElementById(thisColour).classList.remove("chosen")
+            document.getElementById("b58863f0d9b5").classList.add("chosen");
             this.app.setColour("b58863f0d9b5");
 
             // reset highlighted to default bg colour
-            document.getElementById(thisBgColour).style.border = "none";
+            if (thisBackground.includes("blob")) {
+                document.getElementById("customizeScreen").style.backgroundImage = "none";
+            } else {
+                document.getElementById(thisBackground).classList.remove("chosen");
+            }
+
+            document.getElementById("bebebe").classList.add("chosen");
             document.getElementById("customizeScreen").style.backgroundColor = "#bebebe";
-            document.getElementById("bebebe").style.border = "solid 3px white";
-            this.app.setBgColour("bebebe");
+            this.app.setBackground("bebebe");
 
             // reset selected customization target
             if (!this.onBoard) {
@@ -109,5 +123,9 @@ export default class CustomizeScreen extends ScreenBase {
         })
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
+
+        // only needs one "." for SDK, needs two for local webpack
+        this.preloadList.addHttpLoad("../img/icon_camera.png");
+        document.getElementById("photo").src = "../img/icon_camera.png";
     }
 }

@@ -52,13 +52,17 @@ export default class GameplayScreen extends ScreenBase {
             }
 
             let colour = this.app.getColour();
+            let background = this.app.getBackground();
             let darkColour = "#" + colour.substring(0,6);
             let lightColour = "#" + colour.substring(6,12);
-            let bgColour = this.app.getBgColour();
 
             changeBoardColours("#puzzleRecord .white-1e1d7", lightColour, darkColour);
             changeBoardColours("#puzzleRecord .black-3c85d", darkColour, lightColour);
-            document.getElementById("recordingScreen").style.backgroundColor = "#" + bgColour;
+            if (background.includes("blob")) {
+                document.getElementById("recordingScreen").style.backgroundImage = "url(" + background + ")";
+            } else {
+                document.getElementById("recordingScreen").style.backgroundColor = "#" + background;
+            }
 
             this.app.showRecording();
         });
@@ -107,11 +111,15 @@ export default class GameplayScreen extends ScreenBase {
                 let colour = this.app.getColour();
                 let darkColour = "#" + colour.substring(0,6);
                 let lightColour = "#" + colour.substring(6,12);
-                let bgColour = this.app.getBgColour();
+                let background = this.app.getBackground();
 
                 changeBoardColours("#puzzleRecord .white-1e1d7", lightColour, darkColour);
                 changeBoardColours("#puzzleRecord .black-3c85d", darkColour, lightColour);
-                document.getElementById("recordingScreen").style.backgroundColor = "#" + bgColour;
+                if (background.includes("blob")) {
+                    document.getElementById("recordingScreen").style.backgroundImage = "url(" + background + ")";
+                } else {
+                    document.getElementById("recordingScreen").style.backgroundColor = "#" + background;
+                }
 
                 document.querySelector(".body").lastElementChild.remove();
 
@@ -142,11 +150,11 @@ export default class GameplayScreen extends ScreenBase {
                 const replayProperties = await replayPlayer.getProperties();
                 const creatorPuzzle = replayProperties.puzzle;
                 const colour = replayProperties.colour;
-                const bgColour = replayProperties.bgColour;
+                const background = replayProperties.background;
 
                 this.app.setChosenPuzzle(creatorPuzzle);
                 this.app.setColour(colour);
-                this.app.setBgColour(bgColour);
+                this.app.setBackground(background);
 
                 ChessEngine.initPuzzle("myBoard", creatorPuzzle);
 
@@ -155,7 +163,11 @@ export default class GameplayScreen extends ScreenBase {
 
                 changeBoardColours("#myBoard .white-1e1d7", lightColour, darkColour);
                 changeBoardColours("#myBoard .black-3c85d", darkColour, lightColour);
-                document.getElementById("gameplayScreen").style.backgroundColor = "#" + bgColour;
+                if (background.includes("blob")) {
+                    document.getElementById("gameplayScreen").style.backgroundImage = "url(" + background + ")";
+                } else {
+                    document.getElementById("gameplayScreen").style.backgroundColor = "#" + background;
+                }
 
                 if (!this.app.getIsCompete()) {
                     // activates hint button

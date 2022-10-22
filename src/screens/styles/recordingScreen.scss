@@ -1,6 +1,10 @@
 #recordingScreen {
     // The recording screen has no background to show the camera behind the web view
     background: rgb(43, 136, 243);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 
     color: #F5F7FA;
 

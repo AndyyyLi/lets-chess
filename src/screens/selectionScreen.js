@@ -17,6 +17,7 @@ export default class SelectionScreen extends ScreenBase {
         this.listDisplayIdx = 0;
         this.scroll = document.getElementById("puzzleList").scrollTop;
         this.scrollToLoad = screen.width / 2;
+        this.galleryOpen = false;
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
@@ -131,8 +132,8 @@ export default class SelectionScreen extends ScreenBase {
                     if (colour.id == thisColour) return;
 
                     // highlight selected colour
-                    document.getElementById(thisColour).style.border = "none";
-                    colour.style.border = "solid 3px white";
+                    document.getElementById(thisColour).classList.remove("chosen");
+                    colour.classList.add("chosen");
                     this.app.setColour(colour.id);
 
                     changeBoardColours("#puzzleDetails .white-1e1d7", lightColour, darkColour);
@@ -144,20 +145,48 @@ export default class SelectionScreen extends ScreenBase {
             document.querySelectorAll("#customizeScreen .bgColours .colour").forEach(bgColour => {
 
                 bgColour.addEventListener("click", () => {
-                    let thisBgColour = this.app.getBgColour();
+                    let thisBackground = this.app.getBackground();
 
-                    if (bgColour.id == thisBgColour) return;
+                    if (bgColour.id == thisBackground) return;
+
+                    // remove background image if present
+                    if (thisBackground.includes("blob")) {
+                        document.getElementById("customizeScreen").style.backgroundImage = "none";
+                    } else {
+                        // chosen class only applies to colour backgrounds
+                        document.getElementById(thisBackground).classList.remove("chosen");
+                    }
 
                     // highlight selected colour
-                    document.getElementById(thisBgColour).style.border = "none";
-                    bgColour.style.border = "solid 3px white";
-                    this.app.setBgColour(bgColour.id);
-
+                    bgColour.classList.add("chosen");
+                    this.app.setBackground(bgColour.id);
                     document.getElementById("customizeScreen").style.backgroundColor = "#" + bgColour.id;
                 });
             });
 
-            // !!! add photo selector event listener here
+            // allows users to pick their own background photo
+            document.querySelector("#customizeScreen .bgPhoto").addEventListener("click", async () => {
+                // prevents weird doubleclicking bug
+                if (this.galleryOpen) return;
+
+                this.galleryOpen = true;
+
+                await this.app.assetManager.getImageFromGallery().then(img => {
+                    return img.getImageUrl();
+                }).then(async imgUrl => {
+                    let currBackground = this.app.getBackground();
+
+                    // chosen class only applies to colour backgrounds 
+                    if (!currBackground.includes("blob")) document.getElementById(currBackground).classList.remove("chosen");
+
+                    this.app.setBackground(imgUrl);
+                    document.getElementById("customizeScreen").style.backgroundImage = "url(" + imgUrl + ")";
+                }).catch(err => {
+                    // no photo chosen
+                });
+
+                this.galleryOpen = false;
+            });
 
             document.querySelector("#selectionScreen .showInfo").style.transform = "scale(0)";
 

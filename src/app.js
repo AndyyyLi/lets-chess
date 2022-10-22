@@ -42,7 +42,7 @@ export default class App {
         this.isCompete;
         this.attempts;
         this.colour;
-        this.bgColour;
+        this.background;
 
         this.init();
     }
@@ -79,12 +79,12 @@ export default class App {
         return this.colour;
     }
 
-    setBgColour(bgColour) {
-        this.bgColour = bgColour;
+    setBackground(background) {
+        this.background = background;
     }
 
-    getBgColour() {
-        return this.bgColour;
+    getBackground() {
+        return this.background;
     }
 
     async init() {
@@ -175,7 +175,7 @@ export default class App {
             replayRecorder.addProperty("isCompete", this.isCompete);
             replayRecorder.addProperty("attempts", this.attempts);
             replayRecorder.addProperty("colour", this.colour);
-            replayRecorder.addProperty("bgColour", this.bgColour);
+            replayRecorder.addProperty("background", this.background);
 
             // Get the replay data from the replay recorder and add it as an output asset
             const replayData = await replayRecorder.getReplayData();
