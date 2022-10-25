@@ -22,8 +22,13 @@ export function sortPuzzles(puzzles, sortBy, currentSort) {
         child = puzzleList.lastElementChild;
     }
 
+    document.querySelectorAll("#selectionScreen .indicator").forEach(i => {
+        i.style.opacity = "0";
+    })
+
     // sort puzzles by:
     if (sortBy == "moves") {
+        document.querySelector("#selectionScreen .move").style.opacity = "1";
 
         puzzles.sort(function(a,b) {
             let numMovesA = a.Moves.split(" ").length;
@@ -35,32 +40,57 @@ export function sortPuzzles(puzzles, sortBy, currentSort) {
         });
 
     } else if (sortBy == "difficulty") {
+        document.querySelector("#selectionScreen .diff").style.opacity = "1";
 
         puzzles.sort(function(a,b) {return a.Rating - b.Rating});
 
     } else if (sortBy == "gameState") {
+        document.querySelector("#selectionScreen .state").style.opacity = "1";
 
         puzzles.sort(function(a,b) {
             let stateA = 0, stateB = 0;
 
-            if (a.Themes.includes("endgame")) {
-                stateA = 2;
-            } else if (a.Themes.includes("middlegame")) {
-                stateA = 1;
+            switch (true) {
+                case (a.Themes.includes("mate")):
+                    stateA = 1;
+                    break;
+                case (a.Themes.includes("advantage")):
+                    stateA = 2;
+                    break;
+                case (a.Themes.includes("crushing")):
+                    stateA = 3;
+                    break;
+                case (a.Themes.includes("equality")):
+                    stateA = 4;
+                    break;
+                default:
+                    stateA = 5;
             }
 
-            if (b.Themes.includes("endgame")) {
-                stateB = 2;
-            } else if (b.Themes.includes("middlegame")) {
-                stateB = 1;
+            switch (true) {
+                case (b.Themes.includes("mate")):
+                    stateB = 1;
+                    break;
+                case (b.Themes.includes("advantage")):
+                    stateB = 2;
+                    break;
+                case (b.Themes.includes("crushing")):
+                    stateB = 3;
+                    break;
+                case (b.Themes.includes("equality")):
+                    stateB = 4;
+                    break;
+                default:
+                    stateB = 5;
             }
 
             if (stateA == stateB) return a.Rating - b.Rating;
 
-            return stateB - stateA;
+            return stateA - stateB;
         });
 
     } else if (sortBy == "opening") {
+        document.querySelector("#selectionScreen .open").style.opacity = "1";
 
         puzzles.sort(function(a,b) {
             if (a.OpeningFamily == "" && b.OpeningFamily == "") return a.Rating - b.Rating;
@@ -94,6 +124,11 @@ export function displayPuzzles(puzzles, currIdx) {
         board.className = "puzzle";
         board.style.width = width + "px";
 
+        let config = {
+            showNotation: false,
+            position: puzzle.FEN
+        }
+
         // when clicked, shows user the details popup
         board.onclick = function() {
             window.app.setChosenPuzzle(puzzle);
@@ -107,14 +142,14 @@ export function displayPuzzles(puzzles, currIdx) {
 
             document.getElementById("puzzleInfo").style.width = (screen.width / 2 - 20) + "px";
 
-            ChessEngine.buildPuzzle("puzzleInfo", puzzle.FEN, false);
+            ChessEngine.buildPuzzle("puzzleInfo", config, false);
 
             document.querySelector("#selectionScreen .showInfo").style.transform = "scale(1)";
         };
 
         puzzleList.appendChild(board);
 
-        ChessEngine.buildPuzzle(board.id, puzzle.FEN, false);
+        ChessEngine.buildPuzzle(board.id, config, false);
     }
     
     return currIdx;
@@ -145,16 +180,15 @@ function getPuzzleDifficulty(rating) {
 
 // returns puzzle objective based on themes
 function getPuzzleObjective(themes) {
-    let themesList = themes.split(" ");
 
     switch (true) {
-        case (themesList.includes("mate")):
+        case (themes.includes("mate")):
             return "Checkmate";
-        case (themesList.includes("advantage")):
+        case (themes.includes("advantage")):
             return "Gain decisive advantage";
-        case (themesList.includes("crushing")):
+        case (themes.includes("crushing")):
             return "Exploit opponent's blunder";
-        case (themesList.includes("equality")):
+        case (themes.includes("equality")):
             return "Recover from disadvantage";
         default:
             return "Identify best moves";

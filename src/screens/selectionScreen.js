@@ -197,6 +197,19 @@ export default class SelectionScreen extends ScreenBase {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             document.querySelector("#selectionScreen .showInfo").style.transform = "scale(0)";
         });
+
+        this.preloadList.addHttpLoad("./img/assets/i_sort.png");
+        document.getElementById("sortButton").src = "./img/assets/i_sort.png";
+
+        this.preloadList.addHttpLoad("./img/assets/i_exit.png");
+        document.querySelectorAll("#selectionScreen .close").forEach(close => {
+            close.src = "./img/assets/i_exit.png";
+        });
+
+        this.preloadList.addHttpLoad("./img/assets/whiteking.png");
+        document.querySelectorAll("#selectionScreen .indicator").forEach(i => {
+            i.src = "./img/assets/whiteking.png";
+        })
     }
 
 }

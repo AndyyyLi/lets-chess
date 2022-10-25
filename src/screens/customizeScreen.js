@@ -124,8 +124,7 @@ export default class CustomizeScreen extends ScreenBase {
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
-        // only needs one "." for SDK, needs two for local webpack
-        this.preloadList.addHttpLoad("../img/icon_camera.png");
-        document.getElementById("photo").src = "../img/icon_camera.png";
+        this.preloadList.addHttpLoad("./img/icon_camera.png");
+        document.getElementById("photo").src = "./img/icon_camera.png";
     }
 }

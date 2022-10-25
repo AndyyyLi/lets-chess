@@ -1,3 +1,6 @@
+// PATH is "../" on webpack and "./" for SDK
+export const PATH = "../";
+
 export const LAYOUTS = {
     EMPTY_LAYOUT: "emptyLayout",
     RECORDING_CAMERA: "recordingCamera",

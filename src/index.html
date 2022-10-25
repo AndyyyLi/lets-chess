@@ -7,9 +7,9 @@
     <title>Let's Chess!</title>
 
     <!-- Font pre-loading -->
-    <!-- <link rel="preload" href="./fonts/Ubuntu-Regular.ttf" as="font" type="font/ttf" crossorigin>
-        <link rel="preload" href="./fonts/Ubuntu-Bold.ttf" as="font" type="font/ttf" crossorigin>
-        <link rel="preload" href="./fonts/Bungee-Regular.ttf" as="font" type="font/ttf" crossorigin> -->
+    <link rel="preload" href="./fonts/Ubuntu-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./fonts/Ubuntu-Bold.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./fonts/Bungee-Regular.ttf" as="font" type="font/ttf" crossorigin>
 </head>
 
 <body class="body">
@@ -25,34 +25,29 @@
         <div id="splashScreen" class="screen hidden">
 
             <div class="contents">
-                <h1 class="title popIn hidden">Let's Chess</h1>
+                <img class="title popIn hidden">
             </div>
 
             <div class="controls">
-                <button>Tap to continue</button>
+                <button class="continueButton pulsing shadow">Tap to continue</button>
             </div>
         </div>
 
         <!-- Menu Screen -->
         <div id="menuScreen" class="screen hidden">
-            <h3>Let's Chess</h3>
+            <img class="title">
 
-            <!-- Tutorial text to describe the module starter to a developer (modules aren't this wordy!) -->
-            <div class="contents">
-                <div class="options">
-                    <p>Choose a puzzle for your community to solve. No attempts counting. No pressure.</p>
-                    <button class="choose">Choose</button>
-                </div>
-
-                <div class="options">
-                    <p>Compete against your community to solve a puzzle in as few attempts as possible.</p>
-                    <button class="compete">Compete</button>
-                </div>
+            <div class="options">
+                <img class="chooseImg">
+                <p class="shadow">Choose a puzzle for your community to try and solve.</p>
+                <button class="choose shadow">Choose</button>
             </div>
 
-            <!-- <div class="controls">
-                <button>Next</button>
-            </div> -->
+            <div class="options">
+                <img class="competeImg">
+                <p class="shadow">Compete against your community to solve a puzzle in as few attempts as possible.</p>
+                <button class="compete shadow">Compete</button>
+            </div>
         </div>
 
         <!-- Instructions Screen -->
@@ -88,23 +83,30 @@
 
             <div id="selectTopBar">
                 <button id="randomPuzzleButton">I'm feeling lucky</button>
-                <button id="sortButton">Sort</button>
+                <img id="sortButton">
             </div>
 
             <div class="backdrop sorting">
                 <div class="sortOptions">
-                    <h1>Sort by:</h1>
-                    <button class="close">X</button>
-                    <button class="moves">Moves to solve (Ascending)</button>
-                    <button class="difficulty">Difficulty (Ascending)</button>
-                    <button class="gameState">Game State (Endgame to Midgame)</button>
-                    <button class="opening">Opening Family (Alphabetical to None)</button>
+                    <h5>Sort puzzles by:</h5>
+                    <img class="close">
+                    <button class="moves">Moves to solve</button>
+                    <img class="indicator move">
+                    <hr>
+                    <button class="difficulty">Difficulty</button>
+                    <img class="indicator diff">
+                    <hr>
+                    <button class="gameState">Objective</button>
+                    <img class="indicator state">
+                    <hr>
+                    <button class="opening">Opening</button>
+                    <img class="indicator open">
                 </div>
             </div>
 
             <div class="backdrop showInfo">
                 <div class="detailsWindow">
-                    <button class="close">X</button>
+                    <img class="close">
 
                     <div class="mainContent">
                         <div id="puzzleInfo"></div>

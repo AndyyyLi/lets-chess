@@ -12,7 +12,7 @@ export default class SplashScreen extends ScreenBase {
     constructor(app) {
         super("SplashScreen", document.querySelector("#splashScreen"), LAYOUTS.EMPTY_LAYOUT, app);
 
-        document.querySelector("#splashScreen button").addEventListener("click", () => {
+        document.querySelector("#splashScreen .continueButton").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
             // Checks the play mode
@@ -61,6 +61,18 @@ export default class SplashScreen extends ScreenBase {
 
         // This is an example of pre-loading an image.  You should pre-load any images or other web assets you are going
         // to use on a given screen so they can be shown immediately when the screen is visible.
+        this.preloadList.addHttpLoad("./img/assets/i_back.png");
+        document.querySelectorAll(".backButton").forEach(btn => {
+            btn.style.backgroundImage = "url(\"./img/assets/i_back.png\")";
+        });
+
+        this.preloadList.addHttpLoad("./img/assets/splashcrop.png");
+        document.getElementById("splashScreen").style.backgroundImage = "url(\"./img/assets/splashcrop.png\")";
+
+        this.preloadList.addHttpLoad("./img/assets/title.png");
+        document.querySelectorAll(".title").forEach(title => {
+            title.src = "./img/assets/title.png";
+        });
 
         // Do THIS to load sounds in Oooh! This will load a button sound using the Howler library with the HTML5 audio polyfill
         this.preloadList.addLoad(() => SoundManagerInstance.loadSound(SOUNDS.SFX_BUTTON_TAP));

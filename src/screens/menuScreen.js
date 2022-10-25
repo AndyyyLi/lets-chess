@@ -28,6 +28,20 @@ export default class MenuScreen extends ScreenBase {
         });
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
+
+        this.preloadList.addHttpLoad("./img/assets/background_2.png");
+        document.getElementById("menuScreen").style.backgroundImage = "url(\"./img/assets/background_2.png\")";
+
+        this.preloadList.addHttpLoad("./img/assets/choose.png");
+        document.querySelector("#menuScreen .chooseImg").src = "./img/assets/choose.png";
+
+        this.preloadList.addHttpLoad("./img/assets/compete.png");
+        document.querySelector("#menuScreen .competeImg").src = "./img/assets/compete.png";
+    }
+
+    show() {
+        super.show();
+        this.app.systemSettingsService.showSystemSettings();
     }
 
     hide() {        

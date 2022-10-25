@@ -70,6 +70,9 @@ body {
         position: absolute;
         top: 0; left: 0; bottom: 0; right: 0;
 
+        background-size: cover;
+        color: white;
+
         // O3H safe area padding
         box-sizing: border-box;
         padding: var(--o3h-safe-area-inset-top) var(--o3h-safe-area-inset-right) var(--o3h-safe-area-inset-bottom) var(--o3h-safe-area-inset-left);
@@ -81,6 +84,10 @@ body {
             margin-top: 15%;
         }
     }
+}
+
+.shadow {
+    box-shadow: 0 2px 5px black;
 }
 
 // Container for button controls
@@ -120,10 +127,10 @@ button {
     min-height: 50px;
     font-family: 'Ubuntu';
     font-weight: bold;
-    font-size: 20px;
+    font-size: 22px;
     padding: 10px 20px;
-    color: #1F2933;
-    background: #FEFF00;
+    color: black;
+    background: white;
     border-radius: 12px;
     border: none;
     margin: 0 10px;
@@ -142,7 +149,7 @@ button {
 
 // Positions a back button to match Oooh's native UI
 .screen .backButton {
-    background-image: url("./img/icon_backArrow.png");
+    // background-image: url("./img/icon_backArrow.png");
     background-size: cover;
 
     width: 7vw;
@@ -161,7 +168,7 @@ button {
 }
 .pulsing {
     animation-name: pulsing;
-    animation-duration: 1.2s;
+    animation-duration: 2s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
 }
@@ -175,7 +182,7 @@ button {
 }
 .popIn {
     animation-name: popIn;
-    animation-duration: 0.8s;
+    animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
 }

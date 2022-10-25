@@ -1,13 +1,39 @@
 #menuScreen {
-    background-color: #52FF00;
+    background-color: #f156bb;
 
-    .contents h4 {
-        font-family: "Bungee", sans-serif;
-        margin-bottom: 0;
+    .title {
+        width: 60%;
+        margin-top: 50px;
     }
 
-    hr {
-        border: 0.75px solid #1F2933;
-        width: 80%;
+    .options {
+        width: 90%;
+        margin: auto;
+        margin-bottom: 20px;
+
+        p {
+            border: solid 1px black;
+            padding: 20px 40px 35px 40px;
+            color: white;
+            background-color: black;
+            font-weight: bold;
+            font-size: large;
+        }
+
+        button {
+            margin-top: -40px;
+            min-width: 160px;
+        }
+
+        .chooseImg {
+            width: 50%;
+            margin-bottom: -60px;
+            margin-top: -10px;
+        }
+
+        .competeImg {
+            width: 40%;
+            margin-bottom: -50px;
+        }
     }
 }
