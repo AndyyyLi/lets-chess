@@ -18,15 +18,76 @@ export default class CustomizeScreen extends ScreenBase {
 
         this.onBoard = true;
 
+        // set board colour options
+        document.querySelectorAll("#customizeScreen .boardColours .colour").forEach(colour => {
+            let darkColour = "#" + colour.id.substring(0, 6);
+            let lightColour = "#" + colour.id.substring(6, 12);
+
+            colour.addEventListener("click", () => {
+                let thisColour = this.app.getColour();
+
+                if (colour.id == thisColour) return;
+
+                // highlight selected colour
+                document.getElementById(thisColour).classList.remove("chosen");
+                colour.classList.add("chosen");
+                this.app.setColour(colour.id);
+
+                changeBoardColours("#puzzleDetails .white-1e1d7", lightColour, darkColour);
+                changeBoardColours("#puzzleDetails .black-3c85d", darkColour, lightColour);
+            });
+        });
+
+        // set background colour options
+        document.querySelectorAll("#customizeScreen .bgColours .colour").forEach(bgColour => {
+
+            bgColour.addEventListener("click", () => {
+                let thisBackground = this.app.getBackground();
+
+                if (bgColour.id == thisBackground) return;
+
+                // remove background image if present
+                if (thisBackground.includes("blob")) {
+                    document.getElementById("customizeScreen").style.backgroundImage = "none";
+                } else {
+                    // chosen class only applies to colour backgrounds
+                    document.getElementById(thisBackground).classList.remove("chosen");
+                }
+
+                // highlight selected colour
+                bgColour.classList.add("chosen");
+                this.app.setBackground(bgColour.id);
+                document.getElementById("customizeScreen").style.backgroundColor = "#" + bgColour.id;
+            });
+        });
+
+        // allows users to pick their own background photo
+        document.querySelector("#customizeScreen .bgPhoto").addEventListener("click", async () => {
+            await this.app.assetManager.getImageFromGallery().then(img => {
+                return img.getImageUrl();
+            }).then(async imgUrl => {
+                let currBackground = this.app.getBackground();
+
+                // chosen class only applies to colour backgrounds 
+                if (!currBackground.includes("blob")) document.getElementById(currBackground).classList.remove("chosen");
+
+                this.app.setBackground(imgUrl);
+                document.getElementById("customizeScreen").style.backgroundImage = "url(" + imgUrl + ")";
+            }).catch(err => {
+                // no photo chosen
+            });
+        });
+
         document.querySelector("#customizeScreen .board").addEventListener("click", () => {
             if (this.onBoard) return;
 
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
             document.querySelector("#customizeScreen .bgColours").classList.add("hidden");
-            document.querySelector("#customizeScreen .background").style.opacity = "0.5";
+            document.querySelector("#customizeScreen .background").classList.remove("selected");
             document.querySelector("#customizeScreen .boardColours").classList.remove("hidden");
-            document.querySelector("#customizeScreen .board").style.opacity = "1";
+            document.querySelector("#customizeScreen .board").classList.add("selected");
+            document.querySelector("#customizeScreen .customText").innerHTML = "Select board colour";
 
             this.onBoard = true;
         });
@@ -37,9 +98,10 @@ export default class CustomizeScreen extends ScreenBase {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
             document.querySelector("#customizeScreen .boardColours").classList.add("hidden");
-            document.querySelector("#customizeScreen .board").style.opacity = "0.5";
+            document.querySelector("#customizeScreen .board").classList.remove("selected");
             document.querySelector("#customizeScreen .bgColours").classList.remove("hidden");
-            document.querySelector("#customizeScreen .background").style.opacity = "1";
+            document.querySelector("#customizeScreen .background").classList.add("selected");
+            document.querySelector("#customizeScreen .customText").innerHTML = "Select background";
 
             this.onBoard = false;
         });
@@ -47,8 +109,8 @@ export default class CustomizeScreen extends ScreenBase {
         document.querySelector("#customizeScreen .finishCustomization").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
-            let darkColour = "#" + this.app.getColour().substring(0,6);
-            let lightColour = "#" + this.app.getColour().substring(6,12);
+            let darkColour = "#" + this.app.getColour().substring(0, 6);
+            let lightColour = "#" + this.app.getColour().substring(6, 12);
             let background = this.app.getBackground();
 
             if (this.app.getIsCompete()) {
@@ -80,7 +142,7 @@ export default class CustomizeScreen extends ScreenBase {
                 document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
                 document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
                     SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-                    this.app.showDetails();
+                    this.app.showCustomization();
                 });
 
                 this.app.showRecording();
@@ -112,9 +174,9 @@ export default class CustomizeScreen extends ScreenBase {
             // reset selected customization target
             if (!this.onBoard) {
                 document.querySelector("#customizeScreen .bgColours").classList.add("hidden");
-                document.querySelector("#customizeScreen .background").style.opacity = "0.5";
+                document.querySelector("#customizeScreen .background").classList.remove("selected");
                 document.querySelector("#customizeScreen .boardColours").classList.remove("hidden");
-                document.querySelector("#customizeScreen .board").style.opacity = "1";
+                document.querySelector("#customizeScreen .board").classList.add("selected");
 
                 this.onBoard = true;
             }

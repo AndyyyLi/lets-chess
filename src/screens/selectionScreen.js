@@ -2,7 +2,7 @@ import "./styles/selectionScreen.scss";
 import ScreenBase from "./screenBase";
 
 import { LAYOUTS, SOUNDS } from "../const";
-import { sortPuzzles, setupPuzzleDetails, displayPuzzles, isCreatorMode, getPuzzleTitle, changeBoardColours } from "../util";
+import { sortPuzzles, setupPuzzleDetails, displayPuzzles, isCreatorMode, getPuzzleTitle } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
 import SoundManagerInstance from "../soundManager";
@@ -111,86 +111,19 @@ export default class SelectionScreen extends ScreenBase {
                 document.querySelector("#customizeScreen .puzzleTitle").innerHTML = getPuzzleTitle(puzzle);
                 setupPuzzleDetails(puzzle, "#customizeScreen", "puzzleDetails");
 
-                this.app.showDetails();
+                this.app.showCustomization();
             }
         });
 
         document.querySelector("#selectionScreen .chooseButton").addEventListener('click', () => {
             let puzzle = this.app.getChosenPuzzle();
-
+            
             document.querySelector("#customizeScreen .puzzleTitle").innerHTML = getPuzzleTitle(puzzle);
             setupPuzzleDetails(puzzle, "#customizeScreen", "puzzleDetails");
 
-            // set board colour options
-            document.querySelectorAll("#customizeScreen .boardColours .colour").forEach(colour => {
-                let darkColour = "#" + colour.id.substring(0,6);
-                let lightColour = "#" + colour.id.substring(6,12);
-
-                colour.addEventListener("click", () => {
-                    let thisColour = this.app.getColour();
-
-                    if (colour.id == thisColour) return;
-
-                    // highlight selected colour
-                    document.getElementById(thisColour).classList.remove("chosen");
-                    colour.classList.add("chosen");
-                    this.app.setColour(colour.id);
-
-                    changeBoardColours("#puzzleDetails .white-1e1d7", lightColour, darkColour);
-                    changeBoardColours("#puzzleDetails .black-3c85d", darkColour, lightColour);
-                });
-            });
-
-            // set background colour options
-            document.querySelectorAll("#customizeScreen .bgColours .colour").forEach(bgColour => {
-
-                bgColour.addEventListener("click", () => {
-                    let thisBackground = this.app.getBackground();
-
-                    if (bgColour.id == thisBackground) return;
-
-                    // remove background image if present
-                    if (thisBackground.includes("blob")) {
-                        document.getElementById("customizeScreen").style.backgroundImage = "none";
-                    } else {
-                        // chosen class only applies to colour backgrounds
-                        document.getElementById(thisBackground).classList.remove("chosen");
-                    }
-
-                    // highlight selected colour
-                    bgColour.classList.add("chosen");
-                    this.app.setBackground(bgColour.id);
-                    document.getElementById("customizeScreen").style.backgroundColor = "#" + bgColour.id;
-                });
-            });
-
-            // allows users to pick their own background photo
-            document.querySelector("#customizeScreen .bgPhoto").addEventListener("click", async () => {
-                // prevents weird doubleclicking bug
-                if (this.galleryOpen) return;
-
-                this.galleryOpen = true;
-
-                await this.app.assetManager.getImageFromGallery().then(img => {
-                    return img.getImageUrl();
-                }).then(async imgUrl => {
-                    let currBackground = this.app.getBackground();
-
-                    // chosen class only applies to colour backgrounds 
-                    if (!currBackground.includes("blob")) document.getElementById(currBackground).classList.remove("chosen");
-
-                    this.app.setBackground(imgUrl);
-                    document.getElementById("customizeScreen").style.backgroundImage = "url(" + imgUrl + ")";
-                }).catch(err => {
-                    // no photo chosen
-                });
-
-                this.galleryOpen = false;
-            });
-
             document.querySelector("#selectionScreen .showInfo").style.transform = "scale(0)";
 
-            this.app.showDetails();
+            this.app.showCustomization();
         });
 
         document.querySelector(".detailsWindow .close").addEventListener('click', () => {
@@ -209,7 +142,8 @@ export default class SelectionScreen extends ScreenBase {
         this.preloadList.addHttpLoad("./img/assets/whiteking.png");
         document.querySelectorAll("#selectionScreen .indicator").forEach(i => {
             i.src = "./img/assets/whiteking.png";
-        })
+        });
+        document.querySelector("#gameplayScreen .giveUpImg").src = "./img/assets/whiteking.png";
     }
 
 }

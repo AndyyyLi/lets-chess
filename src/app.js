@@ -136,7 +136,7 @@ export default class App {
         await ScreenManagerInstance.showScreen(this.selectionScreen);
     }
 
-    async showDetails() {
+    async showCustomization() {
         await ScreenManagerInstance.showScreen(this.customizeScreen);
     }
 

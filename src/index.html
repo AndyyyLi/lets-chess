@@ -82,12 +82,12 @@
             <h3>Choose a puzzle</h3>
 
             <div id="selectTopBar">
-                <button id="randomPuzzleButton">I'm feeling lucky</button>
+                <button id="randomPuzzleButton" class="shadow">I'm feeling lucky</button>
                 <img id="sortButton">
             </div>
 
             <div class="backdrop sorting">
-                <div class="sortOptions">
+                <div class="sortOptions shadow">
                     <h5>Sort puzzles by:</h5>
                     <img class="close">
                     <button class="moves">Moves to solve</button>
@@ -105,16 +105,16 @@
             </div>
 
             <div class="backdrop showInfo">
-                <div class="detailsWindow">
+                <div class="detailsWindow shadow">
                     <img class="close">
 
                     <div class="mainContent">
-                        <div id="puzzleInfo"></div>
+                        <div id="puzzleInfo" class="shadow"></div>
 
                         <div class="details">
                             <div class="info">
                                 <p>Title</p>
-                                <h4 class="puzzleTitle"></h4>
+                                <h4 class="puzzleTitleDetails"></h4>
                             </div>
 
                             <div class="info">
@@ -139,7 +139,7 @@
                         </div>
                     </div>
 
-                    <button class="chooseButton">Choose</button>
+                    <button class="chooseButton shadow">Choose</button>
                 </div>
             </div>
 
@@ -162,14 +162,18 @@
                     <p><b class="colour"></b> to move</p>
                 </div>
 
-                <p class="difficultyIndicator"></p>
+                <div class="difficultyDiv">
+                    <p class="difficultyIndicator"></p>
+                </div>
             </div>
 
-            <div id="puzzleDetails">
+            <div id="puzzleDetails" class="shadow">
                 <!-- Puzzle goes here -->
             </div>
 
             <div class="customOptions">
+                <h6 class="customText">Select board colour</h6>
+
                 <div class="boardColours colours">
                     <div id="b58863f0d9b5" class="colour default chosen"></div>
                     <div id="ea2929fdb5b5" class="colour red"></div>
@@ -192,13 +196,22 @@
                     <img id="photo" class="bgPhoto">
                 </div>
 
-                <div class="customTarget">
-                    <button class="board">Board</button>
-                    <button class="background">Background</button>
+                <div class="bottomBar">
+                    <div class="customTarget">
+                        <div class="board option selected">
+                            <div class="square dark"></div>
+                            <div class="square light"></div>
+                            <div class="square light"></div>
+                            <div class="square dark"></div>
+                        </div>
+
+                        <div class="background option"></div>
+                    </div>
+    
+                    <div class="finish">
+                        <button class="finishCustomization shadow">Next</button>
+                    </div>
                 </div>
-
-                <button class="finishCustomization">Next</button>
-
             </div>
 
         </div>
@@ -209,34 +222,43 @@
             <h1 class="puzzleTitle"></h1>
 
             <div id="playPuzzle">
-                <h3>Attempt: <b id="attempts">1</b></h3>
-
                 <div class="topBar">
-                    <button id="hintButton">Hint</button>
+                    <div class="leftContent">
+                        <button id="hintButton" class="shadow">Hint</button>
+                        <p class="attemptsText">Attempt: <b id="attempts">1</b></p>
+                    </div>
                     <p class="difficultyIndicator"></p>
                 </div>
 
 
-                <div id="myBoard"></div>
+                <div id="myBoard" class="shadow"></div>
 
                 <h1 id="notif">Your turn!</h1>
-                <button id="undoButton">Undo</button>
-                <button id="giveUpButton">Give up</button>
-                <button class="next lower">Next</button>
+                <button id="giveUpButton" class="bottomButtons shadow">Give up</button>
+                <button id="undoButton" class="bottomButtons shadow">Undo</button>
             </div>
 
-            <div class="backdrop">
-                <div class="giveUpConfirmation">
+            <div class="backdrop giveUp">
+                <div class="giveUpConfirmation shadow">
+                    <img class="giveUpImg">
                     <h3>Are you sure you're giving up?</h3>
                     <p>You will go to the recording screen where you can ask the Host for help, but you cannot come
                         back.</p>
                     <div class="giveUpOptions">
-                        <button class="cancel">Go back</button>
-                        <button class="confirm">Give up</button>
+                        <button class="cancel shadow">Go back</button>
+                        <button class="confirm shadow">Give up</button>
                     </div>
                 </div>
             </div>
 
+            <div class="backdrop solved">
+                <div class="solvedPopup shadow">
+                    <img class="solvedImg">
+                    <h3>Congratulations!</h3>
+                    <p class="solvedText">You solved the puzzle!</p>
+                    <button class="next shadow">Next</button>
+                </div>
+            </div>
 
         </div>
 

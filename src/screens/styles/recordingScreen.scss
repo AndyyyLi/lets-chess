@@ -1,32 +1,12 @@
 #recordingScreen {
-    // The recording screen has no background to show the camera behind the web view
-    background: rgb(43, 136, 243);
+    background-color: rgb(43, 136, 243);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
 
-    color: #F5F7FA;
-
     #puzzleRecord {
         margin: auto;
         // margin-top: -50px;
-    }
-
-    .colourToMove {
-        display: grid;
-        grid-template-columns: 10% 80%;
-    }
-
-    .colourBox {
-        width: 25px;
-        height: 25px;
-        margin: auto;
-        margin-left: 10px;
-    }
-
-    .difficultyIndicator {
-        text-align: right;
-        margin-right: 10px;
     }
 
     .topBar {

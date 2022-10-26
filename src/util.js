@@ -134,7 +134,7 @@ export function displayPuzzles(puzzles, currIdx) {
             window.app.setChosenPuzzle(puzzle);
 
             // set info
-            document.querySelector(".details .puzzleTitle").innerHTML = getPuzzleTitle(puzzle);
+            document.querySelector(".details .puzzleTitleDetails").innerHTML = getPuzzleTitle(puzzle);
             document.querySelector(".details .puzzleDifficulty").innerHTML = getPuzzleDifficulty(puzzle.Rating);
             document.querySelector(".details .puzzleUserColour").innerHTML = (puzzle.FEN.split(" ")[1] == "b") ? "White" : "Black";
             document.querySelector(".details .puzzleMoves").innerHTML = puzzle.Moves.split(" ").length / 2;

@@ -59,5 +59,7 @@ export default class InstructionsScreen extends ScreenBase {
 
     hide() {        
         super.hide();
+
+        this.app.systemSettingsService.hideSystemSettings();
     }
 }

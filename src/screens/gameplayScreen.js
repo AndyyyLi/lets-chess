@@ -75,12 +75,12 @@ export default class GameplayScreen extends ScreenBase {
         if (isAudienceMode()) {
             document.querySelector("#giveUpButton").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-                document.querySelector("#gameplayScreen .backdrop").style.transform = "scale(1)";
+                document.querySelector("#gameplayScreen .giveUp").style.transform = "scale(1)";
             });
             
             document.querySelector("#gameplayScreen .cancel").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-                document.querySelector("#gameplayScreen .backdrop").style.transform = "scale(0)";
+                document.querySelector("#gameplayScreen .giveUp").style.transform = "scale(0)";
             });
 
             document.querySelector("#gameplayScreen .confirm").addEventListener('click', () => {
@@ -132,8 +132,9 @@ export default class GameplayScreen extends ScreenBase {
                 document.getElementById("notif").innerHTML = "Your turn!";
                 document.getElementById("giveUpButton").style.transform = "scale(0)";
                 document.getElementById("undoButton").style.transform = "scale(0)";
+                document.querySelector("#gameplayScreen .next").style.transform = "scale(0)";
 
-                this.app.showDetails();
+                this.app.showCustomization();
             });
         }
         
@@ -169,6 +170,8 @@ export default class GameplayScreen extends ScreenBase {
                     document.getElementById("gameplayScreen").style.backgroundColor = "#" + background;
                 }
 
+                document.querySelector("#gameplayScreen .backButton").classList.add("hidden");
+
                 if (!this.app.getIsCompete()) {
                     // activates hint button
                     document.getElementById("hintButton").addEventListener("click", () => {
@@ -176,21 +179,20 @@ export default class GameplayScreen extends ScreenBase {
                     });
                     // shows hint button
                     document.getElementById("hintButton").style.display = "inline";
+                    document.querySelector("#gameplayScreen .attemptsText").style.display = "none";
                 }
             }
         });
+
+        this.preloadList.addHttpLoad("./img/assets/win.png");
+        document.querySelector("#gameplayScreen .solvedImg").src = "./img/assets/win.png";
     }
 
     show() {
         super.show();
-
-        // The camera and audio toggles should be hidden after the screen before gameplay
-        this.app.systemSettingsService.showSystemSettings();
     }
 
     hide() {
-        this.app.systemSettingsService.hideSystemSettings();
-
         if (isCreatorMode()) {
             // Set attempts to shared variable in App
             this.app.setAttempts(ChessEngine.getAttempts());

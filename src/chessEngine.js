@@ -1,6 +1,6 @@
 import { Chess } from 'chess.js';
 import "./chessboard";
-import { isAudienceMode } from './util';
+import { isAudienceMode, isCreatorMode } from './util';
 
 // chess engine module, provides full functionality to chosen chess puzzle
 let ChessEngine = function () {
@@ -36,11 +36,11 @@ let ChessEngine = function () {
     }
 
     // builds display chessboard from puzzle object at given div
-    function buildPuzzle(divId, fen, isFocusPuzzle) {
+    function buildPuzzle(divId, config, isFocusPuzzle) {
         // if only puzzle on screen, set to fullscreen width
-        if (isFocusPuzzle) document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
+        if (isFocusPuzzle) document.querySelector("#" + divId).style.width = (screen.width - 20) + "px";
         
-        ChessBoard(divId, fen);
+        ChessBoard(divId, config);
 
         // remove the element added to make dragging functionality work since it's not needed
         document.querySelector(".body").lastElementChild.remove();
@@ -64,7 +64,7 @@ let ChessEngine = function () {
         // sets up chess.js and chessboard
         game = new Chess(puzzle.FEN);
         config.position = puzzle.FEN;
-        document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
+        document.querySelector("#" + divId).style.width = (screen.width - 20) + "px";
         board = ChessBoard(divId, config);
 
         document.getElementById(divId).addEventListener("touchstart", (e) => {
@@ -125,7 +125,7 @@ let ChessEngine = function () {
     function initPuzzleReplay(divId, fen) {
         // sets up chess.js and chessboard
         game = new Chess(fen);
-        document.querySelector("#" + divId).style.width = (screen.width - 10) + "px";
+        document.querySelector("#" + divId).style.width = (screen.width - 20) + "px";
         board = ChessBoard(divId, fen);
 
         // remove the element added to make dragging functionality work since it's not needed
@@ -254,6 +254,9 @@ let ChessEngine = function () {
             document.getElementById("hintButton").style.opacity = "0.5";
             document.getElementById("hintButton").disabled = true;
 
+            // once host messes up they can no longer go back to previous screens
+            if (attempts == 1 && isCreatorMode()) document.querySelector("#gameplayScreen .backButton").classList.add("hidden");
+
             // threshold for give up button to appear
             // !!! CHANGE ATTEMPTS THRESHOLD FOR FINAL COPY
             if (attempts >= 1 && isAudienceMode()) document.getElementById("giveUpButton").style.transform = "scale(1)";
@@ -310,7 +313,8 @@ let ChessEngine = function () {
         document.getElementById("hintButton").disabled = true;
 
         document.querySelector("#notif").innerHTML = "Solved!";
-        document.querySelector("#gameplayScreen .next").style.transform = "scale(1)";
+        document.querySelector("#gameplayScreen .solved").style.transform = "scale(1)";
+        // setTimeout(() => document.querySelector("#gameplayScreen .solved").style.transform = "scale(1)", 1000);
     }
 
     // adds current fen to fens with move update
