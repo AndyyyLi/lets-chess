@@ -7,9 +7,9 @@
     <title>Let's Chess!</title>
 
     <!-- Font pre-loading -->
-    <link rel="preload" href="./fonts/Ubuntu-Regular.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="./fonts/Ubuntu-Bold.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="./fonts/Bungee-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./fonts/Gotham-Black.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="./fonts/Gotham-Bold.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="./fonts/Gotham-Book.otf" as="font" type="font/otf" crossorigin>
 </head>
 
 <body class="body">
@@ -224,12 +224,11 @@
             <div id="playPuzzle">
                 <div class="topBar">
                     <div class="leftContent">
-                        <button id="hintButton" class="shadow">Hint</button>
+                        <button id="hintButton"></button>
                         <p class="attemptsText">Attempt: <b id="attempts">1</b></p>
                     </div>
                     <p class="difficultyIndicator"></p>
                 </div>
-
 
                 <div id="myBoard" class="shadow"></div>
 
@@ -266,41 +265,40 @@
         <div id="recordingScreen" class="screen hidden">
             <div class="interface backButton hidden"></div>
  
-            <div class="topBar">
-                <div class="colourToMove">
-                    <div class="colourBox"></div>
-                    <p><b class="colour"></b> to move</p>
-                </div>
-
-                <p class="difficultyIndicator"></p>
-            </div>
-
             <div class="attempts hidden">
                 <h5 class="attemptCount"></h5>
             </div>
 
-            <div id="puzzleRecord"></div>
-
-            <div class="contents lower hidden">
-                <div class="moveControls">
-                    <button class="prevMove hidden">Last move</button>
-                    <button class="nextMove">Next move</button>
+            <div class="recordingContent">
+                <div class="topBar">
+                    <div class="colourToMove">
+                        <div class="colourBox"></div>
+                        <p><b class="colour"></b> to move</p>
+                    </div>
+    
+                    <p class="difficultyIndicator"></p>
                 </div>
-
-                <button class="skipMoves">Next correct move</button>
+    
+    
+                <div id="puzzleRecord" class="shadow"></div>
+    
+                <div class="lower hidden">
+                    <div class="moveControls">
+                        <img class="prevMove faded">
+                        <img class="nextMove">
+                    </div>
+    
+                    <button class="skipMoves">Next correct move</button>
+                </div>
             </div>
+            
         </div>
 
         <!-- Review Screen -->
         <div id="reviewScreen" class="screen hidden">
-            <h3>Review Screen</h3>
-            <div class="contents upper">
-                <p>Here the player can watch back their recorded video, and then re-take it or post it to the creator.
-                </p>
-            </div>
-            <div class="controls">
-                <button id="review_retry">Retry</button>
-                <button id="review_done">Done</button>
+            <div class="controls lower">
+                <button id="review_retry" class="shadow">Retry</button>
+                <button id="review_done" class="shadow">Done</button>
             </div>
         </div>
     </div>

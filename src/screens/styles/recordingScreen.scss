@@ -1,16 +1,22 @@
 #recordingScreen {
-    background-color: rgb(43, 136, 243);
+    background-color: #f156bb;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
 
-    #puzzleRecord {
-        margin: auto;
-        // margin-top: -50px;
+    .recordingContent {
+        transform: scale(0.9);
+        position: absolute;
+        top: -36;
+        left: 10;
     }
 
-    .topBar {
-        columns: 2;
+    .colourToMove {
+        width: 100%;
+    }
+
+    #puzzleRecord {
+        margin: auto;
     }
 
     .attempts {
@@ -24,19 +30,21 @@
     }
 
     .moveControls {
-        columns: 2;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        padding: 0;
+
+        img {
+            width: 40px;
+            margin-top: 10;
+        }
     }
 
-    button {
-        background-color: #F5F7FA;
-        transform: scale(0.7);
-    }
-
-    .prevMove {
-        left: 0;
+    .faded {
+        opacity: 0.5;
     }
 
     .nextMove {
-        right: 0;
+        margin-left: 80%;
     }
 }

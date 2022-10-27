@@ -173,6 +173,9 @@ export default class GameplayScreen extends ScreenBase {
                 document.querySelector("#gameplayScreen .backButton").classList.add("hidden");
 
                 if (!this.app.getIsCompete()) {
+                    this.preloadList.addHttpLoad("./img/assets/i_hint.png");
+                    document.getElementById("hintButton").style.backgroundImage = "url(\"./img/assets/i_hint.png\")";
+                    
                     // activates hint button
                     document.getElementById("hintButton").addEventListener("click", () => {
                         ChessEngine.showHint();

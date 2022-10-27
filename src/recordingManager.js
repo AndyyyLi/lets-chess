@@ -14,7 +14,7 @@ class RecordingManager {
     }
 
     async init(nativeUIManager, controlManager, onRecordingStarted, onRecordingComplete) {
-        this.nativeRecordButton = await nativeUIManager.createNativeRecordButton(0.5, 0.81, 0.085);
+        this.nativeRecordButton = await nativeUIManager.createNativeRecordButton(0.5, 0.94, 0.085);
         this.fullScreenRecorder = await controlManager.getFullScreenRecorder();
 
         this.onRecordingStarted = onRecordingStarted;

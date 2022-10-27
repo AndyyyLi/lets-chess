@@ -20,7 +20,7 @@
         }
 
         #randomPuzzleButton {
-            transform: scale(0.6);
+            transform: scale(0.8);
         }
     }
 
@@ -41,7 +41,6 @@
         border-radius: 5%;
         color: white;
         padding: 10px;
-        border: solid 2px black;
         width: 90%;
 
         button {
@@ -63,12 +62,14 @@
     }
 
     .details {
-        margin-top: 6px;
+        margin-top: auto;
+        margin-bottom: auto;
     }
 
     .info {
         text-align: left;
-        margin-bottom: 5px;
+        margin: 6 0 5;
+        padding-right: 5px;
         
         p {
             margin: 0;
@@ -78,12 +79,8 @@
         h4 {
             margin: 0;
             font-size: 15px;
+            top: 0.2em;
         }
-    }
-
-    .contents h4 {
-        font-family: "Bungee", sans-serif;
-        margin-bottom: 0;
     }
 
     .puzzle {
@@ -98,6 +95,7 @@
         transform: translate(-50%, -50%);
         z-index: 10;
         background: radial-gradient(60% 150%,#5e0041 40%, #2c0820);
+        border-radius: 5%;
         width: 80%;
         padding: 10px 10px 20px 10px;
 
@@ -111,8 +109,11 @@
             color: white;
             width: 100%;
             margin: 0 5px 0 5px;
-            font-size: 20px;
-            font-weight: lighter;
+            font-size: 22px;
+            font-family: "Gotham";
+            font-weight: 400;
+            top: 0.3em;
+            height: 40;
             background: none;
             text-align: left;
         }

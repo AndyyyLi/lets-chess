@@ -66,6 +66,14 @@ export default class SplashScreen extends ScreenBase {
             btn.style.backgroundImage = "url(\"./img/assets/i_back.png\")";
         });
 
+        
+        this.preloadList.addHttpLoad("./img/assets/background_2.png");
+        if (isCreatorMode()) {
+            document.getElementById("menuScreen").style.backgroundImage = "url(\"./img/assets/background_2.png\")";
+        } else {
+            document.getElementById("instructionsScreen").style.backgroundImage = "url(\"./img/assets/background_2.png\")";
+        }
+
         this.preloadList.addHttpLoad("./img/assets/splashcrop.png");
         document.getElementById("splashScreen").style.backgroundImage = "url(\"./img/assets/splashcrop.png\")";
 

@@ -138,27 +138,29 @@ let ChessEngine = function () {
     // plays the next move in replay
     function nextMoveReplay() {
         // boundary checker
-        if (replayIdx == fens.length) return null;
+        if (replayIdx == fens.length) return;
 
+        if (replayIdx == 0) document.querySelector("#recordingScreen .prevMove").classList.remove("faded");
         board.position(fens[++replayIdx]);
-        if (replayIdx > 0) document.querySelector("#recordingScreen .prevMove").classList.remove("hidden");
 
         if (replayIdx == fens.length - 1) {
-            document.querySelector("#recordingScreen .nextMove").classList.add("hidden");
-            document.querySelector("#recordingScreen .skipMoves").classList.add("hidden");
+            document.querySelector("#recordingScreen .nextMove").classList.add("faded");
+            document.querySelector("#recordingScreen .skipMoves").classList.add("faded");
         }
     }
 
     // plays the previous move in replay
     function prevMoveReplay() {
         // boundary checker
-        if (replayIdx == 0) return null;
+        if (replayIdx == 0) return;
 
+        if (replayIdx == fens.length - 1) {
+            document.querySelector("#recordingScreen .nextMove").classList.remove("faded");
+            document.querySelector("#recordingScreen .skipMoves").classList.remove("faded");
+        }
         board.position(fens[--replayIdx]);
-        document.querySelector("#recordingScreen .nextMove").classList.remove("hidden");
-        document.querySelector("#recordingScreen .skipMoves").classList.remove("hidden");
 
-        if (replayIdx == 0) document.querySelector("#recordingScreen .prevMove").classList.add("hidden");
+        if (replayIdx == 0) document.querySelector("#recordingScreen .prevMove").classList.add("faded");
     }
 
     // removes highlights of the given category (black/white/options)
@@ -248,7 +250,7 @@ let ChessEngine = function () {
             window.setTimeout(opponentMove, 250);
         } else {
             // wrong move, must try again
-            document.querySelector("#notif").innerHTML = "There is a better move.";
+            document.querySelector("#notif").innerHTML = "There is a better move";
             document.getElementById("undoButton").style.transform = "scale(1)";
 
             document.getElementById("hintButton").style.opacity = "0.5";

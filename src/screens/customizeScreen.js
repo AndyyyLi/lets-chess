@@ -124,6 +124,9 @@ export default class CustomizeScreen extends ScreenBase {
                     document.getElementById("gameplayScreen").style.backgroundColor = "#" + background;
                 }
 
+                // if creator picks choose flow then changes to compete, the recording back button needs to be re-hidden
+                document.querySelector("#recordingScreen .backbutton").classList.add("hidden");
+
                 this.app.showGameplay();
             } else {
                 let puzzle = this.app.getChosenPuzzle();
@@ -140,13 +143,14 @@ export default class CustomizeScreen extends ScreenBase {
 
                 // creators can only go back if they are not competing
                 document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
-                document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
-                    SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-                    this.app.showCustomization();
-                });
 
                 this.app.showRecording();
             }
+        });
+
+        document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+            this.app.showCustomization();
         });
 
         document.querySelector("#customizeScreen .backButton").addEventListener("click", () => {
@@ -182,11 +186,11 @@ export default class CustomizeScreen extends ScreenBase {
             }
 
             this.app.showSelection();
-        })
+        });
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
-        this.preloadList.addHttpLoad("./img/icon_camera.png");
-        document.getElementById("photo").src = "./img/icon_camera.png";
+        this.preloadList.addHttpLoad("./img/assets/i_camera.png");
+        document.getElementById("photo").src = "./img/assets/i_camera.png";
     }
 }
