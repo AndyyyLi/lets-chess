@@ -1,7 +1,7 @@
 import "./styles/recordingScreen.scss";
 import ScreenBase from "./screenBase";
 
-import { LAYOUTS } from "../const";
+import { LAYOUTS, SOUNDS } from "../const";
 
 import LayoutManagerInstance from "../layoutManager";
 import RecordingManagerInstance from "../recordingManager";

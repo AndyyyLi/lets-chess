@@ -24,7 +24,6 @@ export default class SelectionScreen extends ScreenBase {
         // imports the puzzles.json file then displays them without sorting
         this.preloadList.addLoad(async () => {
             if (isCreatorMode()) {
-                // only needs one "." for SDK, needs two for local webpack
                 const response = await fetch('./puzzles/puzzles.json');
                 this.puzzles = await response.json();
 
