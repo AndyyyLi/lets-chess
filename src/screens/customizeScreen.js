@@ -160,9 +160,9 @@ export default class CustomizeScreen extends ScreenBase {
             let thisBackground = this.app.getBackground();
 
             // reset highlighted to default colour
-            document.getElementById(thisColour).classList.remove("chosen")
-            document.getElementById("b58863f0d9b5").classList.add("chosen");
-            this.app.setColour("b58863f0d9b5");
+            document.getElementById(thisColour).classList.remove("chosen");
+            document.querySelector("#customizeScreen .default").classList.add("chosen");
+            this.app.setColour(document.querySelector("#customizeScreen .default").id);
 
             // reset highlighted to default bg colour
             if (thisBackground.includes("blob")) {
@@ -170,10 +170,11 @@ export default class CustomizeScreen extends ScreenBase {
             } else {
                 document.getElementById(thisBackground).classList.remove("chosen");
             }
-
-            document.getElementById("bebebe").classList.add("chosen");
-            document.getElementById("customizeScreen").style.backgroundColor = "#bebebe";
-            this.app.setBackground("bebebe");
+            
+            document.querySelector("#customizeScreen .bgDefault").classList.add("chosen");
+            let defBg = document.querySelector("#customizeScreen .bgDefault").id;
+            document.getElementById("customizeScreen").style.backgroundColor = "#" + defBg;
+            this.app.setBackground(defBg);
 
             // reset selected customization target
             if (!this.onBoard) {

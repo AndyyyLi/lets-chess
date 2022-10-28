@@ -1,5 +1,5 @@
 #customizeScreen {
-    background-color: #bebebe;
+    background-color: #e350b0;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -66,16 +66,16 @@
             grid-row: auto auto;
 
             .dark {
-                background-color: #b58863;
+                background-color: #aa3486;
             }
 
             .light {
-                background-color: #f0d9b5;
+                background-color: #f5daed;
             }
         }
 
         .background {
-            background-color: #bebebe;
+            background-color: #e350b0;
         }
 
         .colour {
@@ -98,15 +98,15 @@
         }
 
         .default {
+            background-color: #aa3486;
+        }
+
+        .tan {
             background-color: #b58863;
         }
 
         .red {
             background-color: #ea2929;
-        }
-
-        .pink {
-            background-color: #dd0fa6;
         }
 
         .purple {
@@ -130,7 +130,7 @@
         }
 
         .bgDefault {
-            background-color: #bebebe;
+            background-color: #e350b0;
         }
 
         .bgRed {

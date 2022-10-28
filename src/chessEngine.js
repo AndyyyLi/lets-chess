@@ -315,8 +315,19 @@ let ChessEngine = function () {
         document.getElementById("hintButton").disabled = true;
 
         document.querySelector("#notif").innerHTML = "Solved!";
+        document.querySelector("#gameplayScreen .backgroundImg").classList.remove("hidden");
+        if (window.app.getIsCompete()) {
+            if (isAudienceMode() && attempts <= window.app.getAttempts()) {
+                if (attempts < window.app.getAttempts()) {
+                    document.querySelector("#gameplayScreen .solvedText").innerHTML = "You solved the puzzle in fewer attempts than the host!";
+                } else if (attempts == window.app.getAttempts()) {
+                    document.querySelector("#gameplayScreen .solvedText").innerHTML = "You solved the puzzle on the same attempt as the host!";
+                }
+            } else {
+                document.querySelector("#gameplayScreen .solvedText").innerHTML = "You solved the puzzle on attempt " + attempts + "!";
+            }
+        }
         document.querySelector("#gameplayScreen .solved").style.transform = "scale(1)";
-        // setTimeout(() => document.querySelector("#gameplayScreen .solved").style.transform = "scale(1)", 1000);
     }
 
     // adds current fen to fens with move update
@@ -343,7 +354,7 @@ let ChessEngine = function () {
 
         nextMoveReplay();
 
-        setTimeout(skipMoves, 200, targetIdx);
+        setTimeout(skipMoves, 300, targetIdx);
     }
 
     // returns the index of the next correct move from current replayIdx
@@ -404,6 +415,9 @@ let ChessEngine = function () {
 
     // highlights the piece that needs to move next
     function showHint() {
+        clickSource = null;
+        removeHighlights("options");
+
         let source = solution[solutionIdx].substring(0, 2);
 
         document.querySelector("#gameplayScreen .square-" + source).classList.add("highlight-options");

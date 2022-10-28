@@ -1,5 +1,6 @@
 import { VIDEO_LENGTH } from "./const";
 import ScreenManagerInstance from "./screenManager";
+import { isCreatorMode } from "./util";
 
 /**
  * Handles showing and hiding the native record button, and handling full screen recordings
@@ -14,7 +15,12 @@ class RecordingManager {
     }
 
     async init(nativeUIManager, controlManager, onRecordingStarted, onRecordingComplete) {
-        this.nativeRecordButton = await nativeUIManager.createNativeRecordButton(0.5, 0.94, 0.085);
+        if (isCreatorMode()) {
+            this.nativeRecordButton = await nativeUIManager.createNativeRecordButton(0.5, 0.94, 0.085);
+        } else {
+            this.nativeRecordButton = await nativeUIManager.createNativeRecordButton(0.35, 0.94, 0.085);
+        }
+        
         this.fullScreenRecorder = await controlManager.getFullScreenRecorder();
 
         this.onRecordingStarted = onRecordingStarted;

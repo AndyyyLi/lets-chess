@@ -221,3 +221,17 @@ button {
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
 }
+
+// Swaying animation
+@keyframes swaying {
+    0%   {transform: rotate(10deg)}
+    50%  {transform: rotate(45deg)}
+    100%  {transform: rotate(10deg)}
+}
+
+.swaying {
+    animation-name: swaying;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}

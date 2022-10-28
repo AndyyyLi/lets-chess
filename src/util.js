@@ -127,18 +127,18 @@ export function displayPuzzles(puzzles, currIdx) {
         let config = {
             showNotation: false,
             position: puzzle.FEN
-        }
+        };
 
         // when clicked, shows user the details popup
         board.onclick = function() {
             window.app.setChosenPuzzle(puzzle);
 
             // set info
-            document.querySelector(".details .puzzleTitleDetails").innerHTML = getPuzzleTitle(puzzle);
-            document.querySelector(".details .puzzleDifficulty").innerHTML = getPuzzleDifficulty(puzzle.Rating);
-            document.querySelector(".details .puzzleUserColour").innerHTML = (puzzle.FEN.split(" ")[1] == "b") ? "White" : "Black";
-            document.querySelector(".details .puzzleMoves").innerHTML = puzzle.Moves.split(" ").length / 2;
-            document.querySelector(".details .puzzleObjective").innerHTML = getPuzzleObjective(puzzle.Themes);
+            document.querySelector("#selectionScreen .details .puzzleTitleDetails").innerHTML = getPuzzleTitle(puzzle);
+            document.querySelector("#selectionScreen .details .puzzleDifficulty").innerHTML = getPuzzleDifficulty(puzzle.Rating);
+            document.querySelector("#selectionScreen .details .puzzleUserColour").innerHTML = (puzzle.FEN.split(" ")[1] == "b") ? "White" : "Black";
+            document.querySelector("#selectionScreen .details .puzzleMoves").innerHTML = puzzle.Moves.split(" ").length / 2;
+            document.querySelector("#selectionScreen .details .puzzleObjective").innerHTML = getPuzzleObjective(puzzle.Themes);
 
             document.getElementById("puzzleInfo").style.width = (screen.width / 2 - 20) + "px";
 
@@ -165,7 +165,7 @@ export function getPuzzleTitle(puzzle) {
 }
 
 // returns puzzle difficulty based on rating
-function getPuzzleDifficulty(rating) {
+export function getPuzzleDifficulty(rating) {
     switch (true) {
         case (rating >= 2750):
             return "Extreme";
@@ -179,7 +179,7 @@ function getPuzzleDifficulty(rating) {
 }
 
 // returns puzzle objective based on themes
-function getPuzzleObjective(themes) {
+export function getPuzzleObjective(themes) {
 
     switch (true) {
         case (themes.includes("mate")):

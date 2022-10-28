@@ -12,6 +12,9 @@ export default class GameplayScreen extends ScreenBase {
     constructor(app) {
         super("Gameplay", document.querySelector("#gameplayScreen"), LAYOUTS.EMPTY_LAYOUT, app);
 
+        this.preloadList.addHttpLoad("./img/assets/trophy.png");
+        document.querySelector("#gameplayScreen .backgroundImg").src = "./img/assets/trophy.png";
+
         document.querySelector("#gameplayScreen .next").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
@@ -132,7 +135,6 @@ export default class GameplayScreen extends ScreenBase {
                 document.getElementById("notif").innerHTML = "Your turn!";
                 document.getElementById("giveUpButton").style.transform = "scale(0)";
                 document.getElementById("undoButton").style.transform = "scale(0)";
-                document.querySelector("#gameplayScreen .next").style.transform = "scale(0)";
 
                 this.app.showCustomization();
             });
@@ -140,52 +142,6 @@ export default class GameplayScreen extends ScreenBase {
         
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
-
-        this.preloadList.addLoad(async () => {
-            if (isAudienceMode()) {
-                const assetManager = o3h.Instance.getAssetManager();
-
-                const replayData = assetManager.getInputAsset(ASSETS.REPLAY_DATA);
-                const replayPlayer = await replayData.createReplayPlayer();
-
-                const replayProperties = await replayPlayer.getProperties();
-                const creatorPuzzle = replayProperties.puzzle;
-                const colour = replayProperties.colour;
-                const background = replayProperties.background;
-
-                this.app.setChosenPuzzle(creatorPuzzle);
-                this.app.setColour(colour);
-                this.app.setBackground(background);
-
-                ChessEngine.initPuzzle("myBoard", creatorPuzzle);
-
-                let darkColour = "#" + colour.substring(0,6);
-                let lightColour = "#" + colour.substring(6,12);
-
-                changeBoardColours("#myBoard .white-1e1d7", lightColour, darkColour);
-                changeBoardColours("#myBoard .black-3c85d", darkColour, lightColour);
-                if (background.includes("blob")) {
-                    document.getElementById("gameplayScreen").style.backgroundImage = "url(" + background + ")";
-                } else {
-                    document.getElementById("gameplayScreen").style.backgroundColor = "#" + background;
-                }
-
-                document.querySelector("#gameplayScreen .backButton").classList.add("hidden");
-
-                if (!this.app.getIsCompete()) {
-                    this.preloadList.addHttpLoad("./img/assets/i_hint.png");
-                    document.getElementById("hintButton").style.backgroundImage = "url(\"./img/assets/i_hint.png\")";
-                    
-                    // activates hint button
-                    document.getElementById("hintButton").addEventListener("click", () => {
-                        ChessEngine.showHint();
-                    });
-                    // shows hint button
-                    document.getElementById("hintButton").style.display = "inline";
-                    document.querySelector("#gameplayScreen .attemptsText").style.display = "none";
-                }
-            }
-        });
 
         this.preloadList.addHttpLoad("./img/assets/win.png");
         document.querySelector("#gameplayScreen .solvedImg").src = "./img/assets/win.png";

@@ -47,4 +47,13 @@
     .nextMove {
         margin-left: 80%;
     }
+
+    .skipMoves {
+        position: absolute;
+        font-size: 15;
+        transform: scale(0.8);
+        bottom: -1%;
+        right: 10%;
+        width: 140;
+    }
 }
