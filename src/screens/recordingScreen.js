@@ -6,6 +6,7 @@ import { LAYOUTS } from "../const";
 import LayoutManagerInstance from "../layoutManager";
 import RecordingManagerInstance from "../recordingManager";
 import { isAudienceMode } from "../util";
+import SoundManagerInstance from "../soundManager";
 
 export default class RecordingScreen extends ScreenBase {
     constructor(app) {
@@ -20,6 +21,11 @@ export default class RecordingScreen extends ScreenBase {
             this.preloadList.addHttpLoad("./img/assets/i_rarrow.png");
             document.querySelector("#recordingScreen .prevMove").src = "./img/assets/i_larrow.png";
             document.querySelector("#recordingScreen .nextMove").src = "./img/assets/i_rarrow.png";
+        } else {
+            document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
+                SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+                this.app.showCustomization();
+            });
         }
     }
 

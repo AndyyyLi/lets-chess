@@ -15,6 +15,8 @@ export default class GameplayScreen extends ScreenBase {
         this.preloadList.addHttpLoad("./img/assets/trophy.png");
         document.querySelector("#gameplayScreen .backgroundImg").src = "./img/assets/trophy.png";
 
+        this.preloadList.addHttpLoad("./img/assets/title_compete.png");
+
         document.querySelector("#gameplayScreen .next").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
@@ -27,6 +29,11 @@ export default class GameplayScreen extends ScreenBase {
 
                 document.querySelector("#recordingScreen .attemptCount").innerHTML = msg;
                 document.querySelector("#recordingScreen .attempts").classList.remove("hidden");
+
+                if (isCreatorMode()) {
+                    document.querySelector("#recordingScreen .competeImg").src = "./img/assets/title_compete.png";
+                    document.querySelector("#recordingScreen .competeImg").classList.remove("hidden");
+                }
             }
 
             // audience will always have the replay stepper

@@ -106,6 +106,8 @@ export default class CustomizeScreen extends ScreenBase {
             this.onBoard = false;
         });
 
+        // this.preloadList.addHttpLoad("./img/assets/title.png");
+        
         document.querySelector("#customizeScreen .finishCustomization").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
@@ -141,16 +143,14 @@ export default class CustomizeScreen extends ScreenBase {
                     document.getElementById("recordingScreen").style.backgroundColor = "#" + background;
                 }
 
+                document.querySelector("#recordingScreen .competeImg").src = "./img/assets/title.png";
+                document.querySelector("#recordingScreen .competeImg").classList.remove("hidden");
+
                 // creators can only go back if they are not competing
                 document.querySelector("#recordingScreen .backbutton").classList.remove("hidden");
 
                 this.app.showRecording();
             }
-        });
-
-        document.querySelector("#recordingScreen .backButton").addEventListener("click", () => {
-            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-            this.app.showCustomization();
         });
 
         document.querySelector("#customizeScreen .backButton").addEventListener("click", () => {
