@@ -235,3 +235,18 @@ button {
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
 }
+
+// Bouncing animation
+@keyframes bouncing {
+    0% {transform: translate(-50%, -400%);}
+    70% {transform: translate(-50%, -50%);}
+    80% {transform: scale(1.15,0.85) translate(-44%, -50%)}
+    100% {transform: scale(1,1) translate(-50%, -50%)}
+}
+
+.bouncing {
+    animation-name: bouncing;
+    animation-duration: 1s;
+    animation-fill-mode: backwards;
+    animation-timing-function: cubic-bezier(0.4,0.1,0.75,0.45);
+}

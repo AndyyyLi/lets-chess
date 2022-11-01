@@ -2,7 +2,10 @@
     background-color: #f156bb;
 
     .title {
-        width: 100%;
+        width: 90%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .continueButton {

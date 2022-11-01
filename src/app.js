@@ -184,7 +184,7 @@ export default class App {
 
         // End the module with a score of 0 (non-game module)
         this.runtime.completeModule({
-            "score": 0
+            "attempts": this.attempts
         });
     }
 }
