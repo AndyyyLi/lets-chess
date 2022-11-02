@@ -1,11 +1,6 @@
 #instructionsScreen {
     background-color: #f156bb;
 
-    .title {
-        width: 50%;
-        margin-top: 30px;
-    }
-
     button {
         width: 40%;
     }
@@ -19,6 +14,10 @@
         margin-top: 10;
         padding-left: 30;
         padding-right: 30;
+
+        h1 {
+            font-size: 24;
+        }
     }
 
     .creatorText {
@@ -31,15 +30,8 @@
 
     .question {
         margin-top: 0;
+        margin-bottom: 5;
         font-size: 24;
-    }
-
-    #leaderboard {
-        margin: auto;
-        width: 75%;
-        height: 380px;
-        border: solid black;
-        border-radius: 5%;
     }
 
     // choose styles
@@ -52,15 +44,23 @@
         padding-right: 30;
     }
 
-    
+
     .creatorName {
         font-weight: 900;
     }
 
-    .chooseInfo {
+    .instructionsInfo {
         display: grid;
         grid-template-columns: 50% 50%;
         column-gap: 5px;
+    }
+
+    .leaderboardButton {
+        transform: scale(0.7);
+        width: 200;
+        font-size: 18;
+        margin-top: 5;
+        margin-bottom: 5;
     }
 
     .details {
@@ -72,7 +72,7 @@
         text-align: left;
         margin: 6 0 5;
         padding-right: 5px;
-        
+
         p {
             margin: 0;
             font-size: 10px;

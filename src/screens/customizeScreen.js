@@ -87,7 +87,7 @@ export default class CustomizeScreen extends ScreenBase {
             document.querySelector("#customizeScreen .background").classList.remove("selected");
             document.querySelector("#customizeScreen .boardColours").classList.remove("hidden");
             document.querySelector("#customizeScreen .board").classList.add("selected");
-            document.querySelector("#customizeScreen .customText").innerHTML = "Select board colour";
+            document.querySelector("#customizeScreen .customText").innerText = "Select board colour";
 
             this.onBoard = true;
         });
@@ -101,7 +101,7 @@ export default class CustomizeScreen extends ScreenBase {
             document.querySelector("#customizeScreen .board").classList.remove("selected");
             document.querySelector("#customizeScreen .bgColours").classList.remove("hidden");
             document.querySelector("#customizeScreen .background").classList.add("selected");
-            document.querySelector("#customizeScreen .customText").innerHTML = "Select background";
+            document.querySelector("#customizeScreen .customText").innerText = "Select background";
 
             this.onBoard = false;
         });

@@ -126,6 +126,11 @@ body {
     box-shadow: 0 2px 5px black;
 }
 
+.smallTitle {
+    width: 60%;
+    margin-top: 50px;
+}
+
 // Container for button controls
 .controls {
     position: absolute;
@@ -137,9 +142,9 @@ body {
 // Center page contents in middle of the page
 .contents {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 18%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
 
     width: 100%;
     padding: 10px;
@@ -151,6 +156,62 @@ body {
 }
 
 
+.leaderboard {
+    margin: auto;
+    width: 75%;
+    height: 300px;
+    background-color: #850159;
+    border: solid black;
+    border-radius: 5%;
+    overflow: auto;
+
+    .labels {
+        display: grid;
+        grid-template-columns: 70% 30%;
+        font-size: 12;
+
+        p {
+            margin: 5 10;
+        }
+
+        .playerLabel {
+            text-align: left;
+        }
+
+        .attemptsLabel {
+            text-align: right;
+        }
+    }
+
+    .leaderboardEntry {
+        background: linear-gradient(to right, #f257bc 50%, #2f011f);
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        margin-bottom: 10;
+
+        h3 {
+            margin: auto;
+        }
+
+        .entryName {
+            text-align: left;
+        }
+
+        .entryScore {
+            font-size: 24;
+        }
+    }
+
+    .entryAvatar {
+        width: 70%;
+        margin: 3;
+        border-radius: 50%;
+    }
+
+    .ownerEntry {
+        color: yellow;
+    }
+}
 
 // Emulate Oooh platform buttons
 button {

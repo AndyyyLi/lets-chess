@@ -107,7 +107,7 @@ export default class SelectionScreen extends ScreenBase {
 
                 this.app.setChosenPuzzle(puzzle);
 
-                document.querySelector("#customizeScreen .puzzleTitle").innerHTML = getPuzzleTitle(puzzle);
+                document.querySelector("#customizeScreen .puzzleTitle").innerText = getPuzzleTitle(puzzle);
                 setupPuzzleDetails(puzzle, "#customizeScreen", "puzzleDetails");
 
                 this.app.showCustomization();
@@ -117,7 +117,7 @@ export default class SelectionScreen extends ScreenBase {
         document.querySelector("#selectionScreen .chooseButton").addEventListener('click', () => {
             let puzzle = this.app.getChosenPuzzle();
             
-            document.querySelector("#customizeScreen .puzzleTitle").innerHTML = getPuzzleTitle(puzzle);
+            document.querySelector("#customizeScreen .puzzleTitle").innerText = getPuzzleTitle(puzzle);
             setupPuzzleDetails(puzzle, "#customizeScreen", "puzzleDetails");
 
             document.querySelector("#selectionScreen .showInfo").style.transform = "scale(0)";

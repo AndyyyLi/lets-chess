@@ -23,6 +23,7 @@ export default class SplashScreen extends ScreenBase {
             } else {
                 if (this.app.getIsCompete()) {
                     document.querySelector("#instructionsScreen .compete").classList.remove("hidden");
+                    document.querySelector("#instructionsScreen .instructionsOptions").classList.remove("hidden");
                 } else {
                     document.querySelector("#instructionsScreen .choose").classList.remove("hidden");
                 }

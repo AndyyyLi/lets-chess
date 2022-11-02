@@ -134,11 +134,11 @@ export function displayPuzzles(puzzles, currIdx) {
             window.app.setChosenPuzzle(puzzle);
 
             // set info
-            document.querySelector("#selectionScreen .details .puzzleTitleDetails").innerHTML = getPuzzleTitle(puzzle);
-            document.querySelector("#selectionScreen .details .puzzleDifficulty").innerHTML = getPuzzleDifficulty(puzzle.Rating);
-            document.querySelector("#selectionScreen .details .puzzleUserColour").innerHTML = (puzzle.FEN.split(" ")[1] == "b") ? "White" : "Black";
-            document.querySelector("#selectionScreen .details .puzzleMoves").innerHTML = puzzle.Moves.split(" ").length / 2;
-            document.querySelector("#selectionScreen .details .puzzleObjective").innerHTML = getPuzzleObjective(puzzle.Themes);
+            document.querySelector("#selectionScreen .details .puzzleTitleDetails").innerText = getPuzzleTitle(puzzle);
+            document.querySelector("#selectionScreen .details .puzzleDifficulty").innerText = getPuzzleDifficulty(puzzle.Rating);
+            document.querySelector("#selectionScreen .details .puzzleUserColour").innerText = (puzzle.FEN.split(" ")[1] == "b") ? "White" : "Black";
+            document.querySelector("#selectionScreen .details .puzzleMoves").innerText = puzzle.Moves.split(" ").length / 2;
+            document.querySelector("#selectionScreen .details .puzzleObjective").innerText = getPuzzleObjective(puzzle.Themes);
 
             document.getElementById("puzzleInfo").style.width = (screen.width / 2 - 20) + "px";
 
@@ -198,16 +198,16 @@ export function getPuzzleObjective(themes) {
 // sets up the details for the given focus puzzle
 export function setupPuzzleDetails(puzzle, screen, boardId) {
 
-    document.querySelector(screen + " .difficultyIndicator").innerHTML = getPuzzleDifficulty(puzzle.Rating);
+    document.querySelector(screen + " .difficultyIndicator").innerText = getPuzzleDifficulty(puzzle.Rating);
 
     // show what colour user will play as
     let opponentsMove = puzzle.FEN.split(" ")[1];
     if (opponentsMove == 'b') {
         document.querySelector(screen + " .colourBox").style.background = "white";
-        document.querySelector(screen + " .colour").innerHTML = "White";
+        document.querySelector(screen + " .colour").innerText = "White";
     } else {
         document.querySelector(screen + " .colourBox").style.background = "black";
-        document.querySelector(screen + " .colour").innerHTML = "Black";
+        document.querySelector(screen + " .colour").innerText = "Black";
     }
     
     ChessEngine.buildPuzzle(boardId, puzzle.FEN, true);
@@ -220,3 +220,40 @@ export function changeBoardColours(query, bgColour, colour) {{
         e.style.color = colour;
     });
 }}
+
+// generates the leaderboard at designated screen, also identifies creator/owner entry and optional entry from current user
+export function renderLeaderboard(entries, avatarPreloadList, screen, activeUser = "") {
+    entries.forEach((entry) => {
+        let entryDiv = document.createElement("div");
+        entryDiv.className = "leaderboardEntry";
+
+        let avatar = document.createElement("img");
+        avatar.className = "entryAvatar";
+        avatarPreloadList.addHttpLoad(entry.User.AvatarImageUrl);
+        avatar.src = entry.User.AvatarImageUrl;
+        entryDiv.appendChild(avatar);
+
+        let name = document.createElement("h3");
+        name.className = "entryName";
+        name.innerText = entry.User.Name;
+        entryDiv.appendChild(name);
+
+        let score = document.createElement("h3");
+        score.className = "entryScore";
+        score.innerText = entry.Score;
+        entryDiv.appendChild(score);
+
+        entryDiv.classList.add("shadow");
+
+        if (entry.IsOwner) {
+            entryDiv.classList.add("ownerEntry");
+        }
+
+        if (entry.User.Name == activeUser) {
+            entryDiv.classList.add("activeUserEntry");
+        }
+
+        document.querySelector("#" + screen + " .leaderboard").appendChild(entryDiv);
+    });
+
+}

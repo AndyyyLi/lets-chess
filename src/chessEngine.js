@@ -51,9 +51,9 @@ let ChessEngine = function () {
         // set title of gameplay screen
         if (puzzle.OpeningFamily) {
             let name = puzzle.OpeningVariation.replaceAll('_', ' ');
-            document.querySelector("#gameplayScreen .puzzleTitle").innerHTML = name;
+            document.querySelector("#gameplayScreen .puzzleTitle").innerText = name;
         } else {
-            document.querySelector("#gameplayScreen .puzzleTitle").innerHTML = "Puzzle " + puzzle.PuzzleId;
+            document.querySelector("#gameplayScreen .puzzleTitle").innerText = "Puzzle " + puzzle.PuzzleId;
         }
 
         // reset fens and attempts for new puzzle
@@ -91,7 +91,7 @@ let ChessEngine = function () {
             default:
                 difficulty = "Easy";
         }
-        document.querySelector("#gameplayScreen .difficultyIndicator").innerHTML = difficulty;
+        document.querySelector("#gameplayScreen .difficultyIndicator").innerText = difficulty;
 
         // determines which colour user plays as
         // opponentMove can only be 'b' or 'w' (check FEN strings samples)
@@ -246,11 +246,11 @@ let ChessEngine = function () {
             removeHighlights(opponentColour);
             correctIdxs.push(fens.length - 1);
             solutionIdx++;
-            document.querySelector("#notif").innerHTML = "Nice!";
+            document.querySelector("#notif").innerText = "Nice!";
             window.setTimeout(opponentMove, 250);
         } else {
             // wrong move, must try again
-            document.querySelector("#notif").innerHTML = "There is a better move";
+            document.querySelector("#notif").innerText = "There is a better move";
             document.getElementById("undoButton").style.transform = "scale(1)";
 
             document.getElementById("hintButton").style.opacity = "0.5";
@@ -314,18 +314,22 @@ let ChessEngine = function () {
         document.getElementById("hintButton").style.opacity = "0.5";
         document.getElementById("hintButton").disabled = true;
 
-        document.querySelector("#notif").innerHTML = "Solved!";
+        document.querySelector("#notif").innerText = "Solved!";
         document.querySelector("#gameplayScreen .backgroundImg").classList.remove("hidden");
+        
+        // run additional text if competing and update leaderboard
         if (window.app.getIsCompete()) {
             if (isAudienceMode() && attempts <= window.app.getAttempts()) {
                 if (attempts < window.app.getAttempts()) {
-                    document.querySelector("#gameplayScreen .solvedText").innerHTML = "You solved the puzzle in fewer attempts than the host!";
+                    document.querySelector("#gameplayScreen .solvedText").innerText = "You solved the puzzle in fewer attempts than the host!";
                 } else if (attempts == window.app.getAttempts()) {
-                    document.querySelector("#gameplayScreen .solvedText").innerHTML = "You solved the puzzle on the same attempt as the host!";
+                    document.querySelector("#gameplayScreen .solvedText").innerText = "You solved the puzzle on the same attempt as the host!";
                 }
             } else {
-                document.querySelector("#gameplayScreen .solvedText").innerHTML = "You solved the puzzle on attempt " + attempts + "!";
+                document.querySelector("#gameplayScreen .solvedText").innerText = "You solved the puzzle on attempt " + attempts + "!";
             }
+
+            window.app.gameplayScreen.updateLeaderboard(attempts);
         }
         document.querySelector("#gameplayScreen .solved").style.transform = "scale(1)";
     }
@@ -337,7 +341,7 @@ let ChessEngine = function () {
 
     // updates display of attempts
     function addAttempt() {
-        document.querySelector("#attempts").innerHTML = ++attempts;
+        document.querySelector("#attempts").innerText = ++attempts;
     }
 
     // "fast-forwards" game to skip consecutive blunders and stops at the next correct move
@@ -393,7 +397,7 @@ let ChessEngine = function () {
             // visual changes
             removeHighlights(userColour);
             removeHighlights("options");
-            document.querySelector("#notif").innerHTML = "Try again";
+            document.querySelector("#notif").innerText = "Try again";
             document.getElementById("undoButton").style.transform = "scale(0)";
 
             document.getElementById("hintButton").style.opacity = "1";

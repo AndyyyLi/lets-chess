@@ -37,7 +37,6 @@ export default class App {
         this.recordingScreen = new RecordingScreen(this);
         this.reviewScreen = new ReviewScreen(this);
 
-        // this.message = ""; // Variable used to store the creator's message to the audience
         this.chosenPuzzle;
         this.isCompete;
         this.attempts;
@@ -183,8 +182,6 @@ export default class App {
         }
 
         // End the module with a score of 0 (non-game module)
-        this.runtime.completeModule({
-            "attempts": this.attempts
-        });
+        this.runtime.completeModule({ "attempts": this.attempts * -1 });
     }
 }

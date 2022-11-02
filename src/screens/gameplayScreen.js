@@ -3,10 +3,11 @@ import ScreenBase from "./screenBase";
 import { ChessEngine } from "../chessEngine";
 
 import { ASSETS, LAYOUTS, SOUNDS } from "../const";
-import { isCreatorMode, isAudienceMode, setupPuzzleDetails, changeBoardColours } from "../util";
+import { isCreatorMode, isAudienceMode, setupPuzzleDetails, changeBoardColours, renderLeaderboard } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
 import SoundManagerInstance from "../soundManager";
+import { PreloadList } from "../libs/Preloader";
 
 export default class GameplayScreen extends ScreenBase {
     constructor(app) {
@@ -17,7 +18,14 @@ export default class GameplayScreen extends ScreenBase {
 
         this.preloadList.addHttpLoad("./img/assets/title_compete.png");
 
-        document.querySelector("#gameplayScreen .next").addEventListener("click", () => {
+        document.querySelector("#gameplayScreen .solvedPopup .next").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
+            document.querySelector("#gameplayScreen .update").style.transform = "scale(1)";
+            document.querySelector("#gameplayScreen .solved").style.transform = "scale(0)";
+        });
+
+        document.querySelector("#gameplayScreen .postGameLeaderboard .next").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
             let puzzle = this.app.getChosenPuzzle();
@@ -27,7 +35,7 @@ export default class GameplayScreen extends ScreenBase {
                 const attempts = ChessEngine.getAttempts();
                 let msg = attempts == 1 ? "Flawless solve!" : "Solved in " + attempts + " attempts!"
 
-                document.querySelector("#recordingScreen .attemptCount").innerHTML = msg;
+                document.querySelector("#recordingScreen .attemptCount").innerText = msg;
                 document.querySelector("#recordingScreen .attempts").classList.remove("hidden");
 
                 if (isCreatorMode()) {
@@ -63,8 +71,8 @@ export default class GameplayScreen extends ScreenBase {
 
             let colour = this.app.getColour();
             let background = this.app.getBackground();
-            let darkColour = "#" + colour.substring(0,6);
-            let lightColour = "#" + colour.substring(6,12);
+            let darkColour = "#" + colour.substring(0, 6);
+            let lightColour = "#" + colour.substring(6, 12);
 
             changeBoardColours("#puzzleRecord .white-1e1d7", lightColour, darkColour);
             changeBoardColours("#puzzleRecord .black-3c85d", darkColour, lightColour);
@@ -87,7 +95,7 @@ export default class GameplayScreen extends ScreenBase {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
                 document.querySelector("#gameplayScreen .giveUp").style.transform = "scale(1)";
             });
-            
+
             document.querySelector("#gameplayScreen .cancel").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
                 document.querySelector("#gameplayScreen .giveUp").style.transform = "scale(0)";
@@ -119,8 +127,8 @@ export default class GameplayScreen extends ScreenBase {
                 ChessEngine.initPuzzleReplay("puzzleRecord", puzzle.FEN);
 
                 let colour = this.app.getColour();
-                let darkColour = "#" + colour.substring(0,6);
-                let lightColour = "#" + colour.substring(6,12);
+                let darkColour = "#" + colour.substring(0, 6);
+                let lightColour = "#" + colour.substring(6, 12);
                 let background = this.app.getBackground();
 
                 changeBoardColours("#puzzleRecord .white-1e1d7", lightColour, darkColour);
@@ -139,19 +147,37 @@ export default class GameplayScreen extends ScreenBase {
             document.querySelector("#gameplayScreen .backButton").addEventListener("click", () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
-                document.getElementById("notif").innerHTML = "Your turn!";
+                document.getElementById("notif").innerText = "Your turn!";
                 document.getElementById("giveUpButton").style.transform = "scale(0)";
                 document.getElementById("undoButton").style.transform = "scale(0)";
 
                 this.app.showCustomization();
             });
         }
-        
+
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
         this.preloadList.addHttpLoad("./img/assets/win.png");
         document.querySelector("#gameplayScreen .solvedImg").src = "./img/assets/win.png";
+    }
+
+    async updateLeaderboard(attempts) {
+        const avatarPreloadList = new PreloadList();
+
+        const userDataService = o3h.Instance.getUserDataService();
+        const leaderboard = await userDataService.addToLeaderboard({ score: attempts });
+        const entries = leaderboard.Entries;
+
+        entries.sort(function (a, b) {
+            return b.Rank - a.Rank;
+        });
+
+        const thisUser = await userDataService.getActiveUserInformation();
+
+        renderLeaderboard(entries, avatarPreloadList, "gameplayScreen", thisUser.Name);
+
+        avatarPreloadList.loadAll();
     }
 
     show() {
