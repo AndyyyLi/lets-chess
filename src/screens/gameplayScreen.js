@@ -21,28 +21,8 @@ export default class GameplayScreen extends ScreenBase {
         document.querySelector("#gameplayScreen .solvedPopup .next").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
-            document.querySelector("#gameplayScreen .update").style.transform = "scale(1)";
-            document.querySelector("#gameplayScreen .solved").style.transform = "scale(0)";
-        });
-
-        document.querySelector("#gameplayScreen .postGameLeaderboard .next").addEventListener("click", () => {
-            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-
             let puzzle = this.app.getChosenPuzzle();
             setupPuzzleDetails(puzzle, "#recordingScreen", "puzzleRecord");
-
-            if (this.app.getIsCompete()) {
-                const attempts = ChessEngine.getAttempts();
-                let msg = attempts == 1 ? "Flawless solve!" : "Solved in " + attempts + " attempts!"
-
-                document.querySelector("#recordingScreen .attemptCount").innerText = msg;
-                document.querySelector("#recordingScreen .attempts").classList.remove("hidden");
-
-                if (isCreatorMode()) {
-                    document.querySelector("#recordingScreen .competeImg").src = "./img/assets/title_compete.png";
-                    document.querySelector("#recordingScreen .competeImg").classList.remove("hidden");
-                }
-            }
 
             // audience will always have the replay stepper
             if (isAudienceMode()) {
@@ -82,6 +62,32 @@ export default class GameplayScreen extends ScreenBase {
                 document.getElementById("recordingScreen").style.backgroundColor = "#" + background;
             }
 
+            document.querySelector("#gameplayScreen .solved").style.transform = "scale(0)";
+
+            if (this.app.getIsCompete()) {
+                const attempts = ChessEngine.getAttempts();
+                let msg = attempts == 1 ? "Flawless solve!" : "Solved in " + attempts + " attempts!"
+
+                document.querySelector("#recordingScreen .attemptCount").innerText = msg;
+                document.querySelector("#recordingScreen .attempts").classList.remove("hidden");
+
+                if (isCreatorMode()) {
+                    document.querySelector("#recordingScreen .recordingImg").src = "./img/assets/title_compete.png";
+                    document.querySelector("#recordingScreen .recordingImg").classList.remove("hidden");
+                    
+                    this.app.showRecording();
+                } else {
+                    // show leaderboard if audience
+                    document.querySelector("#gameplayScreen .update").style.transform = "scale(1)";
+                }
+            } else {
+                // else go to recording
+                this.app.showRecording();
+            }
+        });
+
+        document.querySelector("#gameplayScreen .postGameLeaderboard .next").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
             this.app.showRecording();
         });
 

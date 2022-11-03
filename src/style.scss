@@ -311,3 +311,14 @@ button {
     animation-fill-mode: backwards;
     animation-timing-function: cubic-bezier(0.4,0.1,0.75,0.45);
 }
+
+@keyframes fallDown {
+    0% {transform: translate(-50%, -500%);}
+    100% {transform: translate(-50%, -50%);}
+}
+
+.fallDown {
+    animation-name: fallDown;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+}
