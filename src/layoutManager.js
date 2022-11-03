@@ -102,6 +102,8 @@ class LayoutManager {
     async createContentCameraLayout() {
         const cameraConfig = new o3h.CameraComponentConfig();
 
+        cameraConfig.resolutionScale = o3h.CameraResolutionScale.Third;
+
         const layout = await this.createLayout(
             LAYOUTS.RECORDING_CAMERA,
             getContentCameraLayout(),

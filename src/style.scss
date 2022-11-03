@@ -276,6 +276,7 @@ button {
     80%  {transform: scale(0.9)}
     100%  {transform: scale(1)}
 }
+
 .popIn {
     animation-name: popIn;
     animation-duration: 1s;
@@ -313,12 +314,12 @@ button {
 }
 
 @keyframes fallDown {
-    0% {transform: translate(-50%, -500%);}
-    100% {transform: translate(-50%, -50%);}
+    0% {transform: translateY(-300%);}
+    100% {transform: translateY(0);}
 }
 
 .fallDown {
     animation-name: fallDown;
     animation-duration: 1s;
-    animation-timing-function: ease-out;
+    animation-timing-function: cubic-bezier(.25,.79,.35,1);
 }

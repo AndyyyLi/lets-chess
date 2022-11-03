@@ -57,10 +57,10 @@
 
     .skipMoves {
         position: absolute;
-        font-size: 15;
-        transform: scale(0.8);
-        bottom: -1%;
-        right: 10%;
-        width: 140;
+        font-size: 11;
+        bottom: 0;
+        right: 8.5%;
+        min-width: 70;
+        padding: 0 3;
     }
 }

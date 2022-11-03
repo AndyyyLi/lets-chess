@@ -21,6 +21,9 @@ export default class GameplayScreen extends ScreenBase {
         document.querySelector("#gameplayScreen .solvedPopup .next").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
+            document.querySelector("#gameplayScreen .solvedPopup").classList.remove("fallDown");
+
+            // sets up recordingScreen puzzle
             let puzzle = this.app.getChosenPuzzle();
             setupPuzzleDetails(puzzle, "#recordingScreen", "puzzleRecord");
 
@@ -74,11 +77,12 @@ export default class GameplayScreen extends ScreenBase {
                 if (isCreatorMode()) {
                     document.querySelector("#recordingScreen .recordingImg").src = "./img/assets/title_compete.png";
                     document.querySelector("#recordingScreen .recordingImg").classList.remove("hidden");
-                    
+
                     this.app.showRecording();
                 } else {
                     // show leaderboard if audience
                     document.querySelector("#gameplayScreen .update").style.transform = "scale(1)";
+                    document.querySelector("#gameplayScreen .postGameLeaderboard").classList.add("fallDown");
                 }
             } else {
                 // else go to recording
@@ -88,6 +92,7 @@ export default class GameplayScreen extends ScreenBase {
 
         document.querySelector("#gameplayScreen .postGameLeaderboard .next").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+            document.querySelector("#gameplayScreen .postGameLeaderboard").classList.remove("fallDown");
             this.app.showRecording();
         });
 
@@ -100,11 +105,14 @@ export default class GameplayScreen extends ScreenBase {
             document.querySelector("#giveUpButton").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
                 document.querySelector("#gameplayScreen .giveUp").style.transform = "scale(1)";
+                document.querySelector("#gameplayScreen .giveUpConfirmation").classList.add("fallDown");
+
             });
 
             document.querySelector("#gameplayScreen .cancel").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
                 document.querySelector("#gameplayScreen .giveUp").style.transform = "scale(0)";
+                document.querySelector("#gameplayScreen .giveUpConfirmation").classList.remove("fallDown");
             });
 
             document.querySelector("#gameplayScreen .confirm").addEventListener('click', () => {

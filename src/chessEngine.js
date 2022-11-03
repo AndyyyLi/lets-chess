@@ -332,6 +332,7 @@ let ChessEngine = function () {
             window.app.gameplayScreen.updateLeaderboard(attempts);
         }
         document.querySelector("#gameplayScreen .solved").style.transform = "scale(1)";
+        document.querySelector("#gameplayScreen .solvedPopup").classList.add("fallDown");
     }
 
     // adds current fen to fens with move update

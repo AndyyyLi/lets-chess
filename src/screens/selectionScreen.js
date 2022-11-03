@@ -17,7 +17,6 @@ export default class SelectionScreen extends ScreenBase {
         this.listDisplayIdx = 0;
         this.scroll = document.getElementById("puzzleList").scrollTop;
         this.scrollToLoad = screen.width / 2;
-        this.galleryOpen = false;
 
         this.preloadList.addLoad(() => LayoutManagerInstance.createEmptyLayout());
 
