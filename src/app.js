@@ -29,10 +29,15 @@ export default class App {
         this.analyticService = this.runtime.getAnalyticService();
 
         this.splashScreen = new SplashScreen(this);
-        this.menuScreen = new MenuScreen(this);
-        this.instructionsScreen = new InstructionsScreen(this);
-        this.selectionScreen = new SelectionScreen(this);
-        this.customizeScreen = new CustomizeScreen(this);
+        
+        if (isCreatorMode()) {
+            this.menuScreen = new MenuScreen(this);
+            this.selectionScreen = new SelectionScreen(this);
+            this.customizeScreen = new CustomizeScreen(this);
+        } else {
+            this.instructionsScreen = new InstructionsScreen(this);
+        }
+        
         this.gameplayScreen = new GameplayScreen(this);
         this.recordingScreen = new RecordingScreen(this);
         this.reviewScreen = new ReviewScreen(this);
@@ -103,10 +108,15 @@ export default class App {
 
         const listPreloader = new PreloadListLoader();
         listPreloader.addPreloadList(this.splashScreen.getPreloadList());
-        listPreloader.addPreloadList(this.menuScreen.getPreloadList());
-        listPreloader.addPreloadList(this.instructionsScreen.getPreloadList());
-        listPreloader.addPreloadList(this.selectionScreen.getPreloadList());
-        listPreloader.addPreloadList(this.customizeScreen.getPreloadList());
+
+        if (isCreatorMode()) {
+            listPreloader.addPreloadList(this.menuScreen.getPreloadList());
+            listPreloader.addPreloadList(this.selectionScreen.getPreloadList());
+            listPreloader.addPreloadList(this.customizeScreen.getPreloadList());
+        } else {
+            listPreloader.addPreloadList(this.instructionsScreen.getPreloadList());
+        }
+        
         listPreloader.addPreloadList(this.gameplayScreen.getPreloadList());
         listPreloader.addPreloadList(this.recordingScreen.getPreloadList());
         listPreloader.addPreloadList(this.reviewScreen.getPreloadList());

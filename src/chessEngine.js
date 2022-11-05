@@ -1,9 +1,10 @@
 import { Chess } from 'chess.js';
 import "./chessboard";
-import { isAudienceMode, isCreatorMode } from './util';
+import { isAudienceMode, isCreatorMode, getPuzzleDifficulty } from './util';
 
 // chess engine module, provides full functionality to chosen chess puzzle
 let ChessEngine = function () {
+    let attemptRecord = {};
     let fens = [];
     // replayIdx tracks index of fens in the replay, starts at -1 for first call by initPuzzleReplay
     let replayIdx = -1;
@@ -76,22 +77,7 @@ let ChessEngine = function () {
         });
 
         // show difficulty
-        let rating = puzzle.Rating;
-        let difficulty;
-        switch (true) {
-            case (rating >= 2750):
-                difficulty = "Extreme";
-                break;
-            case (rating >= 2000):
-                difficulty = "Hard";
-                break;
-            case (rating >= 1000):
-                difficulty = "Medium";
-                break;
-            default:
-                difficulty = "Easy";
-        }
-        document.querySelector("#gameplayScreen .difficultyIndicator").innerText = difficulty;
+        document.querySelector("#gameplayScreen .difficultyIndicator").innerText = getPuzzleDifficulty(puzzle.Rating);
 
         // determines which colour user plays as
         // opponentMove can only be 'b' or 'w' (check FEN strings samples)

@@ -11,6 +11,8 @@ import SoundManagerInstance from "../soundManager";
 export default class RecordingScreen extends ScreenBase {
     constructor(app) {
         super(null, document.querySelector("#recordingScreen"), LAYOUTS.RECORDING_CAMERA, app);
+
+        this.preloadList.addHttpLoad("./img/assets/i_back.png");
         
         document.getElementById("recordingScreen").style.marginTop = screen.height / 3;
 

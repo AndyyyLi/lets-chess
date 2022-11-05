@@ -198,6 +198,7 @@ export function getPuzzleObjective(themes) {
 // sets up the details for the given focus puzzle
 export function setupPuzzleDetails(puzzle, screen, boardId) {
 
+    document.querySelector(screen + " .puzzleTitle").innerText = getPuzzleTitle(puzzle);
     document.querySelector(screen + " .difficultyIndicator").innerText = getPuzzleDifficulty(puzzle.Rating);
 
     // show what colour user will play as

@@ -13,6 +13,8 @@ export default class GameplayScreen extends ScreenBase {
     constructor(app) {
         super("Gameplay", document.querySelector("#gameplayScreen"), LAYOUTS.EMPTY_LAYOUT, app);
 
+        this.preloadList.addHttpLoad("./img/assets/i_back.png");
+
         this.preloadList.addHttpLoad("./img/assets/trophy.png");
         document.querySelector("#gameplayScreen .backgroundImg").src = "./img/assets/trophy.png";
 
@@ -29,6 +31,7 @@ export default class GameplayScreen extends ScreenBase {
 
             // audience will always have the replay stepper
             if (isAudienceMode()) {
+                
                 document.querySelector("#recordingScreen .prevMove").addEventListener("click", () => {
                     SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
                     ChessEngine.prevMoveReplay();
@@ -102,6 +105,9 @@ export default class GameplayScreen extends ScreenBase {
         });
 
         if (isAudienceMode()) {
+            this.preloadList.addHttpLoad("./img/assets/whiteking.png");
+            document.querySelector("#gameplayScreen .giveUpImg").src = "./img/assets/whiteking.png";
+
             document.querySelector("#giveUpButton").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
                 document.querySelector("#gameplayScreen .giveUp").style.transform = "scale(1)";

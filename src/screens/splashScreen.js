@@ -62,21 +62,8 @@ export default class SplashScreen extends ScreenBase {
 
         // This is an example of pre-loading an image.  You should pre-load any images or other web assets you are going
         // to use on a given screen so they can be shown immediately when the screen is visible.
-        this.preloadList.addHttpLoad("./img/assets/i_back.png");
-        document.querySelectorAll(".backButton").forEach(btn => {
-            btn.style.backgroundImage = "url(\"./img/assets/i_back.png\")";
-        });
-
-        
-        this.preloadList.addHttpLoad("./img/assets/background_2.png");
-        if (isCreatorMode()) {
-            document.getElementById("menuScreen").style.backgroundImage = "url(\"./img/assets/background_2.png\")";
-        } else {
-            document.getElementById("instructionsScreen").style.backgroundImage = "url(\"./img/assets/background_2.png\")";
-        }
 
         this.preloadList.addHttpLoad("./img/assets/splashcrop.png");
-        document.getElementById("splashScreen").style.backgroundImage = "url(\"./img/assets/splashcrop.png\")";
 
         this.preloadList.addHttpLoad("./img/assets/title.png");
         document.querySelectorAll(".title").forEach(title => {

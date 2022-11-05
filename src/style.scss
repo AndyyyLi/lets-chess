@@ -36,27 +36,27 @@ body {
 }
 
 .puzzleTitle {
-    font-size: 22px;
+    font-size: 3vh;
     font-weight: 700;
-    margin-top: 35px;
+    margin-top: 4.5vh;
     margin-bottom: 0;
-    padding: 15px 55px;
+    padding: 2vh 15vw;
     background-color: rgba(53, 53, 53, 0.519);
 }
 
 .topBar {
     display: grid;
     grid-template-columns: 50% 50%;
-    margin: 10 10;
-    height: 40px;
+    margin: 1vh 2vh;
+    height: 6vh;
 }
 
 .difficultyIndicator {
     text-align: right;
-    margin-right: 15px;
+    margin-right: 2vw;
     top: 0.3em;
     font-weight: 900;
-    font-size: 20px;
+    font-size: 2.7vh;
     -webkit-text-stroke: 1px black;
 }
 
@@ -64,18 +64,18 @@ body {
     display: grid;
     grid-template-columns: 20% 80%;
     background-color: rgba(53, 53, 53, 0.519);
-    margin-top: 10px;
+    margin-top: 1.5vh;
     width: 100%;
 
     p {
-        margin-top: 12;
+        margin-top: 1.6vh;
     }
 
     .colourBox {
-        width: 25px;
-        height: 25px;
-        margin-top: 9px;
-        margin-left: 15px;
+        width: 6.1vw;
+        height: 6.1vw;
+        margin-top: 1.2vh;
+        margin-left: 3.5vw;
         border-radius: 20%;
     }
 }
@@ -128,7 +128,7 @@ body {
 
 .smallTitle {
     width: 60%;
-    margin-top: 50px;
+    margin-top: 5vh;
 }
 
 // Container for button controls
@@ -139,27 +139,10 @@ body {
     width: 100%;
 }
 
-// Center page contents in middle of the page
-.contents {
-    position: absolute;
-    top: 18%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
-
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-
-    &.upper {
-        top: 20%;
-    }
-}
-
-
 .leaderboard {
     margin: auto;
     width: 75%;
-    height: 300px;
+    height: 42vh;
     background-color: #850159;
     border: solid black;
     border-radius: 5%;
@@ -245,7 +228,7 @@ button {
 
 // Positions a back button to match Oooh's native UI
 .screen .backButton {
-    // background-image: url("./img/icon_backArrow.png");
+    background-image: url("./img/assets/i_back.png");
     background-size: cover;
 
     width: 7vw;

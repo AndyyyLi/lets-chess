@@ -24,16 +24,36 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    "style-loader",
-                    "css-loader"
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            // images in CSS referenced by url() will not be processed by webpack's file-loader,
+                            // it's expected they'll be copied by the copy plugin from src/images
+                            url: false,
+                        }
+                    },
                 ],
             },
             {
                 test: /\.s[ac]ss$/i,
                 use: [
-                    "style-loader",
-                    "css-loader",
-                    "sass-loader"
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            // images in CSS referenced by url() will not be processed by webpack's file-loader,
+                            // it's expected they'll be copied by the copy plugin from src/images
+                            url: false,
+                        }
+                    },
+                    {
+                        loader: 'sass-loader'
+                    },
                 ],
             },
             {
@@ -78,7 +98,8 @@ module.exports = {
                 { from: "o3hmanifest.json", to: "" },
                 { from: "src/img", to: "img" },
                 { from: "src/sounds", to: "sounds" },
-                { from: "src/puzzles", to: "puzzles" }
+                { from: "src/puzzles", to: "puzzles" },
+                { from: "src/fonts", to: "fonts" }
             ],
         }),
         new HtmlWebpackPlugin({

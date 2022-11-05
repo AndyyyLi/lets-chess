@@ -8,17 +8,9 @@
         margin: auto;
     }
 
-    .detailsOptions {
-        margin-top: 10px;
-
-        button {
-            margin: 5px;
-        }
-    }
-
     .colours {
         background-color: rgb(255, 255, 255);
-        margin-top: 5;
+        margin-top: 0.7vh;
     }
 
     .bottomBar {
@@ -30,17 +22,17 @@
         margin: auto;
 
         h6 {
-            margin: 10 0 0;
-            font-size: 16;
+            margin: 1.5vh 0 0;
+            font-size: 2.2vh;
             font-weight: 700;
-            padding: 3px;
+            padding: 0.4vh;
             background-color: rgba(53, 53, 53, 0.519);
         }
 
         .finishCustomization {
             display: inline;
             width: 75%;
-            margin-top: 12;
+            margin-top: 2.3vh;
         }
         
         .customTarget {
@@ -50,9 +42,9 @@
         }
 
         .option {
-            margin: 10px;
-            width: 50px;
-            height: 50px;
+            margin: 2vh;
+            width: 13vw;
+            height: 13vw;
             border: outset 3px rgb(166, 166, 166);
         }
 
@@ -81,17 +73,17 @@
         .colour {
             display: inline-block;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            margin: 5;
+            width: 7vw;
+            height: 7vw;
+            margin: 1vw;
             // margin: 8px 3px 3px 3px;
             border: solid 2px rgba(74, 74, 74, 0.414);
         }
 
         #photo {
             display: inline-block;
-            width: 32px;
-            margin: 5;
+            width: 7vw;
+            margin: 1vw;
         }
 
         .chosen {

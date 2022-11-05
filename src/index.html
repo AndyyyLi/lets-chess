@@ -52,61 +52,60 @@
         <div id="instructionsScreen" class="screen hidden">
             <img class="title smallTitle">
 
-            <div class="contents">
-                <div class="choose hidden">
-                    <h1>Try to solve this puzzle chosen by</h1>
-                    <h1 class="creatorName pulsing"></h1>
-                </div>
-                
-                <div class="compete prompt hidden">
-                    <h1 class="creatorText"><b class="creatorName"></b> solved this puzzle in <b id="creatorAttempts"></b> How about you?</h1>
-                </div>
-                
-                <div class="instructionsOptions hidden">
-                    <button class="leaderboardButton shadow">See Leaderboard</button>
-                </div>
-
-                <div class="instructionsInfo">
-                    <div id="puzzleInstructions" class="shadow"></div>
-
-                    <div class="details">
-                        <div class="info">
-                            <p>Title</p>
-                            <h4 class="puzzleTitleDetails"></h4>
-                        </div>
-
-                        <div class="info">
-                            <p>Difficulty</p>
-                            <h4 class="puzzleDifficulty"></h4>
-                        </div>
-
-                        <div class="info">
-                            <p>Play as</p>
-                            <h4 class="puzzleUserColour"></h4>
-                        </div>
-
-                        <div class="info">
-                            <p>Moves to solve</p>
-                            <h4 class="puzzleMoves"></h4>
-                        </div>
-
-                        <div class="info">
-                            <p>Objective</p>
-                            <h4 class="puzzleObjective"></h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="leaderboard hidden">
-                    <div class="labels">
-                        <p class="playerLabel">Player</p>
-                        <p class="attemptsLabel">Attempts</p>
-                    </div>
-
-                    <!-- Leaderboard goes here -->
-                </div>
-
+            <div class="choose hidden">
+                <h1>Try to solve this puzzle chosen by</h1>
+                <h1 class="creatorName pulsing"></h1>
             </div>
+
+            <div class="compete prompt hidden">
+                <h1 class="creatorText"><b class="creatorName"></b> solved this puzzle in <b id="creatorAttempts"></b>
+                    How about you?</h1>
+            </div>
+
+            <div class="instructionsOptions hidden">
+                <button class="leaderboardButton shadow">See Leaderboard</button>
+            </div>
+
+            <div class="instructionsInfo">
+                <div id="puzzleInstructions" class="shadow"></div>
+
+                <div class="details">
+                    <div class="info">
+                        <p>Title</p>
+                        <h4 class="puzzleTitleDetails"></h4>
+                    </div>
+
+                    <div class="info">
+                        <p>Difficulty</p>
+                        <h4 class="puzzleDifficulty"></h4>
+                    </div>
+
+                    <div class="info">
+                        <p>Play as</p>
+                        <h4 class="puzzleUserColour"></h4>
+                    </div>
+
+                    <div class="info">
+                        <p>Moves to solve</p>
+                        <h4 class="puzzleMoves"></h4>
+                    </div>
+
+                    <div class="info">
+                        <p>Objective</p>
+                        <h4 class="puzzleObjective"></h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="leaderboard hidden">
+                <div class="labels">
+                    <p class="playerLabel">Player</p>
+                    <p class="attemptsLabel">Attempts</p>
+                </div>
+
+                <!-- Leaderboard goes here -->
+            </div>
+
 
             <div class="controls">
                 <button class="play shadow pulsing">Play!</button>
@@ -281,7 +280,8 @@
                 <div class="giveUpConfirmation shadow">
                     <img class="giveUpImg">
                     <h3>Are you sure you're giving up?</h3>
-                    <p>You will go to the recording screen where you can ask the Host for help, but you cannot come back.</p>
+                    <p>You will go to the recording screen where you can ask the Host for help, but you cannot come
+                        back.</p>
                     <div class="giveUpOptions">
                         <button class="cancel shadow">Go back</button>
                         <button class="confirm shadow">Give up</button>
@@ -301,13 +301,13 @@
             <div class="backdrop update">
                 <div class="postGameLeaderboard shadow">
                     <h1>Leaderboard</h1>
-                    
+
                     <div class="leaderboard">
                         <div class="labels">
                             <p class="playerLabel">Player</p>
                             <p class="attemptsLabel">Attempts</p>
                         </div>
-                        
+
                         <!-- updated leaderboard goes here -->
                     </div>
 
@@ -320,6 +320,8 @@
         <!-- Recording Screen -->
         <div id="recordingScreen" class="screen hidden">
             <div class="interface backButton hidden"></div>
+
+            <h1 class="puzzleTitle"></h1>
 
             <div class="attempts hidden">
                 <h5 class="attemptCount"></h5>

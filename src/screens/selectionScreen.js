@@ -12,6 +12,8 @@ export default class SelectionScreen extends ScreenBase {
     constructor(app) {
         super("Selection", document.querySelector("#selectionScreen"), LAYOUTS.EMPTY_LAYOUT, app);
 
+        this.preloadList.addHttpLoad("./img/assets/i_back.png");
+
         this.puzzles;
         this.currentSort;
         this.listDisplayIdx = 0;
@@ -106,7 +108,6 @@ export default class SelectionScreen extends ScreenBase {
 
                 this.app.setChosenPuzzle(puzzle);
 
-                document.querySelector("#customizeScreen .puzzleTitle").innerText = getPuzzleTitle(puzzle);
                 setupPuzzleDetails(puzzle, "#customizeScreen", "puzzleDetails");
 
                 this.app.showCustomization();
@@ -116,7 +117,6 @@ export default class SelectionScreen extends ScreenBase {
         document.querySelector("#selectionScreen .chooseButton").addEventListener('click', () => {
             let puzzle = this.app.getChosenPuzzle();
             
-            document.querySelector("#customizeScreen .puzzleTitle").innerText = getPuzzleTitle(puzzle);
             setupPuzzleDetails(puzzle, "#customizeScreen", "puzzleDetails");
 
             document.querySelector("#selectionScreen .showInfo").style.transform = "scale(0)";
@@ -141,7 +141,6 @@ export default class SelectionScreen extends ScreenBase {
         document.querySelectorAll("#selectionScreen .indicator").forEach(i => {
             i.src = "./img/assets/whiteking.png";
         });
-        document.querySelector("#gameplayScreen .giveUpImg").src = "./img/assets/whiteking.png";
     }
 
 }

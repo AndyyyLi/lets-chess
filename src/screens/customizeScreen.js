@@ -12,6 +12,8 @@ export default class CustomizeScreen extends ScreenBase {
     constructor(app) {
         super("Details", document.querySelector("#customizeScreen"), LAYOUTS.EMPTY_LAYOUT, app);
 
+        this.preloadList.addHttpLoad("./img/assets/i_back.png");
+
         // default colours of board
         this.app.setColour(document.querySelector("#customizeScreen .default").id);
         this.app.setBackground(document.querySelector("#customizeScreen .bgDefault").id);
@@ -112,9 +114,10 @@ export default class CustomizeScreen extends ScreenBase {
             let darkColour = "#" + this.app.getColour().substring(0, 6);
             let lightColour = "#" + this.app.getColour().substring(6, 12);
             let background = this.app.getBackground();
+            let puzzle = this.app.getChosenPuzzle();
 
             if (this.app.getIsCompete()) {
-                ChessEngine.initPuzzle("myBoard", this.app.getChosenPuzzle());
+                ChessEngine.initPuzzle("myBoard", puzzle);
 
                 changeBoardColours("#myBoard .white-1e1d7", lightColour, darkColour);
                 changeBoardColours("#myBoard .black-3c85d", darkColour, lightColour);
@@ -129,7 +132,6 @@ export default class CustomizeScreen extends ScreenBase {
 
                 this.app.showGameplay();
             } else {
-                let puzzle = this.app.getChosenPuzzle();
                 ChessEngine.buildPuzzle("puzzleRecord", puzzle.FEN, true);
 
                 setupPuzzleDetails(puzzle, "#recordingScreen", "puzzleRecord");

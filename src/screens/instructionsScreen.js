@@ -81,10 +81,10 @@ export default class InstructionsScreen extends ScreenBase {
                     const leaderboard = await userDataService.getLeaderboard();
                     const entries = leaderboard.Entries;
 
-                    entries.sort(function(a,b) {
+                    entries.sort(function (a, b) {
                         return b.Rank - a.Rank;
                     });
-                    
+
                     renderLeaderboard(entries, avatarPreloadList, "instructionsScreen");
                 }
 
@@ -122,12 +122,9 @@ export default class InstructionsScreen extends ScreenBase {
                     document.getElementById("gameplayScreen").style.backgroundColor = "#" + background;
                 }
 
-                document.querySelector("#gameplayScreen .backButton").classList.add("hidden");
-
                 // adds hint button in choose mode
-                if (!this.app.getIsCompete()) {
+                if (!replayProperties.isCompete) {
                     this.preloadList.addHttpLoad("./img/assets/i_hint.png");
-                    document.getElementById("hintButton").style.backgroundImage = "url(\"./img/assets/i_hint.png\")";
 
                     // activates hint button
                     document.getElementById("hintButton").addEventListener("click", () => {
@@ -137,10 +134,14 @@ export default class InstructionsScreen extends ScreenBase {
                     document.getElementById("hintButton").style.display = "inline";
                     document.querySelector("#gameplayScreen .attemptsText").style.display = "none";
                 }
+
+                document.querySelector("#gameplayScreen .backButton").classList.add("hidden");
             }
 
             await avatarPreloadList.loadAll();
         });
+
+        this.preloadList.addHttpLoad("./img/assets/background_2.png");
     }
 
     show() {
