@@ -256,6 +256,18 @@
         <!-- Gameplay Screen -->
         <div id="gameplayScreen" class="screen hidden">
             <div class="backButton"></div>
+
+            <div class="backdrop leave">
+                <div class="leaveConfirmation shadow">
+                    <h1>Are you sure you want to leave?</h1>
+                    <p>If you come back to this puzzle it will reset, but your attempt count will not.</p>
+                    <div class="leaveOptions">
+                        <button class="cancel shadow">Stay</button>
+                        <button class="confirm shadow">Leave</button>
+                    </div>
+                </div>
+            </div>
+
             <h1 class="puzzleTitle"></h1>
 
             <div id="playPuzzle">
@@ -270,10 +282,22 @@
                 <div id="myBoard" class="shadow"></div>
 
 
-                <img class="backgroundImg swaying hidden">
-                <h1 id="notif">Your turn!</h1>
+                <img class="solvedImg pulsing hidden">
+
+                <div class="notifDiv">
+                    <div class="text">
+                        <h1 id="notif">Your turn!</h1>
+                        <p class="solvedText hidden">You solved the puzzle!</p>
+                    </div>
+
+                    <button class="next shadow hidden">Next</button>
+                </div>
+
                 <button id="giveUpButton" class="bottomButtons shadow">Give up</button>
                 <button id="undoButton" class="bottomButtons shadow">Undo</button>
+
+                <div class="solvedNotif hidden">
+                </div>
             </div>
 
             <div class="backdrop giveUp">
@@ -289,14 +313,14 @@
                 </div>
             </div>
 
-            <div class="backdrop solved">
-                <div class="solvedPopup shadow">
+            <!-- <div class="backdrop solved">
+                <div class="solvedNotif shadow">
                     <img class="solvedImg">
                     <h3>Congratulations!</h3>
                     <p class="solvedText">You solved the puzzle!</p>
                     <button class="next shadow">Next</button>
                 </div>
-            </div>
+            </div> -->
 
             <div class="backdrop update">
                 <div class="postGameLeaderboard shadow">

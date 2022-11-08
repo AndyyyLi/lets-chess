@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // PATH is "../" on webpack and "./" for SDK
 export const PATH = "../";
 

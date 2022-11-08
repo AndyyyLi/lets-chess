@@ -2,7 +2,7 @@ import "./styles/gameplayScreen.scss";
 import ScreenBase from "./screenBase";
 import { ChessEngine } from "../chessEngine";
 
-import { ASSETS, LAYOUTS, SOUNDS } from "../const";
+import { LAYOUTS, SOUNDS } from "../const";
 import { isCreatorMode, isAudienceMode, setupPuzzleDetails, changeBoardColours, renderLeaderboard } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
@@ -15,15 +15,10 @@ export default class GameplayScreen extends ScreenBase {
 
         this.preloadList.addHttpLoad("./img/assets/i_back.png");
 
-        this.preloadList.addHttpLoad("./img/assets/trophy.png");
-        document.querySelector("#gameplayScreen .backgroundImg").src = "./img/assets/trophy.png";
-
         this.preloadList.addHttpLoad("./img/assets/title_compete.png");
 
-        document.querySelector("#gameplayScreen .solvedPopup .next").addEventListener("click", () => {
+        document.querySelector("#gameplayScreen .notifDiv .next").addEventListener("click", () => {
             SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-
-            document.querySelector("#gameplayScreen .solvedPopup").classList.remove("fallDown");
 
             // sets up recordingScreen puzzle
             let puzzle = this.app.getChosenPuzzle();
@@ -68,11 +63,9 @@ export default class GameplayScreen extends ScreenBase {
                 document.getElementById("recordingScreen").style.backgroundColor = "#" + background;
             }
 
-            document.querySelector("#gameplayScreen .solved").style.transform = "scale(0)";
-
             if (this.app.getIsCompete()) {
                 const attempts = ChessEngine.getAttempts();
-                let msg = attempts == 1 ? "Flawless solve!" : "Solved in " + attempts + " attempts!"
+                let msg = attempts == 1 ? "Flawless solve!" : "Solved in " + attempts + " attempts!";
 
                 document.querySelector("#recordingScreen .attemptCount").innerText = msg;
                 document.querySelector("#recordingScreen .attempts").classList.remove("hidden");
@@ -104,24 +97,58 @@ export default class GameplayScreen extends ScreenBase {
             ChessEngine.undoMove();
         });
 
+        document.querySelector("#gameplayScreen .backButton").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
+            if (isCreatorMode()) {
+                document.querySelector("#gameplayScreen .leave").style.transform = "scale(1)";
+                document.querySelector("#gameplayScreen .leaveConfirmation").classList.add("fallDown");
+            } else {
+                this.app.showInstructions();
+            }
+        });
+
+        document.querySelector("#gameplayScreen .leaveOptions .confirm").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
+            // resets gameplay notifs and buttons
+            document.getElementById("notif").innerText = "Your turn!";
+            document.getElementById("giveUpButton").style.transform = "scale(0)";
+            document.getElementById("undoButton").style.transform = "scale(0)";
+
+            document.querySelector("#gameplayScreen .leave").style.transform = "scale(0)";
+            document.querySelector("#gameplayScreen .leaveConfirmation").classList.remove("fallDown");
+            
+            this.app.showCustomization();
+        });
+
+        document.querySelector("#gameplayScreen .leaveOptions .cancel").addEventListener("click", () => {
+            SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
+            document.querySelector("#gameplayScreen .leave").style.transform = "scale(0)";
+            document.querySelector("#gameplayScreen .leaveConfirmation").classList.remove("fallDown");
+        });
+
         if (isAudienceMode()) {
             this.preloadList.addHttpLoad("./img/assets/whiteking.png");
             document.querySelector("#gameplayScreen .giveUpImg").src = "./img/assets/whiteking.png";
 
             document.querySelector("#giveUpButton").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
                 document.querySelector("#gameplayScreen .giveUp").style.transform = "scale(1)";
                 document.querySelector("#gameplayScreen .giveUpConfirmation").classList.add("fallDown");
 
             });
 
-            document.querySelector("#gameplayScreen .cancel").addEventListener('click', () => {
+            document.querySelector("#gameplayScreen .giveUpOptions .cancel").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
+
                 document.querySelector("#gameplayScreen .giveUp").style.transform = "scale(0)";
                 document.querySelector("#gameplayScreen .giveUpConfirmation").classList.remove("fallDown");
             });
 
-            document.querySelector("#gameplayScreen .confirm").addEventListener('click', () => {
+            document.querySelector("#gameplayScreen .giveUpOptions .confirm").addEventListener('click', () => {
                 SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
 
                 let puzzle = this.app.getChosenPuzzle();
@@ -163,16 +190,6 @@ export default class GameplayScreen extends ScreenBase {
 
                 this.app.showRecording();
             });
-        } else {
-            document.querySelector("#gameplayScreen .backButton").addEventListener("click", () => {
-                SoundManagerInstance.playSound(SOUNDS.SFX_BUTTON_TAP);
-
-                document.getElementById("notif").innerText = "Your turn!";
-                document.getElementById("giveUpButton").style.transform = "scale(0)";
-                document.getElementById("undoButton").style.transform = "scale(0)";
-
-                this.app.showCustomization();
-            });
         }
 
 
@@ -185,6 +202,7 @@ export default class GameplayScreen extends ScreenBase {
     async updateLeaderboard(attempts) {
         const avatarPreloadList = new PreloadList();
 
+        // eslint-disable-next-line no-undef
         const userDataService = o3h.Instance.getUserDataService();
         const leaderboard = await userDataService.addToLeaderboard({ score: attempts });
         const entries = leaderboard.Entries;

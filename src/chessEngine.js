@@ -1,10 +1,10 @@
+/* eslint-disable no-undef */
 import { Chess } from 'chess.js';
 import "./chessboard";
-import { isAudienceMode, isCreatorMode, getPuzzleDifficulty } from './util';
+import { isAudienceMode, getPuzzleDifficulty, getPuzzleTitle } from './util';
 
 // chess engine module, provides full functionality to chosen chess puzzle
 let ChessEngine = function () {
-    let attemptRecord = {};
     let fens = [];
     // replayIdx tracks index of fens in the replay, starts at -1 for first call by initPuzzleReplay
     let replayIdx = -1;
@@ -50,16 +50,12 @@ let ChessEngine = function () {
     // initializes puzzle for solving
     function initPuzzle(divId, puzzle) {
         // set title of gameplay screen
-        if (puzzle.OpeningFamily) {
-            let name = puzzle.OpeningVariation.replaceAll('_', ' ');
-            document.querySelector("#gameplayScreen .puzzleTitle").innerText = name;
-        } else {
-            document.querySelector("#gameplayScreen .puzzleTitle").innerText = "Puzzle " + puzzle.PuzzleId;
-        }
+        document.querySelector("#gameplayScreen .puzzleTitle").innerText = getPuzzleTitle(puzzle);
 
-        // reset fens and attempts for new puzzle
+        // reset fens and setup attempts for new puzzle
         fens = [];
-        attempts = 0;
+        let savedAttempts = window.app.getAttemptRecord(puzzle.PuzzleId);
+        attempts = savedAttempts ? savedAttempts - 1 : 0;
         addAttempt();
 
         // sets up chess.js and chessboard
@@ -92,11 +88,11 @@ let ChessEngine = function () {
 
         // add click listeners to make click to place work
         document.querySelectorAll("#gameplayScreen .square-55d63").forEach(square => {
-            let target = square.getAttribute("data-square")
+            let target = square.getAttribute("data-square");
 
             square.onclick = function() {
                 clickToPlace(target);
-            }
+            };
         });
 
         // set the solution moves list and reset index
@@ -157,6 +153,7 @@ let ChessEngine = function () {
     }
 
     // fires when user clicks on a piece
+    // eslint-disable-next-line no-unused-vars
     function onDragStart(source, piece, position, orientation) {
         // do not pick up more than 1 piece at a time
         if (touches) return false;
@@ -189,12 +186,12 @@ let ChessEngine = function () {
             // highlight movement options
             possibleMoves.forEach(move => {
                 document.querySelector("#gameplayScreen .square-" + move.to).classList.add("highlight-options");
-            })
+            });
         }
     }
 
     // fires when a picked up piece is dropped
-    function onDrop(source, target) {
+    async function onDrop(source, target) {
         // user may want to click to place their piece
         if (source == target) {
             clickSource = source;
@@ -236,14 +233,19 @@ let ChessEngine = function () {
             window.setTimeout(opponentMove, 250);
         } else {
             // wrong move, must try again
+            attempts++;
+            
+            // Update persistent data for user's attempt record
+            let puzzle = window.app.getChosenPuzzle();
+            window.app.setAttemptRecord(puzzle.PuzzleId, attempts);
+            const service = await o3h.Instance.getUserPersistentDataService();
+            service.setPerOoohDataAsync(window.app.attemptRecord);
+
             document.querySelector("#notif").innerText = "There is a better move";
             document.getElementById("undoButton").style.transform = "scale(1)";
 
             document.getElementById("hintButton").style.opacity = "0.5";
             document.getElementById("hintButton").disabled = true;
-
-            // once host messes up they can no longer go back to previous screens
-            if (attempts == 1 && isCreatorMode()) document.querySelector("#gameplayScreen .backButton").classList.add("hidden");
 
             // threshold for give up button to appear
             // !!! CHANGE ATTEMPTS THRESHOLD FOR FINAL COPY
@@ -300,8 +302,8 @@ let ChessEngine = function () {
         document.getElementById("hintButton").style.opacity = "0.5";
         document.getElementById("hintButton").disabled = true;
 
-        document.querySelector("#notif").innerText = "Solved!";
-        document.querySelector("#gameplayScreen .backgroundImg").classList.remove("hidden");
+        document.querySelector("#notif").innerText = "Congratulations!";
+        document.querySelector("#gameplayScreen .solvedImg").classList.remove("hidden");
         
         // run additional text if competing and update leaderboard
         if (window.app.getIsCompete()) {
@@ -315,10 +317,14 @@ let ChessEngine = function () {
                 document.querySelector("#gameplayScreen .solvedText").innerText = "You solved the puzzle on attempt " + attempts + "!";
             }
 
-            window.app.gameplayScreen.updateLeaderboard(attempts);
+            if (isAudienceMode()) {
+                window.app.gameplayScreen.updateLeaderboard(attempts);
+            }
+            
         }
-        document.querySelector("#gameplayScreen .solved").style.transform = "scale(1)";
-        document.querySelector("#gameplayScreen .solvedPopup").classList.add("fallDown");
+
+        document.querySelector("#gameplayScreen .notifDiv .solvedText").classList.remove("hidden");
+        document.querySelector("#gameplayScreen .notifDiv .next").classList.remove("hidden");
     }
 
     // adds current fen to fens with move update
@@ -328,7 +334,7 @@ let ChessEngine = function () {
 
     // updates display of attempts
     function addAttempt() {
-        document.querySelector("#attempts").innerText = ++attempts;
+        document.querySelector("#attempts").innerText = attempts;
     }
 
     // "fast-forwards" game to skip consecutive blunders and stops at the next correct move
@@ -374,7 +380,7 @@ let ChessEngine = function () {
     }
 
     // removes the last move made
-    function undoMove() {
+    async function undoMove() {
         if (fens.length) {
             game.undo();
 

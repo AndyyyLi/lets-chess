@@ -9,13 +9,41 @@
         margin: auto;
     }
 
-    #notif {
+    .notifDiv {
         position: relative;
-        background-color: rgba(53, 53, 53, 0.519);
-        font-size: 20;
-        padding: 15;
-        margin: 20 0 15;
         z-index: 50;
+        margin-top: 3vh;
+
+        .text {
+            background-color: rgba(53, 53, 53, 0.393);
+            margin: 15 0;
+        }
+
+        #notif {
+            font-size: 20;
+            padding: 10;
+            margin-bottom: 0;
+        }
+
+        .solvedText {
+            margin-top: 5;
+            padding-bottom: 10;
+            margin-top: -5;
+        }
+
+        button {
+            min-height: 3vh;
+            min-width: 25vw;
+            font-size: 2.5vh;
+        }
+    }
+
+    .solvedImg {
+        position: absolute;
+        left: 20vw;
+        bottom: -15;
+        width: 60vw;
+        z-index: 5;
     }
 
     #hintButton {
@@ -41,11 +69,10 @@
     }
 
     .difficultyIndicator {
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
 
-    .giveUpConfirmation,
-    .solvedPopup {
+    .giveUpConfirmation, .leaveConfirmation {
         position: absolute;
         background: radial-gradient(60% 150%, #5e0041 40%, #2c0820);
         border-radius: 5px;
@@ -58,6 +85,10 @@
         padding-top: 20;
         width: 80%;
         height: 300;
+
+        h1 {
+            margin-bottom: 0;
+        }
 
         h3 {
             margin: auto;
@@ -78,11 +109,6 @@
             width: 60%;
         }
 
-        .solvedImg {
-            top: -180;
-            width: 100%;
-        }
-
         p {
             padding: 30px;
             margin: auto;
@@ -95,26 +121,8 @@
         }
     }
 
-    .solvedPopup {
-        padding-top: 100;
-        height: 230;
-    }
-
-    .backgroundImg {
-        position: absolute;
-        left: 33%;
-        bottom: 0;
-        width: 35%;
-        z-index: 5;
-    }
-
-    .giveUpOptions {
-        display: grid;
-        grid-template-columns: 50% 50%;
-
-        button {
-            margin: auto;
-        }
+    .leaveOptions {
+        margin-top: 10;
     }
 
     .postGameLeaderboard {

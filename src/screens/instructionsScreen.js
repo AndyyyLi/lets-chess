@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import "./styles/instructionsScreen.scss";
 import ScreenBase from "./screenBase";
 
@@ -134,8 +135,6 @@ export default class InstructionsScreen extends ScreenBase {
                     document.getElementById("hintButton").style.display = "inline";
                     document.querySelector("#gameplayScreen .attemptsText").style.display = "none";
                 }
-
-                document.querySelector("#gameplayScreen .backButton").classList.add("hidden");
             }
 
             await avatarPreloadList.loadAll();

@@ -2,7 +2,7 @@ import "./styles/selectionScreen.scss";
 import ScreenBase from "./screenBase";
 
 import { LAYOUTS, SOUNDS } from "../const";
-import { sortPuzzles, setupPuzzleDetails, displayPuzzles, isCreatorMode, getPuzzleTitle } from "../util";
+import { sortPuzzles, setupPuzzleDetails, displayPuzzles, isCreatorMode } from "../util";
 
 import LayoutManagerInstance from "../layoutManager";
 import SoundManagerInstance from "../soundManager";

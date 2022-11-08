@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import "./style.scss";
 
 import ScreenManagerInstance from "./screenManager";
@@ -34,6 +35,9 @@ export default class App {
             this.menuScreen = new MenuScreen(this);
             this.selectionScreen = new SelectionScreen(this);
             this.customizeScreen = new CustomizeScreen(this);
+            
+            // holds PuzzleId's as keys and attempt counts for that respective puzzle as values
+            this.attemptRecord;
         } else {
             this.instructionsScreen = new InstructionsScreen(this);
         }
@@ -47,6 +51,7 @@ export default class App {
         this.attempts;
         this.colour;
         this.background;
+
 
         this.init();
     }
@@ -91,6 +96,14 @@ export default class App {
         return this.background;
     }
 
+    setAttemptRecord(id, attempts) {
+        this.attemptRecord[id] = attempts;
+    }
+
+    getAttemptRecord(id) {
+        return this.attemptRecord[id];
+    }
+
     async init() {
         const managerPreloader = new PreloadList();
 
@@ -124,6 +137,26 @@ export default class App {
         listPreloader.loadAll();
 
         await ScreenManagerInstance.showScreen(this.splashScreen);
+
+        if (isCreatorMode()) {
+            const service = await o3h.Instance.getUserPersistentDataService();
+            let savedRecord = await service.getPerOoohDataAsync();
+            let currDate = new Date();
+
+            if (savedRecord) {
+                let timeDiffHrs = (currDate.getTime() - savedRecord["time"]) / 3600000;
+                console.log(timeDiffHrs);
+
+                // reset attempts every 24 hours
+                if (timeDiffHrs >= 24) {
+                    this.attemptRecord = { "time": currDate.getTime() };
+                } else {
+                    this.attemptRecord = savedRecord;
+                }
+            } else {
+                this.attemptRecord = { "time": currDate.getTime() };
+            }
+        }
     
         this.runtime.ready(() => {
             // Start splash screen animation, music, etc.
@@ -175,8 +208,11 @@ export default class App {
         this.assetManager.addToOutput(ASSETS.FULL_SCREEN_RECORDING, RecordingManagerInstance.getFullScreenRecording());
 
         if (isCreatorMode()) {
-            // Add creator mode assets to output
+            // Update persistent data for user's attempt record
+            const service = await o3h.Instance.getUserPersistentDataService();
+            await service.setPerOoohDataAsync(this.attemptRecord);
 
+            // Add creator mode assets to output
             const replayRecorder = await this.runtime.createReplayRecorder();
             // Add the creator message as a replay data property
             // replayRecorder.addProperty("message", this.message);
@@ -192,6 +228,6 @@ export default class App {
         }
 
         // End the module with a score of 0 (non-game module)
-        this.runtime.completeModule({ "attempts": this.attempts * -1 });
+        this.runtime.completeModule({ "score": this.attempts });
     }
 }

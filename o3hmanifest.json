@@ -1,6 +1,6 @@
 {
     "title": "Let's Chess",
-    "hasLevels": false,
+    "hasLevels": true,
     "hasLeaderboard": true,
     "permissions": {
         "creator": {
