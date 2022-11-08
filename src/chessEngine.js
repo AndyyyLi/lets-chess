@@ -2,6 +2,7 @@
 import { Chess } from 'chess.js';
 import "./chessboard";
 import { isAudienceMode, getPuzzleDifficulty, getPuzzleTitle } from './util';
+import { confetti } from "./confetti";
 
 // chess engine module, provides full functionality to chosen chess puzzle
 let ChessEngine = function () {
@@ -54,8 +55,10 @@ let ChessEngine = function () {
 
         // reset fens and setup attempts for new puzzle
         fens = [];
-        let savedAttempts = window.app.getAttemptRecord(puzzle.PuzzleId);
-        attempts = savedAttempts ? savedAttempts - 1 : 0;
+        if (!isAudienceMode()) {
+            let savedAttempts = window.app.getAttemptRecord(puzzle.PuzzleId);
+            attempts = savedAttempts ? savedAttempts - 1 : 1;
+        }
         addAttempt();
 
         // sets up chess.js and chessboard
@@ -237,10 +240,12 @@ let ChessEngine = function () {
             
             // Update persistent data for user's attempt record
             let puzzle = window.app.getChosenPuzzle();
-            window.app.setAttemptRecord(puzzle.PuzzleId, attempts);
-            const service = await o3h.Instance.getUserPersistentDataService();
-            service.setPerOoohDataAsync(window.app.attemptRecord);
-
+            if (!isAudienceMode()) {
+                window.app.setAttemptRecord(puzzle.PuzzleId, attempts);
+                const service = await o3h.Instance.getUserPersistentDataService();
+                service.setPerOoohDataAsync(window.app.attemptRecord);
+            }
+            
             document.querySelector("#notif").innerText = "There is a better move";
             document.getElementById("undoButton").style.transform = "scale(1)";
 
@@ -295,6 +300,20 @@ let ChessEngine = function () {
         }
     }
 
+    const startConfetti = () => {
+        setTimeout(() => {
+            console.log("before confetti starts");
+            confetti.start();
+            console.log("confetti started");
+        }, 0);
+    };
+
+    const stopConfetti = () => {
+        setTimeout(() => {
+            confetti.stop();
+        }, 1000);
+    };
+
     // displays notification when user solves the puzzle
     function puzzleFinish() {
         document.getElementById("undoButton").style.display = "none";
@@ -304,6 +323,9 @@ let ChessEngine = function () {
 
         document.querySelector("#notif").innerText = "Congratulations!";
         document.querySelector("#gameplayScreen .solvedImg").classList.remove("hidden");
+
+        startConfetti();
+        stopConfetti();
         
         // run additional text if competing and update leaderboard
         if (window.app.getIsCompete()) {
